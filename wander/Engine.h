@@ -11,27 +11,37 @@
 
 #include <SFML/Window.hpp>
 #include <SFML/Graphics.hpp>
-#include "GameObject.hpp"
+#include "gameobject/GameObject.hpp"
+#include "gameobject/AnimatableGameObject.hpp"
 #include "Global.h"
 
 class Engine {
     
 public:
     
+    //run function which begins program
     int run();
     
 private:
     
     //game objects
-    GameObject* gos[0];
-    int gosSize = 0;
+    AnimatableGameObject* gos[1];
+    int gosSize = 1;
     
-    //window
+    //sf objects
     sf::RenderWindow w;
+    sf::Clock c;
+    sf::Font f;
+    sf::Text debug;
     
-    void input(sf::RenderWindow* w);
+    //game settings
+    bool showDebug;
+    
+    //functions
+    void init();
+    void input();
     void compute();
-    void illustrate(sf::RenderWindow* w);
+    void illustrate();
     
 };
 

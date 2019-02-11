@@ -10,43 +10,83 @@
 
 int Engine::run() {
     
-    this->w.create(sf::VideoMode(gc::W_WIDTH, gc::W_HEIGHT), gc::W_TITLE, sf::Style::Default); //create window
+    //iniitialize engine
+    this->init();
     
-    while (w.isOpen()) { //program loop
+    //program loop
+    while (w.isOpen()) {
         
-        this->input(&w);
+        this->input();
         this->compute();
-        this->illustrate(&w);
+        this->illustrate();
         
     }
     
+    //program over
     return gc::SUCCESS;
 }
 
+void Engine::init() {
+    
+    //create sf objects
+    this->w.create(sf::VideoMode(gc::W_WIDTH, gc::W_HEIGHT), gc::W_TITLE, sf::Style::Default);
+    this->w.setFramerateLimit(gc::W_FRAMERATE_LIMIT);
+    this->c = sf::Clock();
+    this->f.loadFromFile("res//sansation.ttf");
+    this->debug.setFont(this->f);
+    this->debug.setCharacterSize(24);
+    this->debug.setString("FPS");
+    this->debug.setFillColor(sf::Color::Black);
+    
+    //create GameObject array
+    this->gos[0] = new AnimatableGameObject("res//dragonTop.png", 3, 0.2f);
+    
+    //set settings
+    this->showDebug = false;
+}
+
 //handles all window input
-void Engine::input(sf::RenderWindow* w) {
+void Engine::input() {
     sf::Event e;
     while (this->w.pollEvent(e)) {
         
         if (e.type == sf::Event::Closed)
             this->w.close();
+        if (e.type == sf::Event::KeyReleased && e.key.code == sf::Keyboard::Space)
+            this->showDebug = !this->showDebug;
     }
 }
 
 //computes per tick
 void Engine::compute() {
     
+    //compute GameObjects
+    for (int i = 0; i < gosSize; i++)
+        this->gos[i]->compute(this->c.getElapsedTime().asSeconds());
+    
+    //compute additionals
+    if (this->showDebug) {
+        int FPS = 1 / this->c.getElapsedTime().asSeconds();
+        this->debug.setString("FPS: " + std::to_string(FPS));
+    }
+    
+    //restart clock
+    this->c.restart();
 }
 
 //illustrates
-void Engine::illustrate(sf::RenderWindow* w) {
+void Engine::illustrate() {
     
     //clear
-    this->w.clear(sf::Color::Black);
+    this->w.clear(sf::Color::White);
     
-    //draw
+    //draw GameObjects
     for (int i = 0; i < gosSize; i++)
-        this->gos[i]->illustrate(w);
+        this->gos[i]->illustrate(&this->w);
+    
+    //draw additionals
+    if (this->showDebug)
+        this->w.draw(this->debug);
     
     //publish
     this->w.display();

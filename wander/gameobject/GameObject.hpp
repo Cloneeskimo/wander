@@ -15,7 +15,7 @@
 
 class GameObject {
     
-private:
+protected:
     
     //private properties
     sf::Sprite sprite;
@@ -25,7 +25,7 @@ public:
     
     //constructors
     GameObject(std::string textureFileName, int startX = gc::GO_DEFAULT_X, int startY = gc::GO_DEFAULT_Y) {
-        if(!this->texture.loadFromFile(textureFileName)) { //an sf::IntRect can also be given to load only a small part of the image
+        if(!this->texture.loadFromFile(textureFileName)) {
             std::cout << textureFileName << " file not found to load texture with" << std::endl;
             return;
         }
@@ -35,6 +35,7 @@ public:
     
     //utility functions
     void illustrate(sf::RenderWindow *w) { w->draw(this->sprite); }
+    void compute(float dT) {};
     
     //accessors
     int getX() { return this->sprite.getPosition().x; }

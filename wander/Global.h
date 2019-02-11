@@ -15,16 +15,18 @@
 namespace gc {
     
     //build properties
-    static const int A_BUILD = 8; //records build no. for window
+    static const int A_BUILD = 13; //records build no. for window
     
     //window properties
     static const int W_WIDTH = 800; //defines width for window
     static const int W_HEIGHT = 600; //defines height for window
+    static const int W_FRAMERATE_LIMIT = 120;
     static const std::string W_TITLE = "Wander b" + std::to_string(A_BUILD); //defines title for window
     
     //GameObject properties
     static const int GO_DEFAULT_X = 0; //default starting x for GameObjects
     static const int GO_DEFAULT_Y = 0; //default starting y for GameObjects
+    static const float GO_DEFAULT_FRAME_DELAY = 0.4f; //default delay between frames in an AnimatableGameObject
     
     //Run Codes
     static const int SUCCESS = 1;
