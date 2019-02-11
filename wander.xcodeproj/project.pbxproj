@@ -15,6 +15,7 @@
 		482C9A612210C7A70080F233 /* wander-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "wander-Info.plist"; sourceTree = "<group>"; };
 		482C9A652210C7A80080F233 /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
 		483FC3F72211D2AF0061CBA5 /* GameObject.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = GameObject.hpp; sourceTree = "<group>"; };
+		483FC3FA2211DD5A0061CBA5 /* Global.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Global.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -48,6 +49,7 @@
 			isa = PBXGroup;
 			children = (
 				482C9A652210C7A80080F233 /* main.cpp */,
+				483FC3FA2211DD5A0061CBA5 /* Global.h */,
 				483FC3F72211D2AF0061CBA5 /* GameObject.hpp */,
 				483FC3F62211D2A60061CBA5 /* res */,
 				482C9A602210C7A70080F233 /* Supporting Files */,

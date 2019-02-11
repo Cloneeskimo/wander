@@ -1,6 +1,6 @@
 //
 //  GameObject.hpp
-//  Graphics
+//  wander
 //
 //  Created by Jacob Oaks on 2/10/19.
 //  Copyright © 2019 Jacob Oaks. All rights reserved.
@@ -11,6 +11,7 @@
 
 #include <iostream>
 #include <SFML/Graphics.hpp>
+#include "Global.h"
 
 class GameObject {
     
@@ -23,7 +24,7 @@ private:
 public:
     
     //constructors
-    GameObject(std::string textureFileName, int startX = 0, int startY = 0) {
+    GameObject(std::string textureFileName, int startX = GC::GO_DEFAULT_X, int startY = GC::GO_DEFAULT_Y) {
         if(!this->texture.loadFromFile(textureFileName)) { //an sf::IntRect can also be given to load only a small part of the image
             std::cout << textureFileName << " file not found to load texture with" << std::endl;
             return;

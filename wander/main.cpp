@@ -1,15 +1,20 @@
 
+//
+//  main.cpp
+//  wander
+//
+//  Created by Jacob Oaks on 2/10/19.
+//  Copyright © 2019 Jacob Oaks. All rights reserved.
+//
+
 #include <iostream>
 #include <string>
 #include <SFML/Window.hpp>
 #include <SFML/Graphics.hpp>
 #include "GameObject.hpp"
+#include "Global.h"
 
 //constants
-static const int W_WIDTH = 800;   //defines width for window
-static const int W_HEIGHT = 600;  //defines height for window
-static const int A_BUILD = 6;     //records build no. for window
-static const std::string W_TITLE = "Wander b" + std::to_string(A_BUILD);  //defines title for window
 
 //game objects
 GameObject* gos[0];
@@ -23,7 +28,7 @@ void illustrate(sf::RenderWindow* w);
 //main function
 int main(int, char const**)
 {
-    sf::RenderWindow w(sf::VideoMode(W_WIDTH, W_HEIGHT), W_TITLE, sf::Style::Default); //create window
+    sf::RenderWindow w(sf::VideoMode(GC::W_WIDTH, GC::W_HEIGHT), GC::W_TITLE, sf::Style::Default); //create window
     
     while (w.isOpen()) { //program loop
     
