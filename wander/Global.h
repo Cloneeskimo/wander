@@ -12,10 +12,10 @@
 #include <string>
 
 //GC = Global Cosntants
-namespace GC {
+namespace gc {
     
     //build properties
-    static const int A_BUILD = 7; //records build no. for window
+    static const int A_BUILD = 8; //records build no. for window
     
     //window properties
     static const int W_WIDTH = 800; //defines width for window
@@ -25,6 +25,10 @@ namespace GC {
     //GameObject properties
     static const int GO_DEFAULT_X = 0; //default starting x for GameObjects
     static const int GO_DEFAULT_Y = 0; //default starting y for GameObjects
+    
+    //Run Codes
+    static const int SUCCESS = 1;
+    static const int FAILURE = 0;
 }
     
 #endif /* Global_h */

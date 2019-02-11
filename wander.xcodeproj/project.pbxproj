@@ -8,14 +8,18 @@
 
 /* Begin PBXBuildFile section */
 		482C9A662210C7A80080F233 /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 482C9A652210C7A80080F233 /* main.cpp */; };
+		483FC3FF2211E0790061CBA5 /* Engine.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 483FC3FD2211E0790061CBA5 /* Engine.cpp */; };
+		483FC4042211F04D0061CBA5 /* wander-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 483FC4032211F04D0061CBA5 /* wander-Info.plist */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		482C9A5D2210C7A70080F233 /* wander.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = wander.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		482C9A612210C7A70080F233 /* wander-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "wander-Info.plist"; sourceTree = "<group>"; };
 		482C9A652210C7A80080F233 /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
 		483FC3F72211D2AF0061CBA5 /* GameObject.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = GameObject.hpp; sourceTree = "<group>"; };
 		483FC3FA2211DD5A0061CBA5 /* Global.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Global.h; sourceTree = "<group>"; };
+		483FC3FD2211E0790061CBA5 /* Engine.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Engine.cpp; sourceTree = "<group>"; };
+		483FC3FE2211E0790061CBA5 /* Engine.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Engine.h; sourceTree = "<group>"; };
+		483FC4032211F04D0061CBA5 /* wander-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "wander-Info.plist"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -48,21 +52,15 @@
 		482C9A5F2210C7A70080F233 /* wander */ = {
 			isa = PBXGroup;
 			children = (
-				482C9A652210C7A80080F233 /* main.cpp */,
-				483FC3FA2211DD5A0061CBA5 /* Global.h */,
-				483FC3F72211D2AF0061CBA5 /* GameObject.hpp */,
 				483FC3F62211D2A60061CBA5 /* res */,
-				482C9A602210C7A70080F233 /* Supporting Files */,
+				483FC3FE2211E0790061CBA5 /* Engine.h */,
+				483FC3F72211D2AF0061CBA5 /* GameObject.hpp */,
+				483FC3FA2211DD5A0061CBA5 /* Global.h */,
+				483FC3FD2211E0790061CBA5 /* Engine.cpp */,
+				482C9A652210C7A80080F233 /* main.cpp */,
+				483FC4032211F04D0061CBA5 /* wander-Info.plist */,
 			);
 			path = wander;
-			sourceTree = "<group>";
-		};
-		482C9A602210C7A70080F233 /* Supporting Files */ = {
-			isa = PBXGroup;
-			children = (
-				482C9A612210C7A70080F233 /* wander-Info.plist */,
-			);
-			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
 		483FC3F62211D2A60061CBA5 /* res */ = {
@@ -129,6 +127,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				483FC4042211F04D0061CBA5 /* wander-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -160,6 +159,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				482C9A662210C7A80080F233 /* main.cpp in Sources */,
+				483FC3FF2211E0790061CBA5 /* Engine.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
