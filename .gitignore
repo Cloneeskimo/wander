@@ -1,0 +1,5 @@
+*.xcodeproj
+*.vcxproj
+*.vcxproj.filters
+*.vcxproj.user
+Debug/wander.log
