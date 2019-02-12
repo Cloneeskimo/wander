@@ -3,4 +3,9 @@
 *.vcxproj.filters
 *.vcxproj.user
 *.sln
-Debug/wander.log
+Debug
+Debug/*
+wander/Debug/*
+wander/Debug
+.vs
+.vs/*

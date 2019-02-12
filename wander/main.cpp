@@ -12,6 +12,6 @@
 //main function
 int main(int, char const**)
 {
-    Engine engine; //create engine
-    std::cout << "wander ran with exit status: " << engine.run() << std::endl; //run program, record exit status
+	Engine engine; //create engine
+	std::cout << "wander ran with exit status: " << engine.run() << std::endl; //run program, record exit status
 }
