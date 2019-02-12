@@ -12,8 +12,6 @@
 //main function
 int main(int, char const**)
 {
-    Engine engine;
-    int result = engine.run();
-    if (result == gc::FAILURE)
-        std::cout << "engine returned an unsuccessful run" << std::endl;
+    Engine engine; //create engine
+    std::cout << "wander ran with exit status: " << engine.run() << std::endl; //run program, record exit status
 }

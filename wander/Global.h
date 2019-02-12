@@ -15,7 +15,7 @@
 namespace gc {
     
     //build properties
-    static const int A_BUILD = 13; //records build no. for window
+    static const int A_BUILD = 15; //records build no. for window
     
     //window properties
     static const int W_WIDTH = 800; //defines width for window
@@ -30,7 +30,9 @@ namespace gc {
     
     //Run Codes
     static const int SUCCESS = 1;
-    static const int FAILURE = 0;
+    static const int FAILURE_BY_INPUT = -1;
+    static const int FAILURE_BY_COMPUTE = -2;
+    static const int FAILURE_BY_ILLUSRATE = -3;
 }
     
 #endif /* Global_h */

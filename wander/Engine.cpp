@@ -8,63 +8,87 @@
 
 #include "Engine.h"
 
+//ran by main.cpp. initializes engine and contains main game loop
 int Engine::run() {
     
     //iniitialize engine
     this->init();
     
     //program loop
-    while (w.isOpen()) {
+    while (w.isOpen()) { //when window is closed, exit status is returned
         
-        this->input();
-        this->compute();
-        this->illustrate();
+        this->input(); //phase 1 of cycle - gather input
+        this->compute(); //phase 2 of cycle - update everything
+        this->illustrate(); //phase 3 of cycle - draw everything
         
     }
     
     //program over
-    return gc::SUCCESS;
+    return this->exitStatus;
 }
 
+//initializes all values/members of engine
 void Engine::init() {
     
-    //create sf objects
-    this->w.create(sf::VideoMode(gc::W_WIDTH, gc::W_HEIGHT), gc::W_TITLE, sf::Style::Default);
-    this->w.setFramerateLimit(gc::W_FRAMERATE_LIMIT);
-    this->c = sf::Clock();
-    this->f.loadFromFile("res//sansation.ttf");
+    //window init
+    this->w.create(sf::VideoMode(gc::W_WIDTH, gc::W_HEIGHT), gc::W_TITLE, sf::Style::Default); //create window
+    this->w.setFramerateLimit(gc::W_FRAMERATE_LIMIT); //limit framerate
+    
+    //debug text init
+    this->f.loadFromFile("res//sansation.ttf"); //load font
     this->debug.setFont(this->f);
     this->debug.setCharacterSize(24);
     this->debug.setString("FPS");
     this->debug.setFillColor(sf::Color::Black);
-    
-    //create GameObject array
-    this->gos[0] = new AnimatableGameObject("res//dragonTop.png", 3, 0.2f);
-    
-    //set settings
     this->showDebug = false;
+    
+    //gobject array init
+    this->gos[0] = new AnimGObject("res//dragon.png", 3, 4, 0.1f);
+    
+    //misc init
+    this->exitStatus = gc::SUCCESS; //begin program with success status
+    this->c = sf::Clock(); //create clock
 }
 
-//handles all window input
+//phase 1 - handles all window input
 void Engine::input() {
     sf::Event e;
-    while (this->w.pollEvent(e)) {
+    while (this->w.pollEvent(e)) { //loop through pending events
         
-        if (e.type == sf::Event::Closed)
-            this->w.close();
-        if (e.type == sf::Event::KeyReleased && e.key.code == sf::Keyboard::Space)
-            this->showDebug = !this->showDebug;
+        if (e.type == sf::Event::Closed) //closed event
+            this->w.close(); //close window
+        if (e.type == sf::Event::KeyPressed) {
+            switch (e.key.code) {
+                case sf::Keyboard::D:
+                    this->showDebug = !this->showDebug; //toggle debug display
+                    break;
+                case sf::Keyboard::Left:
+                    this->gos[0]->setFrameRow(2);
+                    break;
+                case sf::Keyboard::Right:
+                    this->gos[0]->setFrameRow(3);
+                    break;
+                case sf::Keyboard::Down:
+                    this->gos[0]->setFrameRow(1);
+                    break;
+                case sf::Keyboard::Up:
+                    this->gos[0]->setFrameRow(4);
+                    break;
+                default:
+                    break;
+            }
+        }
     }
 }
 
-//computes per tick
+//phase 2 - update everything
 void Engine::compute() {
     
-    //compute GameObjects
+    //update GameObjects
     for (int i = 0; i < gosSize; i++)
         this->gos[i]->compute(this->c.getElapsedTime().asSeconds());
     
-    //compute additionals
+    //update additionals
     if (this->showDebug) {
         int FPS = 1 / this->c.getElapsedTime().asSeconds();
         this->debug.setString("FPS: " + std::to_string(FPS));
@@ -74,10 +98,10 @@ void Engine::compute() {
     this->c.restart();
 }
 
-//illustrates
+//phase 3 - illustrate everything
 void Engine::illustrate() {
     
-    //clear
+    //clear screen
     this->w.clear(sf::Color::White);
     
     //draw GameObjects
@@ -88,6 +112,6 @@ void Engine::illustrate() {
     if (this->showDebug)
         this->w.draw(this->debug);
     
-    //publish
+    //publish newly drawn screen
     this->w.display();
 }
