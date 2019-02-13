@@ -9,3 +9,7 @@ wander/Debug/*
 wander/Debug
 .vs
 .vs/*
+wander/errors/*
+wander/errors
+errors/*
+errors

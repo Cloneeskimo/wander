@@ -13,6 +13,8 @@
 #include <vector>
 #include <fstream>
 
+static const std::string FILE_NAME = "SaveManager.hpp";
+
 //a class to represent a single piece of data and its children pieces of data
 class Node {
     
@@ -70,8 +72,8 @@ public:
 private:
     
     std::string name; //the name of this piece of data
-    std::string value; //the actual value of this node
-    std::vector<Node> children; //all of the nodes beneath it
+    std::string value; //the actual data of this node
+    std::vector<Node> children; //all of the its child nodes
     
 };
 
@@ -79,13 +81,14 @@ private:
 class sm {
     
 public:
+    
     //save node to file
     static bool saveMasterNode(std::string path, Node* node) {
         std::ofstream write;
-        write.open(path);
-        if (write.fail()) return false;
+        write.open(path); //try to open file
+        if (write.fail()) gf::error(FILE_NAME, "error opening file '" + path + "' to save to", 0, true, gc::FAILURE_BY_FILEIO);
         
-        saveNode(&write, node, "");
+        saveNode(&write, node, ""); //start recursive saving
     }
     
     //load node from file
@@ -93,8 +96,8 @@ public:
         
         //open file
         std::ifstream read;
-        read.open(path);
-        //TODO: handle read.open failure
+        read.open(path); //try to open file
+        if (read.fail()) gf::error(FILE_NAME, "error opening file '" + path + "' to lad from", 1, true, gc::FAILURE_BY_FILEIO);
         
         //read entire file into vector of strings
         std::vector<std::string> file;
@@ -113,20 +116,19 @@ private:
     
     //a recursive function called to save each individual node
     static void saveNode(std::ofstream* write, Node* node, std::string indent) {
-        *write << indent << node->getN() << ": ";
-        if (node->getV() != "")
+        *write << indent << node->getN() << ": "; //indent and write node name
+        if (node->getV() != "") //write node value if there is one
             *write << node->getV();
         *write << std::endl;
-        if (node->getCSize() > 0) {
+        if (node->getCSize() > 0) { //if node has children
             *write << indent << "{" << std::endl;
-            for (Node c : node->getC())
+            for (Node c : node->getC()) //save all children
                 saveNode(write, &c, indent + " ");
             *write << indent <<  "}" << std::endl;
         }
     }
     
     //a recursive function called to read each individual node
-    //returns true if another node exists under it
     static Node loadNode(std::vector<std::string>* file, int* i, int indent) {
         
         //format next line and find dividing point
@@ -137,7 +139,8 @@ private:
             if (nextLine[j] == ':')
                 dividerLoc = j;
         
-        //TODO: no colon in line after name - format error
+        //throw error if there is no colon in line
+        if (dividerLoc == -1) gf::error(FILE_NAME, "error interpreting line: '" + nextLine + "' - missing a colon divider ':'", 2, gc::FAILURE_BY_FILEIO, true);
         
         //create node represented by next line
         Node node = Node(nextLine.substr(0, dividerLoc)); //create node with name
@@ -154,8 +157,11 @@ private:
                 indent++; //iterate indent
                 while (file->at(*i).find("}") == std::string::npos) { //if the children are over
                     node.addC(loadNode(file, i, indent));
-                    *i += 1;
-                    //TODO: handle sudden file stop
+                    
+                    //throw error if file suddenly stop
+                    if ((*i + 1) > file->size()) gf::error(FILE_NAME, "error reading file: sudden file stop after line '" + nextLine + "'", 3, gc::FAILURE_BY_FILEIO, true);
+                    
+                    *i += 1; //iterate
                 }
             }
         }

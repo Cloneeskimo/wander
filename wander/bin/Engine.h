@@ -43,7 +43,6 @@ private:
     
     //game properties
     bool showDebug; //determines whether Engine.debug will be display or not
-    int exitStatus; //represents what status the program exits with
     
     //functions
     void init(); //initializes engine

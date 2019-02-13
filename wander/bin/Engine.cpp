@@ -14,53 +14,54 @@ int Engine::run() {
     //iniitialize engine
     this->init();
     
+    gf::error("Engine.h", "test error", 0);
+    
     //program loop
     while (w.isOpen()) { //when window is closed, exit status is returned
         
         this->input(); //phase 1 of cycle - gather input
         this->compute(); //phase 2 of cycle - update everything
         this->illustrate(); //phase 3 of cycle - draw everything
-        
     }
     
     //program over
-    return this->exitStatus;
+    return gc::SUCCESS;
 }
 
 //initializes all values/members of engine
 void Engine::init() {
     
     //window init
-    int w_width = 800, w_height = 600;
-    this->loadSettings(&w_width, &w_height);
+    int w_width = 800, w_height = 600; //window width/height
+    this->loadSettings(&w_width, &w_height); //TODO: load width/height from a settings file
     this->w.create(sf::VideoMode(w_width, w_height), gc::W_TITLE, sf::Style::Default); //create window
     this->w.setFramerateLimit(gc::W_FRAMERATE_LIMIT); //limit framerate
     
     //debug text init
     this->f.loadFromFile("res//sansation.ttf"); //load font
-    this->debug.setFont(this->f);
-    this->debug.setCharacterSize(24);
-    this->debug.setString("FPS");
-    this->debug.setFillColor(sf::Color::Black);
-    this->showDebug = false;
+    this->debug.setFont(this->f); //set font
+    this->debug.setCharacterSize(24); //set text size
+    this->debug.setString("FPS"); //set text
+    this->debug.setFillColor(sf::Color::Black); //set text color
+    this->showDebug = false; //hide debug by default
     
-    //gobject array init
+    //gobject vector init
     this->gos.push_back(new AnimGObject("res//dragon.png", 3, 4, 0.1f));
     
     //misc init
-    this->exitStatus = gc::SUCCESS; //begin program with success status
     this->c = sf::Clock(); //create clock
 }
 
 //phase 1 - handles all window input
 void Engine::input() {
-    sf::Event e;
+    
+    sf::Event e; //event
     while (this->w.pollEvent(e)) { //loop through pending events
         
         if (e.type == sf::Event::Closed) //closed event
             this->w.close(); //close window
-        if (e.type == sf::Event::KeyPressed) {
-            switch (e.key.code) {
+        if (e.type == sf::Event::KeyPressed) { //key pressed event
+            switch (e.key.code) { //switch on type of key
                 case sf::Keyboard::D:
                     this->showDebug = !this->showDebug; //toggle debug display
                     break;
@@ -93,7 +94,7 @@ void Engine::compute() {
     //update additionals
     if (this->showDebug) {
         int FPS = 1 / this->c.getElapsedTime().asSeconds();
-        this->debug.setString("FPS: " + std::to_string(FPS));
+        this->debug.setString("FPS: " + std::to_string(FPS)); //show debug info
     }
     
     //restart clock
@@ -119,5 +120,9 @@ void Engine::illustrate() {
 }
 
 void Engine::loadSettings(int* w_width, int* w_height) {
+    
+}
+
+void Engine::saveSettings() {
     
 }
