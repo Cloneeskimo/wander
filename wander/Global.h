@@ -15,12 +15,10 @@
 namespace gc {
     
     //build properties
-    static const int A_BUILD = 15; //records build no. for window
+    static const int A_BUILD = 17; //records build no. for window
     
     //window properties
-    static const int W_WIDTH = 800; //defines width for window
-    static const int W_HEIGHT = 600; //defines height for window
-    static const int W_FRAMERATE_LIMIT = 120;
+    static const int W_FRAMERATE_LIMIT = 120; //limits framerate
     static const std::string W_TITLE = "Wander b" + std::to_string(A_BUILD); //defines title for window
     
     //GameObject properties
@@ -33,6 +31,7 @@ namespace gc {
     static const int FAILURE_BY_INPUT = -1;
     static const int FAILURE_BY_COMPUTE = -2;
     static const int FAILURE_BY_ILLUSRATE = -3;
+    static const int FAILURE_BY_FILEIO = -4;
 }
-    
+
 #endif /* Global_h */

@@ -13,10 +13,11 @@
 #include <SFML/Window.hpp>
 #include <SFML/Graphics.hpp>
 
-//GObject Includes
+//Wander Includes
 #include "gameobject/GObject.hpp"
 #include "gameobject/AnimGObject.hpp"
 #include "Global.h"
+#include "SaveManager.hpp"
 
 //engine class handles entire game
 class Engine {
@@ -48,6 +49,9 @@ private:
     void compute(); //phase 2 of cycle - update everything
     void illustrate(); //phase 3 of cycle - print to screen
     
+    //settings
+    void loadSettings(int* w_width, int* w_height);
+    void saveSettings();
 };
 
 #endif /* Engine_h */
