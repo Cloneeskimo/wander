@@ -16,7 +16,7 @@
 namespace gc {
     
     //build properties
-    static const int A_BUILD = 23; //build number
+    static const int A_BUILD = 25; //build number
     static const std::string A_VERSION = "basic_dev"; //version number
     
     //window properties
@@ -73,3 +73,17 @@ namespace gf {
 }
 
 #endif /* Global_h */
+
+//REFERENCE: OS Preprocessor Directions
+//_WIN32
+//(Windows 32-bit)
+//_WIN64
+//(Windows 64-bit)
+//__unix || __unix__
+//(Unix)
+//__APPLE__ || __MACH__
+//(Mac OSX)
+//__linux__
+//(Linux)
+//__FreeBSD__
+//(FreeBSD)

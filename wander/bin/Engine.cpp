@@ -14,8 +14,6 @@ int Engine::run() {
     //iniitialize engine
     this->init();
     
-    gf::error("Engine.h", "test error", 0);
-    
     //program loop
     while (w.isOpen()) { //when window is closed, exit status is returned
         

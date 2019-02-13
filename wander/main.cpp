@@ -14,5 +14,5 @@ int main(int, char const**)
 {
 	Engine engine; //create engine
     int exitStatus = engine.run(); //run program
-	std::cout << "wander ran with exit status: " << exitStatus << std::endl; //print exit status
+	std::cout << "wander finished with exit status " << exitStatus << std::endl; //print exit status
 }
