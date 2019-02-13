@@ -1,0 +1,17 @@
+master: 
+{
+ player: 
+ {
+  name: cloneeskimo
+  sex: male
+  gold: 555
+  inventory: 5
+  {
+   wooden plank: 15
+   stone knife: 1
+   wolf liver: 3
+   ogre eye: 6
+   beaten club: 1
+  }
+ }
+}

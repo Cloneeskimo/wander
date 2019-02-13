@@ -9,6 +9,9 @@
 #ifndef Engine_h
 #define Engine_h
 
+//C++ Includes
+#include <vector>
+
 //SFML Includes
 #include <SFML/Window.hpp>
 #include <SFML/Graphics.hpp>
@@ -30,8 +33,7 @@ public:
 private:
     
     //game objects
-    AnimGObject* gos[1]; //array which holds all gobjects
-    int gosSize = 1; //count variable for gos
+    std::vector<AnimGObject*> gos; //array which holds all gobjects
     
     //sf objects
     sf::RenderWindow w; //window

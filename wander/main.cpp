@@ -7,7 +7,7 @@
 //  Copyright © 2019 Jacob Oaks. All rights reserved.
 //
 
-#include "Engine.h"
+#include "bin/Engine.h"
 
 //main function
 int main(int, char const**)

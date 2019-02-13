@@ -14,25 +14,6 @@ int Engine::run() {
     //iniitialize engine
     this->init();
     
-    //save test
-    Node inventory("inventory", "5");
-    inventory.addC(Node("wooden plank", "15"));
-    inventory.addC(Node("stone knife", "1"));
-    inventory.addC(Node("wolf liver", "3"));
-    inventory.addC(Node("ogre eye", "6"));
-    inventory.addC(Node("beaten club", "1"));
-    Node player("player");
-    player.addC(Node("name", "cloneeskimo"));
-    player.addC(Node("sex", "male"));
-    player.addC(Node("gold", "555"));
-    player.addC(inventory);
-    Node mn("master");
-    mn.addC(player);
-    sm::saveMasterNode("test.txt", &mn);
-    
-    Node loadedMN = sm::loadMasterNode("test.txt");
-    sm::saveMasterNode("test2.txt", &loadedMN);
-    
     //program loop
     while (w.isOpen()) { //when window is closed, exit status is returned
         
@@ -64,7 +45,7 @@ void Engine::init() {
     this->showDebug = false;
     
     //gobject array init
-    this->gos[0] = new AnimGObject("res//dragon.png", 3, 4, 0.1f);
+    this->gos.push_back(new AnimGObject("res//dragon.png", 3, 4, 0.1f));
     
     //misc init
     this->exitStatus = gc::SUCCESS; //begin program with success status
@@ -106,8 +87,8 @@ void Engine::input() {
 void Engine::compute() {
     
     //update GameObjects
-    for (int i = 0; i < gosSize; i++)
-        this->gos[i]->compute(this->c.getElapsedTime().asSeconds());
+    for (AnimGObject*o : this->gos)
+        o->compute(this->c.getElapsedTime().asSeconds());
     
     //update additionals
     if (this->showDebug) {
@@ -126,8 +107,8 @@ void Engine::illustrate() {
     this->w.clear(sf::Color::White);
     
     //draw GameObjects
-    for (int i = 0; i < gosSize; i++)
-        this->gos[i]->illustrate(&this->w);
+    for (AnimGObject* o : this->gos)
+        o->illustrate(&this->w);
     
     //draw additionals
     if (this->showDebug)
