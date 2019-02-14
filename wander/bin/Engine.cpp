@@ -23,6 +23,7 @@ int Engine::run() {
     }
     
     //program over
+    this->saveSettings();
     return gc::SUCCESS;
 }
 
@@ -117,10 +118,28 @@ void Engine::illustrate() {
     this->w.display();
 }
 
+//loads settings from their file
 void Engine::loadSettings(int* w_width, int* w_height) {
     
+    //load data if exists
+    gf::ensureDir("data");
+    if (gf::canOpenFile("data//settings.wdr")) {
+        Node settings = sm::loadMasterNode("data//settings.wdr");
+        *w_width = std::stoi(settings.getCwN("w_width").getV());
+        *w_height = std::stoi(settings.getCwN("w_height").getV());
+    }
 }
 
+//saves all the current settings to be loaded next time program is run
 void Engine::saveSettings() {
+    
+    //structure data node
+    Node settings("settings");
+    settings.addC(Node("w_width", std::to_string(this->w.getSize().x)));
+    settings.addC(Node("w_height", std::to_string(this->w.getSize().y)));
+    
+    //save to file
+    gf::ensureDir("data");
+    sm::saveMasterNode("data//settings.wdr", &settings);
     
 }

@@ -9,6 +9,7 @@
 #ifndef Global_h
 #define Global_h
 
+//C++ Includes
 #include <string>
 #include <iostream>
 #include <fstream>
@@ -18,7 +19,7 @@
 namespace gc {
     
     //build properties
-    static const int A_BUILD = 30; //build number
+    static const int A_BUILD = 31; //build number
     static const std::string A_VERSION = "basic_dev"; //version number
     
     //window properties
@@ -37,6 +38,19 @@ namespace gc {
 
 //GF = Global Functions
 namespace gf {
+    
+    //creates a directory if it doesn't already exist
+    static void ensureDir(std::string path) {
+        std::string cmd = "mkdir " + path;
+        system(cmd.c_str()); //TODO: update with a betetr, sytem-dependant solution
+    }
+    
+    //returns whether or not file can be opened
+    static bool canOpenFile(std::string path) {
+        std::ifstream open;
+        open.open(path);
+        return !open.fail();
+    }
     
     //used to exit program in case of an error
     static void terminate(int exitStatus) {
@@ -62,12 +76,9 @@ namespace gf {
         std::string error = "[" + time + "][build " + std::to_string(gc::A_BUILD) + "][" + originFile + "]: " + message + " (" + std::to_string(code) + ")";
         std::cout << error << std::endl;
         
-        //attempt to open errors.txt to print to it
-        system("mkdir errors"); //make error directory
-        //TODO make mkdir OS-dependent
-
-        //log error
+        //attempt to open errors.txt to log error
         std::ofstream write;
+        ensureDir("errors"); //make error directory
         write.open("errors//" + date + ".txt", std::ofstream::app); //open errors.txt
         if (write.fail()) //display additional error to console if couldn't create error directory
             std::cout << "[" + time + "][Global.h]: unable to create error file (0)" << std::endl;
