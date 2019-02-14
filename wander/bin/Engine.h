@@ -17,10 +17,10 @@
 #include <SFML/Graphics.hpp>
 
 //Wander Includes
-#include "gameobject/GObject.hpp"
-#include "gameobject/AnimGObject.hpp"
+#include "gameobject/GObject.h"
+#include "gameobject/AnimGObject.h"
 #include "Global.h"
-#include "SaveManager.hpp"
+#include "SaveManager.h"
 
 //engine class handles entire game
 class Engine {
@@ -51,8 +51,8 @@ private:
     void illustrate(); //phase 3 of cycle - print to screen
     
     //settings
-    void loadSettings(int* w_width, int* w_height);
-    void saveSettings();
+    void loadSettings(int* w_width, int* w_height); //loads previously saved settings from file
+    void saveSettings(); //saves settings to file
 };
 
 #endif /* Engine_h */

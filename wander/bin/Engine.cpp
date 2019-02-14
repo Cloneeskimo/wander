@@ -13,8 +13,6 @@ int Engine::run() {
     
     //iniitialize engine
     this->init();
-    
-    gf::error("Engine.h", "This is a test error", 0);
       
     //program loop
     while (w.isOpen()) { //when window is closed, exit status is returned

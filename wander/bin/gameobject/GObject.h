@@ -1,13 +1,13 @@
 //
-//  GameObject.hpp
+//  GameObject.h
 //  wander
 //
 //  Created by Jacob Oaks on 2/10/19.
 //  Copyright © 2019 Jacob Oaks. All rights reserved.
 //
 
-#ifndef GameObject_hpp
-#define GameObject_hpp
+#ifndef GameObject_h
+#define GameObject_h
 
 #include <iostream>
 #include <SFML/Graphics.hpp>
@@ -52,4 +52,4 @@ public:
     void setPos(sf::Vector2f newPos) { this->sprite.setPosition(newPos); }
 };
 
-#endif /* GObject_hpp */
+#endif /* GObject_h */

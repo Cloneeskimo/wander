@@ -10,6 +10,7 @@
 #define Global_h
 
 #include <string>
+#include <iostream>
 #include <fstream>
 #include <ctime>
 
@@ -17,7 +18,7 @@
 namespace gc {
     
     //build properties
-    static const int A_BUILD = 27; //build number
+    static const int A_BUILD = 30; //build number
     static const std::string A_VERSION = "basic_dev"; //version number
     
     //window properties
