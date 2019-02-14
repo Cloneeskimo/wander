@@ -24,6 +24,8 @@ public:
     
     //public functions
     void compute(float dT); //compute method
+    void pause() { this->paused = true; } //pauses animation
+    void resume() { this->paused = false; } //resumes animation
     bool setFrameRow(int fr); //change frame row
     
 private:
@@ -34,6 +36,7 @@ private:
     int frameWidth, frameHeight; //width of a single frame in the sheet, height of a single frame in the sheet
     float tBeforeNextFrame, frameDelay; //(in seconds) time before next frame shows, amount of time btn frames
     sf::IntRect textureRect; //currently selected rectangle of the sheet being shown
+    bool paused = false;
     
     //private functions
     void cycleFrame(); //cycles to next frame

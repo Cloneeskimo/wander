@@ -35,6 +35,7 @@ void AnimGObject::cycleFrame() {
 
 //compute function
 void AnimGObject::compute(float dT) {
+    if (this->paused) return;
     if (this->tBeforeNextFrame <= 0) { //check if time to cycle to next frame
         this->cycleFrame(); //cycle frame if ready to do so
         this->tBeforeNextFrame = this->frameDelay; //reset timer

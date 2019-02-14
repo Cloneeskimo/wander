@@ -44,9 +44,6 @@ void Engine::init() {
     this->debug.setFillColor(sf::Color::Black); //set text color
     this->showDebug = false; //hide debug by default
     
-    //gobject vector init
-    this->gos.push_back(new AnimGObject("res//dragon.png", 3, 4, 0.1f));
-    
     //misc init
     this->c = sf::Clock(); //create clock
 }
@@ -56,30 +53,8 @@ void Engine::input() {
     
     sf::Event e; //event
     while (this->w.pollEvent(e)) { //loop through pending events
-        
         if (e.type == sf::Event::Closed) //closed event
             this->w.close(); //close window
-        if (e.type == sf::Event::KeyPressed) { //key pressed event
-            switch (e.key.code) { //switch on type of key
-                case sf::Keyboard::D:
-                    this->showDebug = !this->showDebug; //toggle debug display
-                    break;
-                case sf::Keyboard::Left:
-                    this->gos[0]->setFrameRow(2);
-                    break;
-                case sf::Keyboard::Right:
-                    this->gos[0]->setFrameRow(3);
-                    break;
-                case sf::Keyboard::Down:
-                    this->gos[0]->setFrameRow(1);
-                    break;
-                case sf::Keyboard::Up:
-                    this->gos[0]->setFrameRow(4);
-                    break;
-                default:
-                    break;
-            }
-        }
     }
 }
 

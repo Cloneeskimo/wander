@@ -53,6 +53,12 @@ private:
     //settings
     void loadSettings(int* w_width, int* w_height); //loads previously saved settings from file
     void saveSettings(); //saves settings to file
+    
+    //controls states
+    bool KeyLeft = false;
+    bool KeyRight = false;
+    bool KeyUp = false;
+    bool KeyDown = false;
 };
 
 #endif /* Engine_h */
