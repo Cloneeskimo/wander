@@ -11,12 +11,13 @@
 
 #include <string>
 #include <fstream>
+#include <ctime>
 
 //GC = Global Constants
 namespace gc {
     
     //build properties
-    static const int A_BUILD = 25; //build number
+    static const int A_BUILD = 27; //build number
     static const std::string A_VERSION = "basic_dev"; //version number
     
     //window properties
@@ -50,23 +51,28 @@ namespace gf {
     //fatal - whether or not error is fatal and program needs to terminate
     static void error(std::string originFile, std::string message, int code, int exitStatus = gc::SUCCESS, bool fatal = false) {
         
-        //TODO: incorporate date and timekeeping into error recording
-        
+        //Record Time
+        std::time_t t = std::time(0);
+        std::tm* now = std::localtime(&t);
+        std::string date = std::to_string(now->tm_mon + 1) + "-" + std::to_string(now->tm_mday) + "-" + std::to_string(now->tm_year + 1900);
+        std::string time = std::to_string(now->tm_hour) + ":" + std::to_string(now->tm_min) + ":" + std::to_string(now->tm_sec);
+
         //make error string, display to console
-        std::string error = "[build " + std::to_string(gc::A_BUILD) + "][" + originFile + "]: " + message + " (" + std::to_string(code) + ")";
+        std::string error = "[" + time + "][build " + std::to_string(gc::A_BUILD) + "][" + originFile + "]: " + message + " (" + std::to_string(code) + ")";
         std::cout << error << std::endl;
         
         //attempt to open errors.txt to print to it
         system("mkdir errors"); //make error directory
         //TODO make mkdir OS-dependent
 
+        //log error
         std::ofstream write;
-        write.open("errors//errors.txt", std::ofstream::app); //open errors.txt
+        write.open("errors//" + date + ".txt", std::ofstream::app); //open errors.txt
         if (write.fail()) //display additional error to console if couldn't create error directory
-            std::cout << "[Global.h]: unable to create error file (0)" << std::endl;
+            std::cout << "[" + time + "][Global.h]: unable to create error file (0)" << std::endl;
         else
             write << error << std::endl; //write error to file
-        
+    
         //terminate if fatal
         if (fatal) terminate(exitStatus);
     }
