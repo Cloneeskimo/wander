@@ -9,10 +9,6 @@
 #ifndef Engine_h
 #define Engine_h
 
-//C++ Includes
-#include <vector>
-#include <fstream>
-
 //SFML Includes
 #include <SFML/Window.hpp>
 #include <SFML/Graphics.hpp>

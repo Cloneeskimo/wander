@@ -32,7 +32,7 @@ static const std::string FILE_NAME = "Global.h";
 namespace gc {
     
     //build properties
-    static const int A_BUILD = 36; //build number
+    static const int A_BUILD = 39; //build number
     static const std::string A_VERSION = "basic_dev"; //version number
     
     //window properties

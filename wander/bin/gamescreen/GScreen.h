@@ -30,6 +30,7 @@ public:
     //the method which enters the screen and returns data once screen is finished
     Node enter(sf::RenderWindow* w, sf::Text* debug) {
         this->w = w; //set window reference
+        this->d = debug; //set debug text reference
         this->loop(); //loop
         
         //when loop is done, return a Node to summarize important takeaway from this screen
@@ -81,8 +82,9 @@ private:
     //phase 2 of screen loop - compute
     //needs to be overriden to update anything other than the objects within gos
     void compute() {
-        for (AnimGObject o : this->gos)
+        for (AnimGObject o : this->gos) //compute objects
             o.compute(this->c.getElapsedTime().asSeconds());
+        if (this->showDebug) this->d->setString("FPS: " + std::to_string(1 / this->c.getElapsedTime().asSeconds())); //update debug text if enabled
         this->c.restart(); //restart clock
     }
     
