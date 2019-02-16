@@ -15,16 +15,31 @@
 #include <fstream>
 #include <ctime>
 
+//SFML Includes
+#include <SFML/Window.hpp>
+#include <SFML/Graphics.hpp>
+
+//OS-Dependent Includes
+#if defined(WIN32) || defined(_WIN32) || defined(__WIN32) && !defined(__CYGWIN__)
+#include <WinBase.h>
+#else
+
+#endif
+
+static const std::string FILE_NAME = "Global.h";
+
 //GC = Global Constants
 namespace gc {
     
     //build properties
-    static const int A_BUILD = 33; //build number
+    static const int A_BUILD = 36; //build number
     static const std::string A_VERSION = "basic_dev"; //version number
     
     //window properties
     static const int W_FRAMERATE_LIMIT = 120; //limits framerate
     static const std::string W_TITLE = "Wander v" + A_VERSION + " b" + std::to_string(A_BUILD); //defines title for window
+    static const sf::Keyboard::Key DEBUG_KEY = sf::Keyboard::D;
+    static const sf::Color CLEAR_COLOR = sf::Color::White;
     
     //GameObject properties
     static const int GO_DEFAULT_X = 0; //default starting x for GameObjects
@@ -41,8 +56,17 @@ namespace gf {
     
     //creates a directory if it doesn't already exist
     static void ensureDir(std::string path) {
+        
+//        #if defined(WIN32) || defined(_WIN32) || defined(__WIN32) && !defined(__CYGWIN__)
+//        CreateDirectory(path, NULL);
+//        if (!ERROR_ALREADY_EXISTS)
+//            error()
+//        #else
+//
+//        #endif
+        
         std::string cmd = "mkdir " + path;
-        system(cmd.c_str()); //TODO: update with a betetr, sytem-dependant solution
+        system(cmd.c_str()); //TODO: update with a better, sytem-dependant solution
     }
     
     //returns whether or not file can be opened

@@ -42,7 +42,7 @@ Node Node::getCwN(std::string name) {
 bool sm::saveMasterNode(std::string path, Node* node) {
     std::ofstream write;
     write.open(path); //try to open file
-    if (write.fail()) gf::error(FILE_NAME, "error opening file '" + path + "' to save to", 0, true, gc::FAILURE_BY_FILEIO);
+    if (write.fail()) gf::error(S_FILE_NAME, "error opening file '" + path + "' to save to", 0, true, gc::FAILURE_BY_FILEIO);
     
     saveNode(&write, node, ""); //start recursive saving
 }
@@ -53,7 +53,7 @@ Node sm::loadMasterNode(std::string path) {
     //open file
     std::ifstream read;
     read.open(path); //try to open file
-    if (read.fail()) gf::error(FILE_NAME, "error opening file '" + path + "' to lad from", 1, true, gc::FAILURE_BY_FILEIO);
+    if (read.fail()) gf::error(S_FILE_NAME, "error opening file '" + path + "' to lad from", 1, true, gc::FAILURE_BY_FILEIO);
     
     //read entire file into vector of strings
     std::vector<std::string> file;
@@ -94,7 +94,7 @@ Node sm::loadNode(std::vector<std::string>* file, int* i, int indent) {
             dividerLoc = j;
     
     //throw error if there is no colon in line
-    if (dividerLoc == -1) gf::error(FILE_NAME, "error interpreting line: '" + nextLine + "' - missing a colon divider ':'", 2, gc::FAILURE_BY_FILEIO, true);
+    if (dividerLoc == -1) gf::error(S_FILE_NAME, "error interpreting line: '" + nextLine + "' - missing a colon divider ':'", 2, gc::FAILURE_BY_FILEIO, true);
     
     //create node represented by next line
     Node node = Node(nextLine.substr(0, dividerLoc)); //create node with name
@@ -113,7 +113,7 @@ Node sm::loadNode(std::vector<std::string>* file, int* i, int indent) {
                 node.addC(loadNode(file, i, indent));
                 
                 //throw error if file suddenly stop
-                if ((*i + 1) > file->size()) gf::error(FILE_NAME, "error reading file: sudden file stop after line '" + nextLine + "'", 3, gc::FAILURE_BY_FILEIO, true);
+                if ((*i + 1) > file->size()) gf::error(S_FILE_NAME, "error reading file: sudden file stop after line '" + nextLine + "'", 3, gc::FAILURE_BY_FILEIO, true);
                 
                 *i += 1; //iterate
             }

@@ -21,6 +21,8 @@ protected:
     //gobject properties
     sf::Sprite sprite; //object sprite
     sf::Texture texture; //texture owned by the sprite
+    float scaleX; //scaling of texture as factor of x
+    float scaleY; //scaling of texture as factor of y
     
 public:
     
@@ -40,11 +42,19 @@ public:
     //utility functions
     void illustrate(sf::RenderWindow *w) { w->draw(this->sprite); } //illustrate method just draws the sprite
     void compute(float dT) {}; //written to be overriden by inherited classes
+    void scaleTexture(float x, float y) {
+        this->scaleX = x;
+        this->scaleY = y;
+        this->sprite.setScale(x, y);
+    }
     
     //accessors
     int getX() { return this->sprite.getPosition().x; }
     int getY() { return this->sprite.getPosition().y; }
     sf::Vector2f getPos() { return this->sprite.getPosition(); }
+    int getW() { return this->sprite.getLocalBounds().width * this->scaleX; }
+    int getH() { return this->sprite.getLocalBounds().height * this->scaleY; }
+    sf::Vector2i getSize() { return sf::Vector2i(this->getW(), this->getH()); }
     
     //mutators
     void setX(int newX) { this->sprite.setPosition(newX, this->sprite.getPosition().y); }

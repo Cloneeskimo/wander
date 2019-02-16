@@ -17,7 +17,7 @@
 //Wander Includes
 #include "Global.h"
 
-static const std::string FILE_NAME = "SaveManager.hpp";
+static const std::string S_FILE_NAME = "SaveManager.hpp";
 
 //a class to represent a single piece of data and its children pieces of data
 class Node {
