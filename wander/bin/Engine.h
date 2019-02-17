@@ -14,7 +14,7 @@
 #include <SFML/Graphics.hpp>
 
 //Wander Includes
-#include "gamescreen/GScreen.h"
+#include "gamescreen/MainMenu.h"
 #include "Global.h"
 #include "SaveManager.h"
 

@@ -16,9 +16,12 @@ int Engine::run() {
     this->initDebug();
     
     //program loop
-    while (w.isOpen()) { //when window is closed, exit status is returned
-        GScreen testScreen;
-        testScreen.enter(&this->w, &this->d);
+    while (this->w.isOpen()) { //when window is closed, exit status is returned
+        
+        //continue showing main menu as base screen until window closed
+        MainMenu mm(&this->w, &this->d);
+        mm.enter();
+        
     }
     
     //program over

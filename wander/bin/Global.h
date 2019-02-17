@@ -32,11 +32,11 @@ static const std::string FILE_NAME = "Global.h";
 namespace gc {
     
     //build properties
-    static const int A_BUILD = 39; //build number
+    static const int A_BUILD = 46; //build number
     static const std::string A_VERSION = "basic_dev"; //version number
     
     //window properties
-    static const int W_FRAMERATE_LIMIT = 120; //limits framerate
+    static const int W_FRAMERATE_LIMIT = 60; //limits framerate
     static const std::string W_TITLE = "Wander v" + A_VERSION + " b" + std::to_string(A_BUILD); //defines title for window
     static const sf::Keyboard::Key DEBUG_KEY = sf::Keyboard::D;
     static const sf::Color CLEAR_COLOR = sf::Color::White;

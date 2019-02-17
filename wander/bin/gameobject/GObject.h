@@ -9,8 +9,13 @@
 #ifndef GameObject_h
 #define GameObject_h
 
+//C++ Includes
 #include <iostream>
+
+//SFML Includes
 #include <SFML/Graphics.hpp>
+
+//Wander Includes
 #include "Global.h"
 
 //a generic class for any game object. contains a sprite and a position.
@@ -21,8 +26,6 @@ protected:
     //gobject properties
     sf::Sprite sprite; //object sprite
     sf::Texture texture; //texture owned by the sprite
-    float scaleX; //scaling of texture as factor of x
-    float scaleY; //scaling of texture as factor of y
     
 public:
     
@@ -31,10 +34,8 @@ public:
     //startX - starting object x (has default value defined in Global.h)
     //startY - starting object y (has default value defined in Global.h)
     GObject(std::string textureFileName, int startX = gc::GO_DEFAULT_X, int startY = gc::GO_DEFAULT_Y) {
-        if(!this->texture.loadFromFile(textureFileName)) { //attempt to load texture
-            std::cout << "[GObject.hpp]: '" << textureFileName << "' could not be loaded (0)" << std::endl;
-            return; //print error and return if image loading fails
-        }
+        if(!this->texture.loadFromFile(textureFileName)) //attempt to load texture
+            gf::error("GObject.h", "'" + textureFileName + "' could not be loaded", 0, gc::FAILURE_BY_FILEIO, true); //throw error if file could not be loaded
         this->sprite = sf::Sprite(this->texture); //initialize sprite
         this->sprite.setPosition(startX, startY); //set sprite starting position
     };
@@ -42,24 +43,22 @@ public:
     //utility functions
     void illustrate(sf::RenderWindow *w) { w->draw(this->sprite); } //illustrate method just draws the sprite
     void compute(float dT) {}; //written to be overriden by inherited classes
-    void scaleTexture(float x, float y) {
-        this->scaleX = x;
-        this->scaleY = y;
-        this->sprite.setScale(x, y);
-    }
+    void scale(float x, float y) { this->sprite.setScale(x, y); } //scale the sprite
     
     //accessors
     int getX() { return this->sprite.getPosition().x; }
     int getY() { return this->sprite.getPosition().y; }
     sf::Vector2f getPos() { return this->sprite.getPosition(); }
-    int getW() { return this->sprite.getLocalBounds().width * this->scaleX; }
-    int getH() { return this->sprite.getLocalBounds().height * this->scaleY; }
+    int getW() { return this->sprite.getGlobalBounds().width; }
+    int getH() { return this->sprite.getGlobalBounds().height; }
     sf::Vector2i getSize() { return sf::Vector2i(this->getW(), this->getH()); }
+    sf::IntRect getRect() { return sf::IntRect(this->getX(), this->getY(), this->getW(), this->getH()); }
     
     //mutators
     void setX(int newX) { this->sprite.setPosition(newX, this->sprite.getPosition().y); }
     void setY(int newY) { this->sprite.setPosition(this->sprite.getPosition().x, newY); }
     void setPos(sf::Vector2f newPos) { this->sprite.setPosition(newPos); }
+    void setPos(int newX, int newY) { this->setPos(sf::Vector2f(newX, newY)); }
 };
 
 #endif /* GObject_h */

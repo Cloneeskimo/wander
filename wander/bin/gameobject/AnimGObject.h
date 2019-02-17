@@ -9,9 +9,14 @@
 #ifndef AnimGObject_h
 #define AnimGObject_h
 
+//C++ Includes
+#include <iostream>
+
+//SFML Includes
 #include <SFML/Window.hpp>
 #include <SFML/Graphics.hpp>
-#include <iostream>
+
+//Wander Includes
 #include "GObject.h"
 
 //an extension of GObject that supports animations
@@ -26,7 +31,8 @@ public:
     void compute(float dT); //compute method
     void pause() { this->paused = true; } //pauses animation
     void resume() { this->paused = false; } //resumes animation
-    bool setFrameRow(int fr); //change frame row
+    bool setFrameRow(int fr); //set frame row
+    int getFrameRow() { return this->frameRow + 1; } //accessor for frame row
     
 private:
     
