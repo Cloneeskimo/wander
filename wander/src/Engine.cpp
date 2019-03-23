@@ -1,3 +1,4 @@
+///////////////////////////////////////////////////////////////////
 //
 //  Engine.cpp
 //  wander
@@ -5,10 +6,14 @@
 //  Created by Jacob Oaks on 2/11/19.
 //  Copyright © 2019 Jacob Oaks. All rights reserved.
 //
+///////////////////////////////////////////////////////////////////
 
 #include "Engine.h"
 
-//ran by main.cpp. initializes engine and contains main game loop
+///////////////////////////////////////////////////////////////////
+// ran by main.cpp. initializes engine and contains main game loop
+///////////////////////////////////////////////////////////////////
+
 int Engine::run() {
     
     //iniitialize window
@@ -29,7 +34,10 @@ int Engine::run() {
     return gc::SUCCESS;
 }
 
-//initializes all values/members of engine
+///////////////////////////////////////////////////////////////////
+// initializes the window
+///////////////////////////////////////////////////////////////////
+
 void Engine::initWindow() {
     
     //window init
@@ -39,7 +47,10 @@ void Engine::initWindow() {
     this->w.setFramerateLimit(gc::W_FRAMERATE_LIMIT); //limit framerate
 }
 
-//initializes the font and debug text
+///////////////////////////////////////////////////////////////////
+// initializes the font and text for the debug display
+///////////////////////////////////////////////////////////////////
+
 void Engine::initDebug() {
     
     //debug text init
@@ -50,19 +61,27 @@ void Engine::initDebug() {
     this->d.setFillColor(sf::Color::Black); //set text color
 }
 
-//loads settings from their file
+///////////////////////////////////////////////////////////////////
+// loads settings from their file
+// (@w_width) gets set to the loaded window width
+// (@w_height) gets set to the loaded window height
+///////////////////////////////////////////////////////////////////
+
 void Engine::loadSettings(int* w_width, int* w_height) {
     
     //load data if exists
     gf::ensureDir("data");
     if (gf::canOpenFile("data//settings.wdr")) {
-        Node settings = sm::loadMasterNode("data//settings.wdr");
+        Node settings = SaveManager::loadMasterNode("data//settings.wdr");
         *w_width = std::stoi(settings.getCwN("w_width").getV());
         *w_height = std::stoi(settings.getCwN("w_height").getV());
     }
 }
 
-//saves all the current settings to be loaded next time program is run
+///////////////////////////////////////////////////////////////////
+// saves all the current settings to be loaded next time program is run
+///////////////////////////////////////////////////////////////////
+
 void Engine::saveSettings() {
     
     //structure data node
@@ -72,5 +91,9 @@ void Engine::saveSettings() {
     
     //save to file
     gf::ensureDir("data");
-    sm::saveMasterNode("data//settings.wdr", &settings);
+    SaveManager::saveMasterNode("data//settings.wdr", &settings);
 }
+
+///////////////////////////////////////////////////////////////////
+// EOF
+///////////////////////////////////////////////////////////////////

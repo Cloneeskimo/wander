@@ -8,6 +8,8 @@
 //
 ///////////////////////////////////////////////////////////////////
 
+//ERROR CODES USED: 0
+
 #include "Global.h"
 
 ///////////////////////////////////////////////////////////////////
@@ -21,16 +23,7 @@ namespace gf {
     // creates a directory (@path) if it doesn't already exist
     ///////////////////////////////////////////////////////////////////
 
-    void ensureDir(std::string path) {
-        
-        //        #if defined(WIN32) || defined(_WIN32) || defined(__WIN32) && !defined(__CYGWIN__)
-        //        CreateDirectory(path, NULL);
-        //        if (!ERROR_ALREADY_EXISTS)
-        //            error()
-        //        #else
-        //
-        //        #endif
-        
+    void ensureDir(std::string path) {        
         std::string cmd = "mkdir " + path;
         system(cmd.c_str()); //TODO: update with a better, sytem-dependant solution
     }
@@ -56,7 +49,7 @@ namespace gf {
     }
     
     ///////////////////////////////////////////////////////////////////
-    // handles an error - parameters are defined below
+    // handles an error
     // @originFile - file which error occurs in
     // @message - description of error
     // @code - a unique code for that error in that file (there can be duplicate codes across files)

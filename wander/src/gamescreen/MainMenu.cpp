@@ -1,3 +1,4 @@
+///////////////////////////////////////////////////////////////////
 //
 //  MainMenu.cpp
 //  wander
@@ -5,16 +6,27 @@
 //  Created by Jacob Oaks on 2/17/19.
 //  Copyright © 2019 Jacob Oaks. All rights reserved.
 //
+///////////////////////////////////////////////////////////////////
 
 #include "MainMenu.h"
 
-//add all GObjects
+///////////////////////////////////////////////////////////////////
+// adds all GObjects
+///////////////////////////////////////////////////////////////////
+
 void MainMenu::initGOS() {
-    bi.setScale(5.0f);
-    bi.addButton("res//buttons//exit.png", EXIT_ID, 0.5f, 0.5f, 1, this->w);
+    bi.setScale(2.5f);
+    bi.setCenteredPositions(true);
+    bi.addButton("res//font//button_n.png", "res//font//button_h.png", "res//font//button_n.png", NEW_GAME_ID, 0.5f, 0.4f, "New Game", this->w);
+    bi.addButton("res//font//button_n.png", "res//font//button_h.png", "res//font//button_n.png", LOAD_GAME_ID, 0.5f, bi.getNextYF(this->w), "Load Game", this->w);
+    bi.addButton("res//font//button_n.png", "res//font//button_h.png", "res//font//button_n.png", SETTINGS_ID, 0.5f, bi.getNextYF(this->w), "Settings", this->w);
+    bi.addButton("res//font//button_n.png", "res//font//button_h.png", "res//font//button_n.png", EXIT_ID, 0.5f, bi.getNextYF(this->w), "Exit", this->w);
 }
 
-//input phase
+///////////////////////////////////////////////////////////////////
+// input phase
+///////////////////////////////////////////////////////////////////
+
 void MainMenu::input() {
     sf::Event e;
     while (this->w->pollEvent(e)) {
@@ -22,7 +34,10 @@ void MainMenu::input() {
     }
 }
 
-//handle each individual event
+///////////////////////////////////////////////////////////////////
+// handle each individual event
+///////////////////////////////////////////////////////////////////
+
 void MainMenu::handleEvent(sf::Event e) {
     switch (e.type) {
             
@@ -31,15 +46,9 @@ void MainMenu::handleEvent(sf::Event e) {
             this->w->close();
             break;
             
-        //USER RELEASES A KEY
-        case sf::Event::KeyReleased:
-            if (e.key.code == gc::DEBUG_KEY)
-                this->showDebug = !this->showDebug;
-            break;
-            
         //USER INTERACTS WITH MOUSE
-        case sf::Event::MouseButtonPressed: //user presses mouse
-        case sf::Event::MouseButtonReleased: //user releases mouse
+        case sf::Event::MouseButtonPressed:
+        case sf::Event::MouseButtonReleased:
         case sf::Event::MouseMoved: //user moves mouse
             switch(this->bi.input(this->w, &e)) { //handle any mouse events relating to buttons
                 case EXIT_ID: //if exit was pressed
@@ -55,10 +64,19 @@ void MainMenu::handleEvent(sf::Event e) {
     }
 }
 
-//illustrate phase
+///////////////////////////////////////////////////////////////////
+// illustrate phase
+///////////////////////////////////////////////////////////////////
+
 void MainMenu::illustrate() {
     this->w->clear(gc::CLEAR_COLOR); //clear screen
+    
     this->bi.illustrate(this->w);
     if (this->showDebug) this->w->draw(*this->d); //draw debug if enabled
+    
     this->w->display(); //display new screen
 }
+
+///////////////////////////////////////////////////////////////////
+// EOF
+///////////////////////////////////////////////////////////////////

@@ -1,4 +1,4 @@
-
+///////////////////////////////////////////////////////////////////
 //
 //  main.cpp
 //  wander
@@ -6,8 +6,9 @@
 //  Created by Jacob Oaks on 2/10/19.
 //  Copyright © 2019 Jacob Oaks. All rights reserved.
 //
+///////////////////////////////////////////////////////////////////
 
-#include "bin/Engine.h"
+#include "src/Engine.h"
 
 //main function
 int main(int, char const**)
