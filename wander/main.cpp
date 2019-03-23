@@ -11,7 +11,7 @@
 #include "src/Engine.h"
 
 //main function
-int main(int, char const**)
+int main()
 {
 	Engine engine; //create engine
     int exitStatus = engine.run(); //run program

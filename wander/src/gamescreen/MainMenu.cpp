@@ -46,13 +46,29 @@ void MainMenu::handleEvent(sf::Event e) {
             this->w->close();
             break;
             
+        //USER RELEASES A KEY
+        case sf::Event::KeyReleased:
+            if (e.key.code == gc::DEBUG_KEY)
+                this->showDebug = !this->showDebug;
+            break;
+        
         //USER INTERACTS WITH MOUSE
-        case sf::Event::MouseButtonPressed:
-        case sf::Event::MouseButtonReleased:
+        case sf::Event::MouseButtonPressed: //user presses mouse
+        case sf::Event::MouseButtonReleased: //user releases mouse
         case sf::Event::MouseMoved: //user moves mouse
             switch(this->bi.input(this->w, &e)) { //handle any mouse events relating to buttons
+                case NEW_GAME_ID: //if new game was pressed
+                    this->rd.addC(Node("button pressed", "new game"));
+                    this->intentToReturn = true;
+                case LOAD_GAME_ID: //if load game was pressed
+                    this->rd.addC(Node("button pressed", "load game"));
+                    this->intentToReturn = true;
+                case SETTINGS_ID: //if settings was pressed
+                    this->rd.addC(Node("button pressed", "settings"));
+                    this->intentToReturn = true;
                 case EXIT_ID: //if exit was pressed
-                    this->w->close();
+                    this->rd.addC(Node("button pressed", "exit"));
+                    this->intentToReturn = true;
                 default:
                     break;
             }

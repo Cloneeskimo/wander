@@ -31,7 +31,7 @@
 namespace gc {
     
     //Build Properties
-    static const int A_BUILD = 51; //build number
+    static const int A_BUILD = 54; //build number
     static const std::string A_VERSION = "basic_dev"; //version number
     
     //Window Properties

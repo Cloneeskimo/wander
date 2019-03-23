@@ -25,8 +25,9 @@ int Engine::run() {
         
         //continue showing main menu as base screen until window closed
         MainMenu mm(&this->w, &this->d);
-        mm.enter();
-        
+        Node mmData = mm.enter();
+        std::string buttonPressed = mmData.getCwN("button pressed").getV();
+        if (buttonPressed == "exit") this->w.close();
     }
     
     //program over
@@ -54,7 +55,7 @@ void Engine::initWindow() {
 void Engine::initDebug() {
     
     //debug text init
-    this->f.loadFromFile("res//sansation.ttf"); //load font
+    this->f.loadFromFile("res//font//sansation.ttf"); //load font
     this->d.setFont(this->f); //set font
     this->d.setCharacterSize(24); //set text size
     this->d.setString("FPS"); //set text
