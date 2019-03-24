@@ -21,6 +21,13 @@ void MainMenu::initGOS() {
     bi.addButton("res//font//button_n.png", "res//font//button_h.png", "res//font//button_n.png", LOAD_GAME_ID, 0.5f, bi.getNextYF(this->w), "Load Game", this->w);
     bi.addButton("res//font//button_n.png", "res//font//button_h.png", "res//font//button_n.png", SETTINGS_ID, 0.5f, bi.getNextYF(this->w), "Settings", this->w);
     bi.addButton("res//font//button_n.png", "res//font//button_h.png", "res//font//button_n.png", EXIT_ID, 0.5f, bi.getNextYF(this->w), "Exit", this->w);
+    
+    std::vector<FrameRow> ghostFrs;
+    ghostFrs.push_back(FrameRow(2, 0.33f));
+    ghostFrs.push_back(FrameRow(16, 0.06f));
+    ghostFrs.push_back(FrameRow(12, 0.13f));
+    this->gos.push_back(new AnimGObject("res//ghost.png", ghostFrs, 100, 100));
+    this->gos.at(0)->scale(9.0, 9.0);
 }
 
 ///////////////////////////////////////////////////////////////////
@@ -50,7 +57,13 @@ void MainMenu::handleEvent(sf::Event e) {
         case sf::Event::KeyReleased:
             if (e.key.code == gc::DEBUG_KEY)
                 this->showDebug = !this->showDebug;
-            break;
+            else if (e.key.code == sf::Keyboard::T)
+                this->gos.at(0)->setFrameRow(1);
+            else if (e.key.code == sf::Keyboard::Y)
+                this->gos.at(0)->setFrameRow(2);
+            else if (e.key.code == sf::Keyboard::U)
+                this->gos.at(0)->setFrameRow(3);
+        break;
         
         //USER INTERACTS WITH MOUSE
         case sf::Event::MouseButtonPressed: //user presses mouse
@@ -89,6 +102,7 @@ void MainMenu::illustrate() {
     
     this->bi.illustrate(this->w);
     if (this->showDebug) this->w->draw(*this->d); //draw debug if enabled
+    this->gos.at(0)->illustrate(w);
     
     this->w->display(); //display new screen
 }
