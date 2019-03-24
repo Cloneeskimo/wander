@@ -23,11 +23,19 @@ int Engine::run() {
     //program loop
     while (this->w.isOpen()) { //when window is closed, exit status is returned
         
-        //continue showing main menu as base screen until window closed
+        //show main menu, get button pressed
         MainMenu mm(&this->w, &this->d);
         Node mmData = mm.enter();
         std::string buttonPressed = mmData.getCwN("button pressed").getV();
+        
+        //exit
         if (buttonPressed == "exit") this->w.close();
+        
+        //load game
+        if (buttonPressed == "load game") {
+            GameScreen gs(&this->w, &this->d);
+            Node gsData = gs.enter();
+        }
     }
     
     //program over

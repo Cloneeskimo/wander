@@ -36,6 +36,7 @@ public:
     std::string getN() { return this->name; } //get name
     std::vector<Node> getC() { return this->children; } //get all children
     Node getCwN(std::string name); //get specific child by name
+    bool getCwN(Node* node, std::string name); //get specific child by name
     int getCSize() { return this->children.size(); } //get size of children
     
     // Mutators

@@ -15,6 +15,7 @@
 #include <SFML/Window.hpp>
 #include <SFML/Graphics.hpp>
 #include "gamescreen/MainMenu.h"
+#include "gamescreen/GameScreen.h"
 #include "Global.h"
 #include "SaveManager.h"
 

@@ -49,6 +49,9 @@ void MainMenu::handleEvent(sf::Event e) {
                 case EXIT_ID: //if exit was pressed
                     this->rd.addC(Node("button pressed", "exit"));
                     this->intentToReturn = true;
+                case LOAD_GAME_ID: //if load game was pressed
+                    this->rd.addC(Node("button pressed", "load game"));
+                    this->intentToReturn = true;
                 default:
                     break;
             }
@@ -66,12 +69,9 @@ void MainMenu::handleEvent(sf::Event e) {
 
 void MainMenu::illustrate() {
     this->w->clear(gc::CLEAR_COLOR); //clear screen
-    
-    //World Drawing
     this->bi.illustrate(this->w); //buttons
     this->title.illustrate(this->w); //title
     if (this->showDebug) this->w->draw(*this->d); //draw debug if enabled
-    
     this->w->display(); //display new screen
 }
 

@@ -1,0 +1,75 @@
+Map: 
+{
+ map_name: test map
+ map_width: 15
+ map_height: 15
+ map_layout: 
+ {
+  row 0: 
+  {
+   layout: ****##*&&**&&**
+  }
+  row 1: 
+  {
+   layout: ***&     **  **
+  }
+  row 2: 
+  {
+   layout: *##         *&*
+  }
+  row 3: 
+  {
+   layout: **#*&&&*      *
+  }
+  row 4: 
+  {
+   layout: **###      *&**
+  }
+  row 5: 
+  {
+   layout: *         &&***
+  }
+  row 6: 
+  {
+   layout: *#*&        &**
+  }
+  row 7: 
+  {
+   layout: *#   *       &*
+  }
+  row 8: 
+  {
+   layout: **  *&&*  *&&**
+  }
+  row 9: 
+  {
+   layout: *#   &***    &*
+  }
+  row 10: 
+  {
+   layout: **          #**
+  }
+  row 11: 
+  {
+   layout: &&&#*        &*
+  }
+  row 12: 
+  {
+   layout: *   ##*      &*
+  }
+  row 13: 
+  {
+   layout: **##        &**
+  }
+  row 14: 
+  {
+   layout: ****##*&&&*****
+  }
+ }
+ map_chars: 
+ {
+  *: res//tile//caveWall//caveWall.png
+  #: res//tile//caveWall//caveWallPlant.png
+  &: res//tile//caveWall//caveWallVines.png
+ }
+}

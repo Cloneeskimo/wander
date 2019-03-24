@@ -40,10 +40,9 @@ public:
         this->w = w; //set window reference
         this->d = d; //set debug text reference
         
-        //setup world view
+        //setup view
         this->v.setCenter(this->w->getSize().x / 2, this->w->getSize().y / 2);
         this->v.setSize(this->w->getSize().x, this->w->getSize().y);
-        this->v.setViewport(sf::FloatRect(0.f, 0.f, 1.f, 1.f));
         this->w->setView(v);
     }
     

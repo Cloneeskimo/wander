@@ -8,7 +8,7 @@
 //
 ///////////////////////////////////////////////////////////////////
 
-//ERROR CODES USED: 0-4
+//ERROR CODES USED: 0-3
 
 #include "SaveManager.h"
 
@@ -56,6 +56,21 @@ Node Node::getCwN(std::string name) {
         if (node.getN() == name)
             return node;
     gf::error("SaveManager.cpp", "could not find a child node with name " + name, 4, true, gc::FAILURE_BY_DATA);
+}
+
+///////////////////////////////////////////////////////////////////
+// sets (@node) to a specific child with name (@name)
+// @returns false if not found
+///////////////////////////////////////////////////////////////////
+
+bool Node::getCwN(Node* node, std::string name) {
+    for (Node n : this->children) {
+        if (n.getN() == name) {
+            *node = n;
+            return true;
+        }
+    }
+    return false;
 }
 
 ///////////////////////////////////////////////////////////////////

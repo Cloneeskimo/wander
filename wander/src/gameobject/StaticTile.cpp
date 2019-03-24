@@ -1,0 +1,26 @@
+///////////////////////////////////////////////////////////////////
+//
+//  StaticTile.cpp
+//  wander
+//
+//  Created by Jacob Oaks on 3/24/19.
+//  Copyright © 2019 Jacob Oaks. All rights reserved.
+//
+///////////////////////////////////////////////////////////////////
+
+#include "StaticTile.h"
+
+///////////////////////////////////////////////////////////////////
+// Constructor
+// (@textureFileName) file directory for tile texture
+// (@startX) starting x IN TERMS OF TILES, NOT PIXELS
+// (@startY) starting y IN TERMS OF TILES, NOT PIXELs
+///////////////////////////////////////////////////////////////////
+
+StaticTile::StaticTile(std::string textureFileName, int startX, int startY) : GObject(textureFileName, startX * gc::TILE_SIZE * gc::TILE_TEXTURE_SCALE, startY * gc::TILE_SIZE * gc::TILE_TEXTURE_SCALE) {
+    this->scale(gc::TILE_TEXTURE_SCALE, gc::TILE_TEXTURE_SCALE);
+}
+
+///////////////////////////////////////////////////////////////////
+// EOF
+///////////////////////////////////////////////////////////////////
