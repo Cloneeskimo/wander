@@ -22,20 +22,7 @@
 ///////////////////////////////////////////////////////////////////
 
 AnimGObject::AnimGObject(std::string textureFileName, std::vector<FrameRow> frameRows, int startX, int startY) : GObject(textureFileName, startX, startY) {
-    
-    //Initialize Data
-    this->frameRows = frameRows; //set frame rows
-    this->currentFrameDelay = this->tBeforeNextFrame = this->frameRows.at(0).d; //set time and delay
-    this->currentFrameCount = this->frameRows.at(0).fC; //set current frame count
-    this->currentFrameRow = 0;
-    this->currentFrame = -1; //set current frame
-    int widestFrameCount = 1; //find widest frame count to calculate frame width
-    for (FrameRow fr : this-> frameRows) {
-        if (fr.fC > widestFrameCount) widestFrameCount = fr.fC;
-    }
-    this->frameWidth = this->texture.getSize().x / widestFrameCount; //set frame width
-    this->frameHeight = this->texture.getSize().y / this->frameRows.size(); //set frame height
-    this->cycleFrame(); //cycle first frame
+    this->initAnimation(textureFileName, frameRows);
 }
 
 ///////////////////////////////////////////////////////////////////
@@ -50,8 +37,8 @@ AnimGObject::AnimGObject(std::string textureFileName, std::vector<FrameRow> fram
 
 AnimGObject::AnimGObject(std::string textureFileName, int frameRows, int frameCount, float frameDelay, int startX, int startY) : GObject(textureFileName, startX, startY) {
     std::vector<FrameRow> frs;
-    for (int i = 0; i < frameRows; i++)
-        frs.push_back(FrameRow(frameCount, frameDelay));
+    for (int i = 0; i < frameRows; i++) frs.push_back(FrameRow(frameCount, frameDelay)); //create frame rows
+    this->initAnimation(textureFileName, frs);
 }
 
 ///////////////////////////////////////////////////////////////////
@@ -77,6 +64,28 @@ void AnimGObject::compute(float dT) {
     }
     this->tBeforeNextFrame -= dT; //count down until next cycle
 }
+
+///////////////////////////////////////////////////////////////////
+// initializes the animation variables for this AnimGObject
+// (@textureFileName) - file directory of spritesheet
+// (@frameRows) - data about the frame rows (see FrameRow struct)
+///////////////////////////////////////////////////////////////////
+
+void AnimGObject::initAnimation(std::string textureFileName, std::vector<FrameRow> frameRows) {
+    this->frameRows = frameRows; //set frame rows
+    this->currentFrameDelay = this->tBeforeNextFrame = this->frameRows.at(0).d; //set time and delay
+    this->currentFrameCount = this->frameRows.at(0).fC; //set current frame count
+    this->currentFrameRow = 0;
+    this->currentFrame = -1; //set current frame
+    int widestFrameCount = 1; //find widest frame count to calculate frame width
+    for (FrameRow fr : this-> frameRows) {
+        if (fr.fC > widestFrameCount) widestFrameCount = fr.fC;
+    }
+    this->frameWidth = this->texture.getSize().x / widestFrameCount; //set frame width
+    this->frameHeight = this->texture.getSize().y / this->frameRows.size(); //set frame height
+    this->cycleFrame(); //cycle first frame
+}
+
 
 ///////////////////////////////////////////////////////////////////
 // changes the currently selected frame row (animation setting)

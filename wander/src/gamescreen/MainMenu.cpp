@@ -32,39 +32,14 @@ void MainMenu::initGOS() {
 }
 
 ///////////////////////////////////////////////////////////////////
-// input phase
-///////////////////////////////////////////////////////////////////
-
-void MainMenu::input() {
-    sf::Event e;
-    while (this->w->pollEvent(e)) {
-        this->handleEvent(e);
-    }
-}
-
-///////////////////////////////////////////////////////////////////
 // handle each individual event
 ///////////////////////////////////////////////////////////////////
 
 void MainMenu::handleEvent(sf::Event e) {
+    GScreen::handleEvent(e); //call superclass method first
+    
+    //switch on event type
     switch (e.type) {
-            
-        //USER CLOSES WINDOW
-        case sf::Event::Closed:
-            this->w->close();
-            break;
-            
-        //USER RELEASES A KEY
-        case sf::Event::KeyReleased:
-            if (e.key.code == gc::DEBUG_KEY)
-                this->showDebug = !this->showDebug;
-            break;
-        
-        //USER RESIZES WINDOW
-        case sf::Event::Resized:
-            this->v.setSize(this->w->getSize().x, this->w->getSize().y);
-            this->w->setView(this->v);
-            break;
         
         //USER INTERACTS WITH MOUSE
         case sf::Event::MouseButtonPressed: //user presses mouse
@@ -92,6 +67,7 @@ void MainMenu::handleEvent(sf::Event e) {
 void MainMenu::illustrate() {
     this->w->clear(gc::CLEAR_COLOR); //clear screen
     
+    //World Drawing
     this->bi.illustrate(this->w); //buttons
     this->title.illustrate(this->w); //title
     if (this->showDebug) this->w->draw(*this->d); //draw debug if enabled

@@ -41,7 +41,6 @@ protected:
     
     // Protected Functions
     void initGOS(); //add all GObjects
-    void input(); //input phase
     void handleEvent(sf::Event e); //handle each individual event
     void illustrate(); //illustrate phase
 };

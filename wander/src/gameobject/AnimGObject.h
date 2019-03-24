@@ -80,6 +80,7 @@ private:
     bool paused = false; //whether the animation is paused or not
     
     // Private Functions
+    void initAnimation(std::string textureFileName, std::vector<FrameRow> frameRows);
     void cycleFrame(); //cycles to next frame
 };
 

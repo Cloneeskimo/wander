@@ -40,9 +40,10 @@ public:
         this->w = w; //set window reference
         this->d = d; //set debug text reference
         
-        //setup view
+        //setup world view
         this->v.setCenter(this->w->getSize().x / 2, this->w->getSize().y / 2);
         this->v.setSize(this->w->getSize().x, this->w->getSize().y);
+        this->v.setViewport(sf::FloatRect(0.f, 0.f, 1.f, 1.f));
         this->w->setView(v);
     }
     
@@ -89,27 +90,35 @@ protected:
     
     ///////////////////////////////////////////////////////////////////
     // phase 1 of screen loop - gather user input
-    // needs to be overriden to consider any input other than user attempting to close window
+    // should NOT be overriden - override handleEvent() instead
     ///////////////////////////////////////////////////////////////////
 
-    virtual void input() {
+    virtual void input() final {
         sf::Event e;
-        while (this->w->pollEvent(e)) {
-            switch (e.type) {
-                case sf::Event::Closed: //USER CLOSED WINDOW
-                    this->w->close();
-                    break;
-                case sf::Event::KeyReleased: //USER PRESSED DEBUG KEY
-                    if (e.key.code == gc::DEBUG_KEY)
-                        this->showDebug = !this->showDebug;
-                    break;
-                case sf::Event::Resized: //USER RESIZED WINDOW
-                    this->v.setSize(this->w->getSize().x, this->w->getSize().y);
-                    this->w->setView(this->v);
-                    break;
-                default:
-                    break;
-            }
+        while (this->w->pollEvent(e)) this->handleEvent(e);
+    }
+    
+    ///////////////////////////////////////////////////////////////////
+    // handles an individual event from phase 1 (input)
+    // when overriden, call this
+    ///////////////////////////////////////////////////////////////////
+
+    virtual void handleEvent(sf::Event e) {
+        switch (e.type) {
+            case sf::Event::Closed: //USER CLOSED WINDOW
+                this->w->close();
+                break;
+            case sf::Event::KeyReleased: //USER PRESSED DEBUG KEY
+                if (e.key.code == gc::DEBUG_KEY)
+                    this->showDebug = !this->showDebug;
+                break;
+            case sf::Event::Resized: //USER RESIZED WINDOW
+                this->v.setSize(this->w->getSize().x, this->w->getSize().y); //adapt view
+                this->w->setView(v);
+                this->updateUI();
+                break;
+            default:
+                break;
         }
     }
     
@@ -119,8 +128,7 @@ protected:
     ///////////////////////////////////////////////////////////////////
 
     virtual void compute() {
-        for (AnimGObject* o : this->gos) //compute objects
-            o->compute(this->c.getElapsedTime().asSeconds());
+        for (AnimGObject* o : this->gos) o->compute(this->c.getElapsedTime().asSeconds()); //compute for gos
         if (this->showDebug) this->d->setString("FPS: " + std::to_string(1 / this->c.getElapsedTime().asSeconds())); //update debug text if enabled
         this->c.restart(); //restart clock
     }
@@ -132,10 +140,19 @@ protected:
 
     virtual void illustrate() {
         this->w->clear(gc::CLEAR_COLOR); //clear screen
-        for (AnimGObject* o : this->gos) //illustrate objects
-            o->illustrate(this->w);
+        for (AnimGObject* o : this->gos) o->illustrate(this->w); //illustrate gos
         if (this->showDebug) this->w->draw(*this->d); //draw debug if enabled
         this->w->display(); //display new screen
+    }
+    
+    ///////////////////////////////////////////////////////////////////
+    // resets all UI elements to their rightful position
+    // needs to be overriden and called if more static UI elements are added
+    // should be called whenever view is modified (resized or moved)
+    ///////////////////////////////////////////////////////////////////
+
+    virtual void updateUI() {
+        this->d->setPosition(w->mapPixelToCoords(sf::Vector2i(0, 0))); //update debug text
     }
 };
 
