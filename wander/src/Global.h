@@ -18,10 +18,6 @@
 #include <ctime>
 #include <SFML/Window.hpp>
 #include <SFML/Graphics.hpp>
-#if defined(WIN32) || defined(_WIN32) || defined(__WIN32) && !defined(__CYGWIN__)
-#include <WinBase.h>
-#else
-#endif
 
 ///////////////////////////////////////////////////////////////////
 // GC Namepsace
@@ -31,7 +27,7 @@
 namespace gc {
     
     //Build Properties
-    static const int A_BUILD = 59; //build number
+    static const int A_BUILD = 60; //build number
     static const std::string A_VERSION = "basic_dev"; //version number
     
     //Window Properties

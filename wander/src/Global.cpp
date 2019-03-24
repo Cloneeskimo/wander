@@ -23,7 +23,8 @@ namespace gf {
     // creates a directory (@path) if it doesn't already exist
     ///////////////////////////////////////////////////////////////////
 
-    void ensureDir(std::string path) {        
+    void ensureDir(std::string path) {
+        
         std::string cmd = "mkdir " + path;
         system(cmd.c_str()); //TODO: update with a better, sytem-dependant solution
     }

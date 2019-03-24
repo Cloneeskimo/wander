@@ -15,7 +15,7 @@
 ///////////////////////////////////////////////////////////////////
 
 void MainMenu::initGOS() {
-    
+
     //Format Title
     this->title.setFontScale(10.0f); //scale
     this->title.setX((float)this->w->getSize().x / 2 - (this->title.getW() / 2)); //x
@@ -58,7 +58,13 @@ void MainMenu::handleEvent(sf::Event e) {
         case sf::Event::KeyReleased:
             if (e.key.code == gc::DEBUG_KEY)
                 this->showDebug = !this->showDebug;
-        break;
+            break;
+        
+        //USER RESIZES WINDOW
+        case sf::Event::Resized:
+            this->v.setSize(this->w->getSize().x, this->w->getSize().y);
+            this->w->setView(this->v);
+            break;
         
         //USER INTERACTS WITH MOUSE
         case sf::Event::MouseButtonPressed: //user presses mouse

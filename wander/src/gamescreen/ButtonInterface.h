@@ -79,7 +79,7 @@ private:
     float scale = 1.0f; //represents how much the buttons will be scaled in size when added
     
     // Private Functions
-    int mouseHover(int mouseX, int mouseY);
+    int mouseHover(float mouseX, float mouseY);
     void ensureButtonState(int i, int state);
 
 };

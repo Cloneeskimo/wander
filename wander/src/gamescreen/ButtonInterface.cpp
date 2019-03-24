@@ -62,8 +62,9 @@ void ButtonInterface::addButton(std::string fsN, std::string fsH, std::string fs
 int ButtonInterface::input(sf::RenderWindow* w, sf::Event* e)
 {
     //get mouse pos and button being hovered
-    sf::Vector2i mousePos = sf::Mouse::getPosition(*w); //get mouse position
-    int bI = this->mouseHover(mousePos.x, mousePos.y); //see if mouse is over any buttons
+    sf::Vector2i mousePosP = sf::Mouse::getPosition(*w); //get mouse position in pixel
+    sf::Vector2f mousePosW = w->mapPixelToCoords(mousePosP); //convert mouse position to world
+    int bI = this->mouseHover(mousePosW.x, mousePosW.y); //see if mouse is over any buttons
     
     //MOUSE MOVED
     if (e->type == sf::Event::MouseMoved) {
@@ -174,7 +175,7 @@ float ButtonInterface::getNextYF(sf::RenderWindow* w, int space, bool below) {
 // (@mouseY) - y position of the mouse
 ///////////////////////////////////////////////////////////////////
 
-int ButtonInterface::mouseHover(int mouseX, int mouseY) {
+int ButtonInterface::mouseHover(float mouseX, float mouseY) {
     for (int i = 0; i < this->bs.size(); i ++) {
         if (this->bs.at(i)->getRect().contains(mouseX, mouseY)) //if mouse is within rect
             return i; //return said button index

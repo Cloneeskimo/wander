@@ -35,8 +35,15 @@ public:
     ///////////////////////////////////////////////////////////////////
 
     GScreen(sf::RenderWindow* w, sf::Text* d) {
+        
+        //set references
         this->w = w; //set window reference
         this->d = d; //set debug text reference
+        
+        //setup view
+        this->v.setCenter(this->w->getSize().x / 2, this->w->getSize().y / 2);
+        this->v.setSize(this->w->getSize().x, this->w->getSize().y);
+        this->w->setView(v);
     }
     
     ///////////////////////////////////////////////////////////////////
@@ -60,6 +67,7 @@ protected:
     sf::RenderWindow* w; //reference to the program's window
     sf::Text* d; //text which displays debug info
     sf::Clock c; //clock used for timekeeping purposes
+    sf::View v; //view
     
     // Other Protected Data
     std::vector<AnimGObject*> gos; //vector of screen's game objects
@@ -87,10 +95,21 @@ protected:
     virtual void input() {
         sf::Event e;
         while (this->w->pollEvent(e)) {
-            if (e.type == sf::Event::Closed) //close window if user closes it
-                this->w->close();
-            if (e.type == sf::Event::KeyReleased && e.key.code == gc::DEBUG_KEY)
-                this->showDebug = !this->showDebug;
+            switch (e.type) {
+                case sf::Event::Closed: //USER CLOSED WINDOW
+                    this->w->close();
+                    break;
+                case sf::Event::KeyReleased: //USER PRESSED DEBUG KEY
+                    if (e.key.code == gc::DEBUG_KEY)
+                        this->showDebug = !this->showDebug;
+                    break;
+                case sf::Event::Resized: //USER RESIZED WINDOW
+                    this->v.setSize(this->w->getSize().x, this->w->getSize().y);
+                    this->w->setView(this->v);
+                    break;
+                default:
+                    break;
+            }
         }
     }
     
