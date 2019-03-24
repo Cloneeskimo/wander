@@ -73,7 +73,6 @@ int ButtonInterface::input(sf::RenderWindow* w, sf::Event* e)
                     this->bds.at(bI)->state = 2; //set to highlighted texture
                     this->bs.at(bI)->setFont(this->bds.at(bI)->fsH);
                 }
-            
             } else ensureButtonState(i, 1); //set to unhighlighted texture
         }
     }
@@ -85,10 +84,12 @@ int ButtonInterface::input(sf::RenderWindow* w, sf::Event* e)
     //MOUSE RELEASED
     if (e->type == sf::Event::MouseButtonReleased) {
         if (bI > -1) {
-            if (this->bds.at(bI)->state == 3) //if this button was the one clicked
+            if (this->bds.at(bI)->state == 3) { //if this button was the one clicked
+                ensureButtonState(bI, 2);
+                this->bds.at(bI)->state = 2; //set to second state
+                this->bs.at(bI)->setFont(this->bds.at(bI)->fsH); //set to highlighted frame row
                 return this->IDs.at(bI); //return that the user selected it
-            this->bds.at(bI)->state = 2; //set to highlighted frame row
-            this->bs.at(bI)->setFont(this->bds.at(bI)->fsN);
+            }
         }
     }
     
