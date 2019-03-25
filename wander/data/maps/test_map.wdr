@@ -5,19 +5,19 @@ map:
  {
   row 0: 
   {
-   layout: ggggggggggggggg
+   layout:    gggggggg
   }
   row 1: 
   {
-   layout: ggggggggggggggg
+   layout:  gggggggggggggg
   }
   row 2: 
   {
-   layout: ggggggggggggggg
+   layout:  gggggggggggggg
   }
   row 3: 
   {
-   layout: ggggggggggggggg
+   layout:   ggggggggggggg
   }
   row 4: 
   {
@@ -37,7 +37,7 @@ map:
   }
   row 8: 
   {
-   layout: ggggggggggggggg
+   layout: gggggggggggggg
   }
   row 9: 
   {
@@ -61,26 +61,26 @@ map:
   }
   row 14: 
   {
-   layout: ggggggggggggggg
+   layout:   gggggggggggg
   }
  }
  wall_layout:
  {
   row 0: 
   {
-   layout: ***************
+   layout:    ********
   }
   row 1: 
   {
-   layout: ****     **  **
+   layout:  ***     ******
   }
   row 2: 
   {
-   layout: ***         ***
+   layout:  **         ***
   }
   row 3: 
   {
-   layout: ********      *
+   layout:  *******      *
   }
   row 4: 
   {
@@ -100,7 +100,7 @@ map:
   }
   row 8: 
   {
-   layout: **  ****  *****
+   layout: **  ****  ****
   }
   row 9: 
   {
@@ -116,7 +116,7 @@ map:
   }
   row 12: 
   {
-   layout: *   ***      **
+   layout: *            **
   }
   row 13: 
   {
@@ -124,12 +124,12 @@ map:
   }
   row 14: 
   {
-   layout: ***************
+   layout:   ************
   }
  }
  map_chars: 
  {
-  *: res//tile//caveWall//caveWall.png, res//tile//caveWall//caveWallPlant.png, res//tile//caveWall//caveWallVines.png
+  *: res//tile//caveWall//caveWall.png
   g: res//tile//dirtBack//dirt1.png, res//tile//dirtBack//dirt2.png, res//tile//dirtBack//dirt3.png, res//tile//dirtBack//dirt4.png, res//tile//dirtBack//dirt5.png, res//tile//dirtBack//dirt6.png, res//tile//dirtBack//dirt7.png, res//tile//dirtBack//dirt8.png, res//tile//dirtBack//dirt9.png
  }
 }

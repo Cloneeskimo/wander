@@ -34,14 +34,8 @@ Map::Map(std::string name, std::string layoutFile, sf::RenderWindow* w) {
     std::vector<CharTextureCombo> ctcs;
     loadCTCs(&ctcs, mn.getCwN("map_chars")); //load CTCs
     
-    for (CharTextureCombo ctc : ctcs) {
-        std::cout << ctc.character << ": " << std::endl;
-        for (std::string s : ctc.possibleTiles)
-            std::cout << "    " << s << "," << std::endl;
-    }
-    
-    this->loadBackground(mn.getCwN("background_layout"), &ctcs); //load background
-    this->loadWall(mn.getCwN("wall_layout"), &ctcs); //load wall
+    this->loadStaticLayer(mn.getCwN("background_layout"), &ctcs, &(this->background)); //load background
+    this->loadStaticLayer(mn.getCwN("wall_layout"), &ctcs, &(this->wall)); //load background
 }
 
 ///////////////////////////////////////////////////////////////////
@@ -103,13 +97,14 @@ void Map::loadCTCs(std::vector<CharTextureCombo>* ctcs, Node n) {
 }
 
 ///////////////////////////////////////////////////////////////////
-// Loads the background layer of tiles from node (@n) using (@ctcs)
+// Loads a StaticTile layer of tiles from node (@n) using (@ctcs)
+// and places it at (@layer)
 ///////////////////////////////////////////////////////////////////
 
-void Map::loadBackground(Node n, std::vector<CharTextureCombo>* ctcs) {
+void Map::loadStaticLayer(Node n, std::vector<CharTextureCombo>* ctcs, std::vector<std::vector<StaticTile*>>* layer) {
     Node rowNode("");
     for (int y = 0; n.getCwN(&rowNode, "row " + std::to_string(y)); y++) { //loop through each row
-        this->background.push_back(std::vector<StaticTile*>()); //add empty row
+        layer->push_back(std::vector<StaticTile*>()); //add empty row
         std::string row = rowNode.getCwN("layout").getV(); //get row
         for (int x = 0; x < row.length(); x++) { //go through row
             bool charRepFound = false;
@@ -117,32 +112,9 @@ void Map::loadBackground(Node n, std::vector<CharTextureCombo>* ctcs) {
                 if (ctc.character == row[x]) { //if found
                     charRepFound = true; //flag as found
                     int no = rand() % ctc.possibleTiles.size();
-                    this->background.at(y).push_back(new StaticTile(ctc.possibleTiles[no], x, y)); //add tile
+                    layer->at(y).push_back(new StaticTile(ctc.possibleTiles[no], x, y)); //add tile
                 }
-                if (!charRepFound) this->background.at(y).push_back(nullptr); //add empty tile
-            }
-        }
-    }
-}
-
-///////////////////////////////////////////////////////////////////
-// Loads the wall layer of tiles from node (@n) using (@ctcs)
-///////////////////////////////////////////////////////////////////
-
-void Map::loadWall(Node n, std::vector<CharTextureCombo>* ctcs) {
-    Node rowNode("");
-    for (int y = 0; n.getCwN(&rowNode, "row " + std::to_string(y)); y++) { //loop through each row
-        this->wall.push_back(std::vector<StaticTile*>()); //add empty row
-        std::string row = rowNode.getCwN("layout").getV(); //get row
-        for (int x = 0; x < row.length(); x++) { //go through row
-            bool charRepFound = false;
-            for (CharTextureCombo ctc : *ctcs) { //search for character representation
-                if (ctc.character == row[x]) { //if found
-                    charRepFound = true; //flag as found
-                    int no = rand() % ctc.possibleTiles.size();
-                    this->wall.at(y).push_back(new StaticTile(ctc.possibleTiles[no], x, y)); //add tile
-                }
-                if (!charRepFound) this->wall.at(y).push_back(nullptr); //add empty tile
+                if (!charRepFound) layer->at(y).push_back(nullptr); //add empty tile
             }
         }
     }

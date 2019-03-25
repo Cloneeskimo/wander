@@ -65,12 +65,11 @@ private:
     // Map Layers
     std::vector<std::vector<StaticTile*>> background; //mapping of background
     std::vector<std::vector<StaticTile*>> wall; //mapping of walls
-    
+
+
     // Map Loading Methods
     void loadCTCs(std::vector<CharTextureCombo>* ctcs, Node n); //loads CTCs
-    void loadBackground(Node n, std::vector<CharTextureCombo>* ctcs); //loads background layer of tiles
-    void loadWall(Node n, std::vector<CharTextureCombo>* ctcs); //loads background layer of walls
-    
+    void loadStaticLayer(Node n, std::vector<CharTextureCombo>* ctcs, std::vector<std::vector<StaticTile*>>* layer); //loads a static layer of tiles
 };
 
 #endif
