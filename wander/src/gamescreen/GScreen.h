@@ -40,10 +40,14 @@ public:
         this->w = w; //set window reference
         this->d = d; //set debug text reference
         
-        //setup view
-        this->v.setCenter(this->w->getSize().x / 2, this->w->getSize().y / 2);
-        this->v.setSize(this->w->getSize().x, this->w->getSize().y);
-        this->w->setView(v);
+        //setup world view
+        this->worldV.setCenter(this->w->getSize().x / 2, this->w->getSize().y / 2);
+        this->worldV.setSize(this->w->getSize().x, this->w->getSize().y);
+        this->w->setView(worldV);
+        
+        //setup ui view
+        this->uiV.setCenter(this->w->getSize().x / 2, this->w->getSize().y / 2);
+        this->uiV.setSize(this->w->sf::Window::getSize().x, this->w->getSize().y);
     }
     
     ///////////////////////////////////////////////////////////////////
@@ -67,7 +71,8 @@ protected:
     sf::RenderWindow* w; //reference to the program's window
     sf::Text* d; //text which displays debug info
     sf::Clock c; //clock used for timekeeping purposes
-    sf::View v; //view
+    sf::View worldV; //world view
+    sf::View uiV; //UI view
     
     // Other Protected Data
     std::vector<AnimGObject*> gos; //vector of screen's game objects
@@ -112,8 +117,9 @@ protected:
                     this->showDebug = !this->showDebug;
                 break;
             case sf::Event::Resized: //USER RESIZED WINDOW
-                this->v.setSize(this->w->getSize().x, this->w->getSize().y); //adapt view
-                this->w->setView(v);
+                this->worldV.setSize(this->w->getSize().x, this->w->getSize().y); //adapt world view
+                this->uiV.setCenter(this->w->getSize().x / 2, this->w->getSize().y / 2); //adapt ui view pos
+                this->uiV.setSize(this->w->getSize().x, this->w->getSize().y); //adapt ui view size
                 this->updateUI();
                 break;
             default:
@@ -138,21 +144,29 @@ protected:
     ///////////////////////////////////////////////////////////////////
 
     virtual void illustrate() {
-        this->w->clear(gc::CLEAR_COLOR); //clear screen
+        
+        //clear screen
+        this->w->clear(gc::CLEAR_COLOR); //clear
+        
+        //draw world
         for (AnimGObject* o : this->gos) o->illustrate(this->w); //illustrate gos
-        if (this->showDebug) this->w->draw(*this->d); //draw debug if enabled
+        
+        //draw UI
+        this->w->setView(uiV); //set to ui view
+        if (this->showDebug) this->w->draw(*this->d); //draw debug
+        
+        //display
+        this->w->setView(worldV); //set back to world view
         this->w->display(); //display new screen
     }
     
     ///////////////////////////////////////////////////////////////////
     // resets all UI elements to their rightful position
     // needs to be overriden and called if more static UI elements are added
-    // should be called whenever view is modified (resized or moved)
+    // should be called whenever window is modified (resized or moved)
     ///////////////////////////////////////////////////////////////////
 
-    virtual void updateUI() {
-        this->d->setPosition(w->mapPixelToCoords(sf::Vector2i(0, 0))); //update debug text
-    }
+    virtual void updateUI() {}
 };
 
 #endif

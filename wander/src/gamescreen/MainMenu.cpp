@@ -68,10 +68,20 @@ void MainMenu::handleEvent(sf::Event e) {
 ///////////////////////////////////////////////////////////////////
 
 void MainMenu::illustrate() {
-    this->w->clear(gc::CLEAR_COLOR); //clear screen
+    
+    //clear screen
+    this->w->clear(gc::CLEAR_COLOR); //clear
+    
+    //draw world
     this->bi.illustrate(this->w); //buttons
     this->title.illustrate(this->w); //title
-    if (this->showDebug) this->w->draw(*this->d); //draw debug if enabled
+    
+    //draw UI
+    this->w->setView(this->uiV); //set to UI view
+    if (this->showDebug) this->w->draw(*this->d); //draw debug
+    
+    //display
+    this->w->setView(this->worldV); //set back to world view
     this->w->display(); //display new screen
 }
 

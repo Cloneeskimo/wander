@@ -31,7 +31,7 @@ namespace gc {
     static const std::string A_VERSION = "basic_dev"; //version number
     
     //Window Properties
-    static const int W_FRAMERATE_LIMIT = 61; //limits framerate
+    static const int W_FRAMERATE_LIMIT = 60; //limits framerate
     static const std::string W_TITLE = "Wander v" + A_VERSION + " b" + std::to_string(A_BUILD); //defines title for window
     static const sf::Keyboard::Key DEBUG_KEY = sf::Keyboard::D;
     static const sf::Color CLEAR_COLOR = sf::Color::White;

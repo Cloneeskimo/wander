@@ -25,9 +25,19 @@ GameScreen::GameScreen(sf::RenderWindow* w, sf::Text* d) : GScreen(w, d) {
 ///////////////////////////////////////////////////////////////////
 
 void GameScreen::illustrate() {
-    this->w->clear(sf::Color::Black); //clear screen
-    this->currentMap.illustrate();
-    if (this->showDebug) this->w->draw(*this->d); //draw debug if enabled
+    
+    //clear screen
+    this->w->clear(gc::CLEAR_COLOR);
+    
+    //draw world
+    this->currentMap.illustrate(); //illustrate the map
+    
+    //draw UI
+    this->w->setView(this->uiV); //set to ui view
+    if (this->showDebug) this->w->draw(*this->d); //draw debug
+    
+    //display
+    this->w->setView(this->worldV); //reset to world view
     this->w->display(); //display new screen
 }
 
