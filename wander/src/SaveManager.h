@@ -30,14 +30,15 @@ public:
     Node (std::string name, std::string value, Node child); //single child
     Node (std::string name, std::string value); //no children
     Node (std::string name) { this->name = name; } //no children or value
+    Node () { this->name = "UNNAMED"; } //no children, value, or name
     
     // Accessors
     std::string getV() { return this->value; } //get value
     std::string getN() { return this->name; } //get name
     std::vector<Node> getC() { return this->children; } //get all children
     Node getCwN(std::string name); //get specific child by name
-    bool getCwN(Node* node, std::string name); //get specific child by name
-    int getCSize() { return this->children.size(); } //get size of children
+    bool getCwN(Node* node, std::string name); //get specific child by name, return existence
+    int getCSize() { return (int)this->children.size(); } //get size of children
     
     // Mutators
     void setV(std::string newV) { this->value = newV; } //set value
@@ -63,7 +64,7 @@ class SaveManager {
 public:
     
     // Master Node Saving/Loading
-    static bool saveMasterNode(std::string path, Node* node); //save node to file
+    static void saveMasterNode(std::string path, Node* node); //save node to file
     static Node loadMasterNode(std::string path); //load node from file
     
 private:

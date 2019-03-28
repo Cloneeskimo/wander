@@ -22,5 +22,43 @@ StaticTile::StaticTile(std::string textureFileName, int startX, int startY) : GO
 }
 
 ///////////////////////////////////////////////////////////////////
+//
+///////////////////////////////////////////////////////////////////
+
+void StaticTile::modularize(char modularization) {
+    
+    //Pre-Calculations
+    oto::checkOpaqueTile(); //make sure opaque tile is initialized
+    
+    //LEFT
+    if ((modularization & oto::LEFT) == 0) { //left
+        this->texture.update(oto::opaqueColumn);
+        if ((modularization & oto::TOP) == 0) //top-left corner
+            this->texture.update(oto::opaqueCorner);
+    }
+    
+    //RIGHT
+    if ((modularization & oto::RIGHT) == 0) { //right
+        this->texture.update(oto::opaqueColumn, oto::getModOffsetConstant(), 0);
+        if ((modularization & oto::BOTTOM) == 0) //bottom-right corner
+            this->texture.update(oto::opaqueCorner, oto::getModCornerOffsetConstant(), oto::getModCornerOffsetConstant());
+    }
+    
+    //TOP
+    if ((modularization & oto::TOP) == 0) { //top
+        this->texture.update(oto::opaqueRow);
+        if((modularization & oto::RIGHT) == 0) //top-right corner
+            this->texture.update(oto::opaqueCorner, oto::getModCornerOffsetConstant(), 0);
+    }
+
+    //BOTTOM
+    if ((modularization & oto::BOTTOM) == 0) { //bottom
+        this->texture.update(oto::opaqueRow, 0, oto::getModOffsetConstant());
+        if ((modularization & oto::LEFT) == 0) //bottom-left corner
+            this->texture.update(oto::opaqueCorner, 0, oto::getModCornerOffsetConstant());
+    }
+}
+
+///////////////////////////////////////////////////////////////////
 // EOF
 ///////////////////////////////////////////////////////////////////

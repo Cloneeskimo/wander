@@ -83,6 +83,36 @@ namespace gf {
         if (fatal) terminate(exitStatus);
     }
 }
+    
+///////////////////////////////////////////////////////////////////
+//
+///////////////////////////////////////////////////////////////////
+
+void oto::checkOpaqueTile() {
+    
+    //Create Opaque Pixel Array
+    if (oto::opaqueTile == nullptr) {
+        oto::opaqueTile = new sf::Uint8[gc::TILE_SIZE * gc::TILE_SIZE * 4];
+        for(int y = 0; y < gc::TILE_SIZE; y++) {
+            for(int x = 0; x < gc::TILE_SIZE; x++) {
+                oto::opaqueTile[4*(x * gc::TILE_SIZE +y)]   = 0;    // R
+                oto::opaqueTile[4*(x * gc::TILE_SIZE +y)+1] = 100;  // G
+                oto::opaqueTile[4*(x * gc::TILE_SIZE +y)+2] = 0;    // B
+                oto::opaqueTile[4*(x * gc::TILE_SIZE +y)+3] = 0;  // A
+            }
+        }
+        
+        //Calculate Constants
+        int dividedConstant = gc::TILE_SIZE / gc::TILE_MODULARIZATION_DIVISOR;
+        oto::modOffsetConstant = gc::TILE_SIZE - dividedConstant;
+        oto::modCornerOffsetConstant = oto::modOffsetConstant - dividedConstant;
+        
+        //Create Opaque Images
+        oto::opaqueColumn.create(dividedConstant, gc::TILE_SIZE, oto::opaqueTile);
+        oto::opaqueRow.create(gc::TILE_SIZE, dividedConstant, oto::opaqueTile);
+        oto::opaqueCorner.create(2 * dividedConstant, 2 * dividedConstant, oto::opaqueTile);
+    }
+}
 
 ///////////////////////////////////////////////////////////////////
 // EOF

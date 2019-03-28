@@ -31,9 +31,12 @@ public:
     int getMapX() { return this->getX() * gc::TILE_SIZE; }
     int getMapY() { return this->getY() * gc::TILE_SIZE; }
     
+    // Mutators
+    void modularize(char modularization);
+    
 private:
     
-    
+
     
 };
 

@@ -28,7 +28,7 @@ void ButtonInterface::addButton(std::string fsN, std::string fsH, std::string fs
     this->bs.push_back(new GText(fsN, text, x, y)); //add button
     this->bds.push_back(new ButtonData(fsN, fsH, fsC)); //add button fonts
     this->IDs.push_back(ID); //add ID
-    int i = this->bs.size() - 1; //get handle on button vector size
+    int i = (int)this->bs.size() - 1; //get handle on button vector size
     this->bs.at(i)->setFontScale(this->scale); //set font scale
     if (this->centeredPositions) {
         int adjX = this->bs.at(i)->getX() - (this->bs.at(i)->getW() / 2); //adjust x

@@ -77,7 +77,7 @@ bool Node::getCwN(Node* node, std::string name) {
 // save a master data node (@node) to a file with path (@path)
 ///////////////////////////////////////////////////////////////////
 
-bool SaveManager::saveMasterNode(std::string path, Node* node) {
+void SaveManager::saveMasterNode(std::string path, Node* node) {
     std::ofstream write;
     write.open(path); //try to open file
     if (write.fail()) gf::error("SaveManager.cpp", "error opening file '" + path + "' to save to", 0, true, gc::FAILURE_BY_FILEIO);
@@ -123,7 +123,7 @@ void SaveManager::saveNode(std::ofstream* write, Node* node, std::string indent)
     if (node->getCSize() > 0) { //if node has children
         *write << indent << "{" << std::endl;
         for (Node c : node->getC()) //save all children
-            saveNode(write, &c, indent + " ");
+            saveNode(write, &c, indent + std::string(1, gc::NODE_FILE_INDENT_CHARACTER));
         *write << indent <<  "}" << std::endl;
     }
 }

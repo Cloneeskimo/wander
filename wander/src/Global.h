@@ -27,7 +27,7 @@
 namespace gc {
     
     //Build Properties
-    static const int A_BUILD = 77; //build number
+    static const int A_BUILD = 83; //build number
     static const std::string A_VERSION = "basic_dev"; //version number
     
     //Window Properties
@@ -39,9 +39,15 @@ namespace gc {
     //GameObject Properties
     static const int GO_DEFAULT_X = 0; //default starting x for GameObjects
     static const int GO_DEFAULT_Y = 0; //default starting y for GameObjects
+    
+    //Tile Properties
     static const int TILE_SIZE = 32; //size for tiles
     static const float TILE_TEXTURE_SCALE = 3.0f; //scale for tiles
     static const float GO_DEFAULT_FRAME_DELAY = 0.2f; //default delay between frames in an AnimatableGameObject
+    static const int TILE_MODULARIZATION_DIVISOR = 7; //the portion of a tile's edge to cut off in modularization
+    
+    //Other Properties
+    static const char NODE_FILE_INDENT_CHARACTER = '\t';
     
     //Exit Codes
     static const int SUCCESS = 1;
@@ -62,6 +68,35 @@ namespace gf {
     void terminate(int exitStatus);
     void error(std::string originFile, std::string message, int code, int exitStatus = gc::SUCCESS, bool fatal = false);
 }
+
+struct oto {
+    
+    // Modularization Bytes
+    static const unsigned char TOP_LEFT = 128;
+    static const unsigned char TOP = 64;
+    static const unsigned char TOP_RIGHT = 32;
+    static const unsigned char RIGHT = 16;
+    static const unsigned char BOTTOM_RIGHT = 8;
+    static const unsigned char BOTTOM = 4;
+    static const unsigned char BOTTOM_LEFT = 2;
+    static const unsigned char LEFT = 1;
+    
+    // Data
+    static inline sf::Uint8* opaqueTile; //array of opaque pixels for modularization
+    static inline sf::Image opaqueColumn; //opaque column used for modularization
+    static inline sf::Image opaqueRow; //opaque row used for modularization
+    static inline sf::Image opaqueCorner; //opaque corner used for modularization
+
+    // Functions
+    static void checkOpaqueTile();
+    static int getModOffsetConstant() { return oto::modOffsetConstant; }
+    static int getModCornerOffsetConstant() { return oto::modCornerOffsetConstant; }
+    
+private:
+    
+    static inline int modOffsetConstant = 0;
+    static inline int modCornerOffsetConstant = 0;
+};
 
 #endif
 

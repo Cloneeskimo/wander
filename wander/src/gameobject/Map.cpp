@@ -8,6 +8,8 @@
 //
 ///////////////////////////////////////////////////////////////////
 
+//ERROR CODES USED: 0
+
 #include "Map.h"
 
 ///////////////////////////////////////////////////////////////////
@@ -21,7 +23,7 @@
 Map::Map(std::string name, std::string layoutFile, sf::RenderWindow* w) {
     
     //random number generation
-    srand(time(NULL)); //initialize random generation with time as seed
+    srand((unsigned int)time(NULL)); //initialize random generation with time as seed
     
     //set name and window reference
     this->name = name;
@@ -34,8 +36,11 @@ Map::Map(std::string name, std::string layoutFile, sf::RenderWindow* w) {
     std::vector<CharTextureCombo> ctcs;
     loadCTCs(&ctcs, mn.getCwN("map_chars")); //load CTCs
     
+    //load static layers
     this->loadStaticLayer(mn.getCwN("background_layout"), &ctcs, &(this->background)); //load background
-    this->loadStaticLayer(mn.getCwN("wall_layout"), &ctcs, &(this->wall)); //load background
+    this->loadStaticLayer(mn.getCwN("wall_layout"), &ctcs, &(this->wall)); //load walls
+    this->modularizeLayer(&(this->wall));
+    this->modularizeLayer(&(this->background));
 }
 
 ///////////////////////////////////////////////////////////////////
@@ -108,13 +113,57 @@ void Map::loadStaticLayer(Node n, std::vector<CharTextureCombo>* ctcs, std::vect
         std::string row = rowNode.getCwN("layout").getV(); //get row
         for (int x = 0; x < row.length(); x++) { //go through row
             bool charRepFound = false;
-            for (CharTextureCombo ctc : *ctcs) { //search for character representation
-                if (ctc.character == row[x]) { //if found
+            for (int i = 0; i < ctcs->size() && !charRepFound; i++) { //search for character representation
+                if (ctcs->at(i).character == row[x]) { //if found
                     charRepFound = true; //flag as found
-                    int no = rand() % ctc.possibleTiles.size();
-                    layer->at(y).push_back(new StaticTile(ctc.possibleTiles[no], x, y)); //add tile
+                    int no = rand() % ctcs->at(i).possibleTiles.size();
+                    layer->at(y).push_back(new StaticTile(ctcs->at(i).possibleTiles[no], x, y)); //add tile
                 }
-                if (!charRepFound) layer->at(y).push_back(nullptr); //add empty tile
+            }
+            if (!charRepFound) layer->at(y).push_back(nullptr); //add empty tile
+        }
+    }
+}
+
+///////////////////////////////////////////////////////////////////
+// takes a given layer (@layer) and modularizes it - that is,
+// it makes the corners and edges look better
+///////////////////////////////////////////////////////////////////
+
+void Map::modularizeLayer(std::vector<std::vector<StaticTile*>>* layer) {
+    
+    for (int y = 0; y < layer->size(); y++) { //go through each row
+        for (int x = 0; x < layer->at(y).size(); x++) { //and then through each tile in that row
+            if (layer->at(y).at(x) != nullptr) { //check if tile is actually there
+            
+                //variables
+                char modularization = 0; //contains whether the
+                char null = 0;
+                
+                //check if on edge
+                if (x == 0) null = null | oto::LEFT;
+                if (x == layer->at(y).size() - 1)  null = null | oto::RIGHT;
+                if (y == 0) null = null | oto::TOP;
+                if (y == layer->size() - 1) null |= oto::BOTTOM;
+                
+                //check for other tile in all directions
+                if ((null & oto::LEFT) == 0)
+                    if (layer->at(y).at(x-1) != nullptr)
+                        modularization = modularization | oto::LEFT; //check to left
+                if ((null & oto::RIGHT) == 0)
+                    if (layer->at(y).at(x+1) != nullptr)
+                        modularization = modularization | oto::RIGHT; //check to right
+                if ((null & oto::TOP) == 0)
+                    if (layer->at(y-1).size() > x)
+                        if (layer->at(y-1).at(x) != nullptr)
+                            modularization = modularization | oto::TOP; //check above
+                if ((null & oto::BOTTOM) == 0)
+                    if (layer->at(y+1).size() > x)
+                        if (layer->at(y+1).at(x) != nullptr)
+                            modularization = modularization | oto::BOTTOM; //check below
+                
+                //if this tile is not completely surrounded, modularize it
+                if (modularization != 0) layer->at(y).at(x)->modularize(modularization);
             }
         }
     }

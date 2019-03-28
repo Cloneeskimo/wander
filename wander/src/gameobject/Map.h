@@ -19,6 +19,7 @@
 #include <stdlib.h>
 #include <time.h>
 #include <SFML/Graphics.hpp>
+#include "Global.h"
 #include "StaticTile.h"
 #include "SaveManager.h"
 
@@ -70,6 +71,7 @@ private:
     // Map Loading Methods
     void loadCTCs(std::vector<CharTextureCombo>* ctcs, Node n); //loads CTCs
     void loadStaticLayer(Node n, std::vector<CharTextureCombo>* ctcs, std::vector<std::vector<StaticTile*>>* layer); //loads a static layer of tiles
+    void modularizeLayer(std::vector<std::vector<StaticTile*>>* layer); //modularizes a layer of tiles
 };
 
 #endif
