@@ -30,7 +30,7 @@ public:
     Node (std::string name, std::string value, Node child); //single child
     Node (std::string name, std::string value); //no children
     Node (std::string name) { this->name = name; } //no children or value
-    Node () { this->name = "UNNAMED"; } //no children, value, or name
+    Node () {} //no children, value, or name
     
     // Accessors
     std::string getV() { return this->value; } //get value

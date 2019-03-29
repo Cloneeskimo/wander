@@ -8,8 +8,15 @@
 //
 ///////////////////////////////////////////////////////////////////
 
+// ERROR CODES USED: 0
+
 #ifndef ButtonInterface_h
 #define ButtonInterface_h
+
+// Button State Constants
+const int BUTTON_NORMAL = 0;
+const int BUTTON_HIGHLIGHT = 1;
+const int BUTTON_CLICK = 2;
 
 // Includes
 #include <vector>
@@ -29,8 +36,8 @@ class ButtonInterface {
 public:
     
     // Button Adding Functions
-    void addButton(std::string fsN, std::string fsH, std::string fsC, int ID, int x, int y, std::string text);
-    void addButton(std::string fsN, std::string fsH, std::string fsC, int ID, float x, float y, std::string text, sf::RenderWindow* w);
+    void addButton(GFont* normalFont, GFont* highlightFont, GFont* clickFont, int ID, int x, int y, std::string text);
+    void addButton(GFont* normalFont, GFont* highlightFont, GFont* clickFont, int ID, float x, float y, std::string text, sf::RenderWindow* w);
     
     // Input/Compute/Illustrate Functions
     int input(sf::RenderWindow* w, sf::Event* e); //input method
@@ -50,7 +57,7 @@ public:
 private:
     
     // Private FontBundle struct to store the fonts of each of the buttons
-    struct ButtonData {
+    struct Button {
     public:
         
         ///////////////////////////////////////////////////////////////////
@@ -60,28 +67,51 @@ private:
         // (@fsC) - dir for the font sheet to be used for the clicked state
         ///////////////////////////////////////////////////////////////////
         
-        ButtonData(std::string fsN, std::string fsH, std::string fsC) {
-            this->fsN = fsN;
-            this->fsH = fsH;
-            this->fsC = fsC;
+        Button(GFont* normalFont, GFont* highlightFont, GFont* clickFont, std::string text, int ID, int x, int y) {
+            this->normalFont = normalFont;
+            this->highlightFont = highlightFont;
+            this->clickFont = clickFont;
+            this->ID = ID;
+            this->text = new GText(normalFont, text, x, y);
         }
         
-        // Data
-        std::string fsN, fsH, fsC; //strings for normal, highlighted, and clicked states
-        int state = 0;
+        // Functions
+        
+        void setState(int state) {
+            if (this->state == state) return;
+            this->state = state;
+            if (state == BUTTON_NORMAL)
+                this->text->setFont(normalFont);
+            else if (state == BUTTON_HIGHLIGHT)
+                this->text->setFont(highlightFont);
+            else if (state == BUTTON_CLICK)
+                this->text->setFont(clickFont);
+            else
+                gf::error("ButtonInterface.h", "Tried to assign an invalid state (" + std::to_string(state) + ") to a button", 0);
+        }
+        int getState() { return this->state; }
+        int getID() { return this->ID; }
+        
+        // Public Data
+        GText* text; //actual text
+        
+    private:
+        
+        // Private Data
+        GFont* normalFont;
+        GFont* highlightFont;
+        GFont* clickFont; //GFont references for each three states
+        int state = BUTTON_NORMAL; //state of button
+        int ID; //id of button
     };
     
     // Private Data
-    std::vector<GText*> bs; //vector of buttons
-    std::vector<ButtonData*> bds; //vector of button data
-    std::vector<int> IDs; //vector of each buttons' corresponding IDs
+    std::vector<Button*> buttons; //vector of button data
     bool centeredPositions = true; //represents whether buttons will be added at given positions as if their center is the position, rather than their top-left corner
     float scale = 1.0f; //represents how much the buttons will be scaled in size when added
     
     // Private Functions
     int mouseHover(float mouseX, float mouseY);
-    void ensureButtonState(int i, int state);
-
 };
 
 #endif

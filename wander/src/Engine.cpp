@@ -16,21 +16,7 @@
 
 int Engine::run() {
     
-    unsigned char a = 1;   //00000001
-    unsigned char b = 2;   //00000010
-    unsigned char c = 4;   //00000100
-    unsigned char d = 8;   //00001000
-    unsigned char e = 16;  //00010000
-    unsigned char f = 32;  //00100000
-    unsigned char h = 128; //10000000
-    
-    unsigned char result = a | b | c | d | e | f | h;
-    std::cout << "RESULT: " << result << std::endl;
-    for (int i = 0; i < 8; i++)
-        std::cout << ((result >> i) & 0x1);
-    std::cout << std::endl;
-    
-    //iniitialize window
+    //initialize window
     this->initWindow();
     this->initDebug();
     

@@ -16,6 +16,7 @@
 #include <string>
 #include <SFML/Graphics.hpp>
 #include "GObject.h"
+#include "GFont.h"
 
 ///////////////////////////////////////////////////////////////////
 // GText Class
@@ -26,19 +27,19 @@ class GText {
 public:
     
     // Constructor
-    GText(std::string fontDir, std::string text, int x, int y); //constructor
+    GText(GFont* font, std::string text, int x, int y); //constructor
     
     // Accessors
     int getX() { return this->x; } //gets x
     int getY() { return this->y; } //gets y
-    int getW() { return this->lW * this->l.size() * this->fScale; } //get the width of the button
-    int getH() { return this->lH * this->fScale; } //gets the height of the button
+    int getW() { return this->font->getLetterWidth() * this->letters.size() * this->fontScale; } //get the width of the button
+    int getH() { return this->font->getLetterHeight() * this->fontScale; } //gets the height of the button
     sf::IntRect getRect() { return sf::IntRect(this->x, this->y, this->getW(), this->getH()); } //get rect of button
     
     // Mutators
     void setText(std::string t); //sets the text
     void setFontScale(float fs); //sets the scale of the text
-    void setFont(std::string fontDir); //sets the font
+    void setFont(GFont* f); //sets the font
     void setX(int x) { this->x = x; refreshLetters(); } //sets x
     void setY(int y) { this->y = y; refreshLetters(); } //sets y
     
@@ -48,18 +49,15 @@ public:
 private:
     
     // Private Methods
-    void parseFontSheet(); //figures out the width and length of each letter in the font sheet
     void refreshLetters(); //refreshes the sizes/placement of the letters
     
-    // Static Methods
-    static void getCharacterPos(int* x, int* y, char c);
-    
     // Private Data
-    int x, y;
-    int lW, lH; //letter width & height in fS
-    float fScale = 1.0f;
-    sf::Texture fSheet;
-    std::vector<sf::Sprite> l; //sprites for each letter
+    int x, y; //position
+    float fontScale = 1.0f; //scale
+    std::string text;
+    sf::Texture* fontSheet; //pointer to the font's sheet
+    std::vector<sf::Sprite> letters; //sprites for each letter
+    GFont* font;
 
 };
 

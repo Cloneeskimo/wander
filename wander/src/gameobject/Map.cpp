@@ -147,20 +147,20 @@ void Map::modularizeLayer(std::vector<std::vector<StaticTile*>>* layer) {
                 if (y == layer->size() - 1) null |= oto::BOTTOM;
                 
                 //check for other tile in all directions
-                if ((null & oto::LEFT) == 0)
+                if ((null & oto::LEFT) == 0) //check to left
                     if (layer->at(y).at(x-1) != nullptr)
-                        modularization = modularization | oto::LEFT; //check to left
-                if ((null & oto::RIGHT) == 0)
+                        modularization = modularization | oto::LEFT;
+                if ((null & oto::RIGHT) == 0) //check to right
                     if (layer->at(y).at(x+1) != nullptr)
-                        modularization = modularization | oto::RIGHT; //check to right
-                if ((null & oto::TOP) == 0)
+                        modularization = modularization | oto::RIGHT;
+                if ((null & oto::TOP) == 0) //check above
                     if (layer->at(y-1).size() > x)
                         if (layer->at(y-1).at(x) != nullptr)
-                            modularization = modularization | oto::TOP; //check above
-                if ((null & oto::BOTTOM) == 0)
+                            modularization = modularization | oto::TOP;
+                if ((null & oto::BOTTOM) == 0) //check below
                     if (layer->at(y+1).size() > x)
                         if (layer->at(y+1).at(x) != nullptr)
-                            modularization = modularization | oto::BOTTOM; //check below
+                            modularization = modularization | oto::BOTTOM;
                 
                 //if this tile is not completely surrounded, modularize it
                 if (modularization != 0) layer->at(y).at(x)->modularize(modularization);

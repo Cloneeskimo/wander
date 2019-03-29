@@ -31,16 +31,16 @@ class MainMenu : public GScreen {
 public:
     
     //Constructor
-    MainMenu(sf::RenderWindow* w, sf::Text* d) : GScreen(w, d) { this->initGOS(); }
+    MainMenu(sf::RenderWindow* w, sf::Text* d);
     
 protected:
     
     // Protected Data
+    GFont jax, jaxH, jaxC;
+    GText title;
     ButtonInterface bi;
-    GText title = GText("res//font//jax_n.png", "Wander", 0, 0);
     
     // Protected Functions
-    void initGOS(); //add all GObjects
     void handleEvent(sf::Event e); //handle each individual event
     void illustrate(); //illustrate phase
 };

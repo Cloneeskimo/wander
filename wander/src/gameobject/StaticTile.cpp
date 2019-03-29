@@ -22,7 +22,9 @@ StaticTile::StaticTile(std::string textureFileName, int startX, int startY) : GO
 }
 
 ///////////////////////////////////////////////////////////////////
-//
+// will modularize this tile (conform it to its surroundins)
+// using the byte (@modularization). Use the byte constants within
+// the oto namespace for creation of (@modularization)
 ///////////////////////////////////////////////////////////////////
 
 void StaticTile::modularize(char modularization) {

@@ -33,6 +33,7 @@ private:
     Map currentMap;
     
     // Private Functions
+    void compute();
     void illustrate(); //overriden illustrate
     
 };

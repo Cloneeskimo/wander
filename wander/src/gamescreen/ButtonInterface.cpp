@@ -14,43 +14,41 @@
 
 ///////////////////////////////////////////////////////////////////
 // adds a button to the interface using GText
-// (@fsN) - location of font sheet for button in its normal case
-// (@fsH) - location of font sheet for button in its highlighted case
-// (@fsC) - location of font sheet for button in its clicked case
+// (@normalFont) - reference to font for normal button state
+// (@highlightFont) - reference to font for highlighted button state
+// (@clickFont) - reference to font for clicked button state
 // (@ID) - unique identifier for the button - must be positive
 // (@x) - x position as an absolute co-ordinate
 // (@y) - y position as an absolute co-ordinate
 // (@text) - the text to be displayed on the button
 ///////////////////////////////////////////////////////////////////
 
-void ButtonInterface::addButton(std::string fsN, std::string fsH, std::string fsC, int ID, int x, int y, std::string text) {
+void ButtonInterface::addButton(GFont* normalFont, GFont* highlightFont, GFont* clickFont, int ID, int x, int y, std::string text) {
     if (ID < 1) gf::error("ButtonInterface.h", "attempted to assign a non-positive ID to a button", 0);
-    this->bs.push_back(new GText(fsN, text, x, y)); //add button
-    this->bds.push_back(new ButtonData(fsN, fsH, fsC)); //add button fonts
-    this->IDs.push_back(ID); //add ID
-    int i = (int)this->bs.size() - 1; //get handle on button vector size
-    this->bs.at(i)->setFontScale(this->scale); //set font scale
+    this->buttons.push_back(new Button(normalFont, highlightFont, clickFont, text, ID, x, y));
+    int i = (int)this->buttons.size() - 1; //get handle on button vector size
+    this->buttons.at(i)->text->setFontScale(this->scale);
     if (this->centeredPositions) {
-        int adjX = this->bs.at(i)->getX() - (this->bs.at(i)->getW() / 2); //adjust x
-        int adjY = this->bs.at(i)->getY() - (this->bs.at(i)->getH() / 2); //adjust y
-        this->bs.at(i)->setX(adjX); //set to adjusted x
-        this->bs.at(i)->setY(adjY); //set to adjusted y
+        int adjX = this->buttons.at(i)->text->getX() - (this->buttons.at(i)->text->getW() / 2); //adjust x
+        int adjY = this->buttons.at(i)->text->getY() - (this->buttons.at(i)->text->getH() / 2); //adjust y
+        this->buttons.at(i)->text->setX(adjX); //set to adjusted x
+        this->buttons.at(i)->text->setY(adjY); //set to adjusted y
     }
 }
 
 ///////////////////////////////////////////////////////////////////
 // adds a button to the interface using GText
-// (@fsN) - location of font sheet for button in its normal case
-// (@fsH) - location of font sheet for button in its highlighted case
-// (@fsC) - location of font sheet for button in its clicked case
+// (@normalFont) - reference to font for normal button state
+// (@highlightFont) - reference to font for highlighted button state
+// (@clickFont) - reference to font for clicked button state
 // (@ID) - unique identifier for the button - must be positive
 // (@x) - x position as an absolute co-ordinate
 // (@y) - y position as an absolute co-ordinate
 // (@text) - the text to be displayed on the button
 ///////////////////////////////////////////////////////////////////
 
-void ButtonInterface::addButton(std::string fsN, std::string fsH, std::string fsC, int ID, float x, float y, std::string text, sf::RenderWindow* w) {
-    this->addButton(fsN, fsH, fsC, ID, (float)w->getSize().x * x, (float)w->getSize().y * y, text);
+void ButtonInterface::addButton(GFont* normalFont, GFont* highlightFont, GFont* clickFont, int ID, float x, float y, std::string text, sf::RenderWindow* w) {
+    this->addButton(normalFont, highlightFont, clickFont, ID, (float)w->getSize().x * x, (float)w->getSize().y * y, text);
 }
 
 ///////////////////////////////////////////////////////////////////
@@ -62,34 +60,30 @@ void ButtonInterface::addButton(std::string fsN, std::string fsH, std::string fs
 int ButtonInterface::input(sf::RenderWindow* w, sf::Event* e)
 {
     //get mouse pos and button being hovered
-    sf::Vector2i mousePosP = sf::Mouse::getPosition(*w); //get mouse position in pixel
-    sf::Vector2f mousePosW = w->mapPixelToCoords(mousePosP); //convert mouse position to world
+    sf::Vector2f mousePosW = w->mapPixelToCoords(sf::Mouse::getPosition(*w)); //get mouse position in world coordinates
     int bI = this->mouseHover(mousePosW.x, mousePosW.y); //see if mouse is over any buttons
     
     //MOUSE MOVED
     if (e->type == sf::Event::MouseMoved) {
-        for (int i = 0; i < this->bs.size(); i++) {
+        for (int i = 0; i < this->buttons.size(); i++) {
             if (i == bI) { //if button is being hovered
-                if (this->bds.at(bI)->state == 1) { //if set to unhighlighted,
-                    this->bds.at(bI)->state = 2; //set to highlighted texture
-                    this->bs.at(bI)->setFont(this->bds.at(bI)->fsH);
+                if (this->buttons.at(bI)->getState() == BUTTON_NORMAL) { //if set to unhighlighted,
+                    this->buttons.at(bI)->setState(BUTTON_HIGHLIGHT);
                 }
-            } else ensureButtonState(i, 1); //set to unhighlighted texture
+            } else this->buttons.at(i)->setState(BUTTON_NORMAL); //set to unhighlighted texture
         }
     }
     
     //MOUSE CLICKED DOWN
     if (e->type == sf::Event::MouseButtonPressed && bI > -1) //if click is over a button
-        ensureButtonState(bI, 3); //set to clicked texture
+        this->buttons.at(bI)->setState(BUTTON_CLICK); //set to clicked texture
     
     //MOUSE RELEASED
     if (e->type == sf::Event::MouseButtonReleased) {
         if (bI > -1) {
-            if (this->bds.at(bI)->state == 3) { //if this button was the one clicked
-                ensureButtonState(bI, 2);
-                this->bds.at(bI)->state = 2; //set to second state
-                this->bs.at(bI)->setFont(this->bds.at(bI)->fsH); //set to highlighted frame row
-                return this->IDs.at(bI); //return that the user selected it
+            if (this->buttons.at(bI)->getState() == BUTTON_CLICK) { //if this button was the one clicked
+                this->buttons.at(bI)->setState(BUTTON_HIGHLIGHT);
+                return this->buttons.at(bI)->getID(); //return that the user selected it
             }
         }
     }
@@ -102,7 +96,7 @@ int ButtonInterface::input(sf::RenderWindow* w, sf::Event* e)
 ///////////////////////////////////////////////////////////////////
 
 void ButtonInterface::illustrate(sf::RenderWindow* w) {
-    for (GText* t : this->bs) t->illustrate(w);
+    for (int i = 0; i < this->buttons.size(); i++) this->buttons.at(i)->text->illustrate(w);
 }
 
 ///////////////////////////////////////////////////////////////////
@@ -116,11 +110,11 @@ void ButtonInterface::illustrate(sf::RenderWindow* w) {
 ///////////////////////////////////////////////////////////////////
 
 int ButtonInterface::getNextX(int space, bool toRight) {
-    if (this->bs.size() < 1) return 0; //return 0 if no last button
-    int deltaX = this->bs.at(this->bs.size() - 1)->getW() + space; //space of button itself
-    if (this->centeredPositions) deltaX += (this->bs.at(this->bs.size() - 1)->getW() / 2); //account for centeredness
+    if (this->buttons.size() < 1) return 0; //return 0 if no last button
+    int deltaX = this->buttons.at(this->buttons.size() - 1)->text->getW() + space; //space of button itself
+    if (this->centeredPositions) deltaX += (this->buttons.at(this->buttons.size() - 1)->text->getW() / 2); //account for centeredness
     if (!toRight) deltaX = -deltaX; //account for direction
-    return this->bs.at(this->bs.size() - 1)->getX() + deltaX; //return new x
+    return this->buttons.at(this->buttons.size() - 1)->text->getX() + deltaX; //return new x
 }
 
 ///////////////////////////////////////////////////////////////////
@@ -134,11 +128,11 @@ int ButtonInterface::getNextX(int space, bool toRight) {
 ///////////////////////////////////////////////////////////////////
 
 int ButtonInterface::getNextY(int space, bool below) {
-    if (this->bs.size() < 1) return 0; //return 0 if no last button
-    int deltaY = this->bs.at(this->bs.size() - 1)->getH() + space; //space of button itself
-    if (this->centeredPositions) deltaY += (this->bs.at(this->bs.size() - 1)->getH() / 2); //account for centeredness
+    if (this->buttons.size() < 1) return 0; //return 0 if no last button
+    int deltaY = this->buttons.at(this->buttons.size() - 1)->text->getH() + space; //space of button itself
+    if (this->centeredPositions) deltaY += (this->buttons.at(this->buttons.size() - 1)->text->getH() / 2); //account for centeredness
     if (!below) deltaY = -deltaY; //account for direction
-    return this->bs.at(this->bs.size() - 1)->getY() + deltaY; //return new y
+    return this->buttons.at(this->buttons.size() - 1)->text->getY() + deltaY; //return new y
 }
 
 ///////////////////////////////////////////////////////////////////
@@ -176,36 +170,11 @@ float ButtonInterface::getNextYF(sf::RenderWindow* w, int space, bool below) {
 ///////////////////////////////////////////////////////////////////
 
 int ButtonInterface::mouseHover(float mouseX, float mouseY) {
-    for (int i = 0; i < this->bs.size(); i ++) {
-        if (this->bs.at(i)->getRect().contains(mouseX, mouseY)) //if mouse is within rect
+    for (int i = 0; i < this->buttons.size(); i ++) {
+        if (this->buttons.at(i)->text->getRect().contains(mouseX, mouseY)) //if mouse is within rect
             return i; //return said button index
     }
     return -1;
-}
-
-///////////////////////////////////////////////////////////////////
-// ensures that the button at index (@i) is in the state (@state)
-// checks to see if it is already set, therefore saving overhead
-///////////////////////////////////////////////////////////////////
-
-void ButtonInterface::ensureButtonState(int i, int state) {
-    if (this->bds.at(i)->state != state) {
-        this->bds.at(i)->state = state;
-        switch (state) {
-            case 1:
-                this->bs.at(i)->setFont(this->bds.at(i)->fsN);
-                break;
-            case 2:
-                this->bs.at(i)->setFont(this->bds.at(i)->fsH);
-                break;
-            case 3:
-                this->bs.at(i)->setFont(this->bds.at(i)->fsC);
-                break;
-            default:
-                gf::error("ButtonInterface.cpp", "Tried to assign a button image state to an out of range integer state", 1);
-                break;
-        }
-    }
 }
 
 ///////////////////////////////////////////////////////////////////

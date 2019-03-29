@@ -33,11 +33,6 @@ public:
     
     // Mutators
     void modularize(char modularization);
-    
-private:
-    
-
-    
 };
 
 #endif

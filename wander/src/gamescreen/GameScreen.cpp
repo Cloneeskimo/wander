@@ -21,6 +21,32 @@ GameScreen::GameScreen(sf::RenderWindow* w, sf::Text* d) : GScreen(w, d) {
 }
 
 ///////////////////////////////////////////////////////////////////
+//
+///////////////////////////////////////////////////////////////////
+
+void GameScreen::compute() {
+    GScreen::compute(); //call super
+    
+    //check for movement
+    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left)) {
+        this->worldV.move(-4, 0);
+    }
+    
+    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right)) {
+        this->worldV.move(4, 0);
+    }
+    
+    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up)) {
+        this->worldV.move(0, -4);
+    }
+    
+    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down)) {
+        this->worldV.move(0, 4);
+    }
+    
+}
+
+///////////////////////////////////////////////////////////////////
 // Illustrate Function
 ///////////////////////////////////////////////////////////////////
 

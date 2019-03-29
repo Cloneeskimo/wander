@@ -11,11 +11,13 @@
 #include "MainMenu.h"
 
 ///////////////////////////////////////////////////////////////////
-// adds all GObjects
-///////////////////////////////////////////////////////////////////
+// Constructor
+// Initializes main menu on (@w) and stores the debug text reference
+// (@d)
+///////////////////////////////////////;///////////////////////////
 
-void MainMenu::initGOS() {
-
+MainMenu::MainMenu(sf::RenderWindow* w, sf::Text* d) : GScreen(w, d), jax("res//font//jax_n.png", "res//font//jax.wdr"), jaxH("res//font//jax_h.png", "res//font//jax.wdr"), jaxC("res//font//jax_c.png", "res//font//jax.wdr"), title(&jax, "Wander", 0, 0) {
+    
     //Format Title
     this->title.setFontScale(10.0f); //scale
     this->title.setX((float)this->w->getSize().x / 2 - (this->title.getW() / 2)); //x
@@ -24,10 +26,10 @@ void MainMenu::initGOS() {
     //Format Buttons
     bi.setScale(6.0f);
     bi.setCenteredPositions(true);
-    bi.addButton("res//font//jax_n.png", "res//font//jax_h.png", "res//font//jax_c.png", NEW_GAME_ID, 0.5f, 0.5f, "New Game", this->w);
-    bi.addButton("res//font//jax_n.png", "res//font//jax_h.png", "res//font//jax_c.png", LOAD_GAME_ID, 0.5f, bi.getNextYF(this->w), "Load Game", this->w);
-    bi.addButton("res//font//jax_n.png", "res//font//jax_h.png", "res//font//jax_c.png", SETTINGS_ID, 0.5f, bi.getNextYF(this->w), "Settings", this->w);
-    bi.addButton("res//font//jax_n.png", "res//font//jax_h.png", "res//font//jax_c.png", EXIT_ID, 0.5f, bi.getNextYF(this->w), "Exit", this->w);
+    bi.addButton(&this->jax, &this->jaxH, &this->jaxC, NEW_GAME_ID, 0.5f, 0.5f, "New Game", this->w);
+    bi.addButton(&this->jax, &this->jaxH, &this->jaxC, LOAD_GAME_ID, 0.5f, bi.getNextYF(this->w), "Load Game", this->w);
+    bi.addButton(&this->jax, &this->jaxH, &this->jaxC, SETTINGS_ID, 0.5f, bi.getNextYF(this->w), "Settings", this->w);
+    bi.addButton(&this->jax, &this->jaxH, &this->jaxC, EXIT_ID, 0.5f, bi.getNextYF(this->w), "Exit", this->w);
 
 }
 
