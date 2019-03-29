@@ -22,13 +22,13 @@ const int BUTTON_CLICK = 2;
 #include <vector>
 #include <SFML/Window.hpp>
 #include <SFML/Graphics.hpp>
-#include "GText.h"
+#include "Text.h"
 #include "Global.h"
 
 ///////////////////////////////////////////////////////////////////
 // ButtonInterface Class
 // Used to be a collection of buttons for a UI overlay
-// Uses GText to make buttons out of text
+// Uses Text to make buttons out of text
 ///////////////////////////////////////////////////////////////////
 
 class ButtonInterface {
@@ -36,8 +36,8 @@ class ButtonInterface {
 public:
     
     // Button Adding Functions
-    void addButton(GFont* normalFont, GFont* highlightFont, GFont* clickFont, int ID, int x, int y, std::string text);
-    void addButton(GFont* normalFont, GFont* highlightFont, GFont* clickFont, int ID, float x, float y, std::string text, sf::RenderWindow* w);
+    void addButton(Font* normalFont, Font* highlightFont, Font* clickFont, int ID, int x, int y, std::string text);
+    void addButton(Font* normalFont, Font* highlightFont, Font* clickFont, int ID, float x, float y, std::string text, sf::RenderWindow* w);
     
     // Input/Compute/Illustrate Functions
     int input(sf::RenderWindow* w, sf::Event* e); //input method
@@ -67,12 +67,12 @@ private:
         // (@fsC) - dir for the font sheet to be used for the clicked state
         ///////////////////////////////////////////////////////////////////
         
-        Button(GFont* normalFont, GFont* highlightFont, GFont* clickFont, std::string text, int ID, int x, int y) {
+        Button(Font* normalFont, Font* highlightFont, Font* clickFont, std::string text, int ID, int x, int y) {
             this->normalFont = normalFont;
             this->highlightFont = highlightFont;
             this->clickFont = clickFont;
             this->ID = ID;
-            this->text = new GText(normalFont, text, x, y);
+            this->text = new Text(normalFont, text, x, y);
         }
         
         // Functions
@@ -93,14 +93,14 @@ private:
         int getID() { return this->ID; }
         
         // Public Data
-        GText* text; //actual text
+        Text* text; //actual text
         
     private:
         
         // Private Data
-        GFont* normalFont;
-        GFont* highlightFont;
-        GFont* clickFont; //GFont references for each three states
+        Font* normalFont;
+        Font* highlightFont;
+        Font* clickFont; //Font references for each three states
         int state = BUTTON_NORMAL; //state of button
         int ID; //id of button
     };

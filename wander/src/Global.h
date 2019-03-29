@@ -27,7 +27,7 @@
 namespace gc {
     
     //Build Properties
-    static const int A_BUILD = 88; //build number
+    static const int A_BUILD = 89; //build number
     static const std::string A_VERSION = "basic_dev"; //version number
     
     //Window Properties
@@ -94,6 +94,7 @@ struct oto {
     
 private:
     
+    // Offset Constants
     static inline int modOffsetConstant = 0;
     static inline int modCornerOffsetConstant = 0;
 };

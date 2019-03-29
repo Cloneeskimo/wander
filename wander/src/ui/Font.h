@@ -1,6 +1,6 @@
 ///////////////////////////////////////////////////////////////////
 //
-//  GFont.h
+//  Font.h
 //  wander
 //
 //  Created by Jacob Oaks on 3/28/19.
@@ -8,8 +8,8 @@
 //
 ///////////////////////////////////////////////////////////////////
 
-#ifndef GFont_h
-#define GFont_h
+#ifndef Font_h
+#define Font_h
 
 // Includes
 
@@ -39,15 +39,15 @@ public:
 };
 
 ///////////////////////////////////////////////////////////////////
-// GFont Class
+// Font Class
 // Contains a mapping of character to position on a font sheet
 ///////////////////////////////////////////////////////////////////
 
-class GFont {
+class Font {
 public:
     
     // Constructor
-    GFont(std::string fontDir, std::string mapDir);
+    Font(std::string fontDir, std::string mapDir);
     
     // Accessors
     sf::IntRect getBounds(char c);

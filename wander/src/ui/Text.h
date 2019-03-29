@@ -1,6 +1,6 @@
 ///////////////////////////////////////////////////////////////////
 //
-//  GText.h
+//  Text.h
 //  wander
 //
 //  Created by Jacob Oaks on 3/22/19.
@@ -8,26 +8,25 @@
 //
 ///////////////////////////////////////////////////////////////////
 
-#ifndef GText_h
-#define GText_h
+#ifndef Text_h
+#define Text_h
 
 // Includes
 #include <vector>
 #include <string>
 #include <SFML/Graphics.hpp>
-#include "GObject.h"
-#include "GFont.h"
+#include "Font.h"
 
 ///////////////////////////////////////////////////////////////////
-// GText Class
+// Text Class
 // A class which can represent text on the screen using a custom font
 ///////////////////////////////////////////////////////////////////
 
-class GText {
+class Text {
 public:
     
     // Constructor
-    GText(GFont* font, std::string text, int x, int y); //constructor
+    Text(Font* font, std::string text, int x, int y); //constructor
     
     // Accessors
     int getX() { return this->x; } //gets x
@@ -37,9 +36,9 @@ public:
     sf::IntRect getRect() { return sf::IntRect(this->x, this->y, this->getW(), this->getH()); } //get rect of button
     
     // Mutators
-    void setText(std::string t); //sets the text
+    void setText(std::string t, bool ignoreSpaces = true); //sets the text
     void setFontScale(float fs); //sets the scale of the text
-    void setFont(GFont* f); //sets the font
+    void setFont(Font* f); //sets the font
     void setX(int x) { this->x = x; refreshLetters(); } //sets x
     void setY(int y) { this->y = y; refreshLetters(); } //sets y
     
@@ -57,8 +56,7 @@ private:
     std::string text;
     sf::Texture* fontSheet; //pointer to the font's sheet
     std::vector<sf::Sprite> letters; //sprites for each letter
-    GFont* font;
-
+    Font* font; //reference to the text's font
 };
 
 #endif

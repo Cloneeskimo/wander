@@ -1,6 +1,6 @@
 ///////////////////////////////////////////////////////////////////
 //
-//  AnimGObject.cpp
+//  AnimObject.cpp
 //  wander
 //
 //  Created by Jacob Oaks on 2/13/19.
@@ -10,18 +10,18 @@
 
 // ERROR CODES USED: 0
 
-#include "AnimGObject.h"
+#include "AnimObject.h"
 
 ///////////////////////////////////////////////////////////////////
 // Consructor which allows for custom frame row configurations
 // (@textureFileName) - location relative to working direction
 // (@frameRows) - data for each frame row - see FrameRow struct
-// in "AnimGObject.h"
+// in "AnimObject.h"
 // (@startX) - starting object X (has a default in Global.h)
 // (@startY) - starting object Y (has a default in GLobal.h)
 ///////////////////////////////////////////////////////////////////
 
-AnimGObject::AnimGObject(std::string textureFileName, std::vector<FrameRow> frameRows, int startX, int startY) : GObject(textureFileName, startX, startY) {
+AnimObject::AnimObject(std::string textureFileName, std::vector<FrameRow> frameRows, int startX, int startY) : Object(textureFileName, startX, startY) {
     this->initAnimation(textureFileName, frameRows);
 }
 
@@ -35,7 +35,7 @@ AnimGObject::AnimGObject(std::string textureFileName, std::vector<FrameRow> fram
 // (@startY) - starting object Y (has a default in GLobal.h)
 ///////////////////////////////////////////////////////////////////
 
-AnimGObject::AnimGObject(std::string textureFileName, int frameRows, int frameCount, float frameDelay, int startX, int startY) : GObject(textureFileName, startX, startY) {
+AnimObject::AnimObject(std::string textureFileName, int frameRows, int frameCount, float frameDelay, int startX, int startY) : Object(textureFileName, startX, startY) {
     std::vector<FrameRow> frs;
     for (int i = 0; i < frameRows; i++) frs.push_back(FrameRow(frameCount, frameDelay)); //create frame rows
     this->initAnimation(textureFileName, frs);
@@ -45,7 +45,7 @@ AnimGObject::AnimGObject(std::string textureFileName, int frameRows, int frameCo
 // cycles to next frame
 ///////////////////////////////////////////////////////////////////
 
-void AnimGObject::cycleFrame() {
+void AnimObject::cycleFrame() {
     this->currentFrame = (this->currentFrame >= this->currentFrameCount - 1 ? 0 : this->currentFrame + 1); //cycle
     this->textureRect = sf::IntRect(this->currentFrame * this->frameWidth, this->currentFrameRow * this->frameHeight, this->frameWidth, this->frameHeight); //update textureRect
     this->sprite.setTextureRect(this->textureRect); //set textureRect within sprite
@@ -56,7 +56,7 @@ void AnimGObject::cycleFrame() {
 // (@dT) - change in time in seconds since last call
 ///////////////////////////////////////////////////////////////////
 
-void AnimGObject::compute(float dT) {
+void AnimObject::compute(float dT) {
     if (this->paused) return; //do not animate if
     if (this->tBeforeNextFrame <= 0) { //check if time to cycle to next frame
         this->cycleFrame(); //cycle frame if ready to do so
@@ -66,12 +66,12 @@ void AnimGObject::compute(float dT) {
 }
 
 ///////////////////////////////////////////////////////////////////
-// initializes the animation variables for this AnimGObject
+// initializes the animation variables for this AnimObject
 // (@textureFileName) - file directory of spritesheet
 // (@frameRows) - data about the frame rows (see FrameRow struct)
 ///////////////////////////////////////////////////////////////////
 
-void AnimGObject::initAnimation(std::string textureFileName, std::vector<FrameRow> frameRows) {
+void AnimObject::initAnimation(std::string textureFileName, std::vector<FrameRow> frameRows) {
     this->frameRows = frameRows; //set frame rows
     this->currentFrameDelay = this->tBeforeNextFrame = this->frameRows.at(0).d; //set time and delay
     this->currentFrameCount = this->frameRows.at(0).fC; //set current frame count
@@ -93,9 +93,9 @@ void AnimGObject::initAnimation(std::string textureFileName, std::vector<FrameRo
 // (@fr) is 1-indexed, actual value is 0-indexed
 ///////////////////////////////////////////////////////////////////
 
-bool AnimGObject::setFrameRow(int fr) {
+bool AnimObject::setFrameRow(int fr) {
     if (fr > this->frameRows.size() || fr < 1) { //if invalid frame row
-        gf::error("AnimGObject.cpp", "attempted to set an invalid frame row to an AnimGObject", 1); //throw error
+        gf::error("AnimObject.cpp", "attempted to set an invalid frame row to an AnimObject", 1); //throw error
         return false; //return false
     }
     this->currentFrameRow = fr - 1; //convert to zero-indexed

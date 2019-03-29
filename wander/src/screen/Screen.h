@@ -1,6 +1,6 @@
 ///////////////////////////////////////////////////////////////////
 //
-//  GScreen.h
+//  Screen.h
 //  wander
 //
 //  Created by Jacob Oaks on 2/16/19.
@@ -8,8 +8,8 @@
 //
 ///////////////////////////////////////////////////////////////////
 
-#ifndef GScreen_h
-#define GScreen_h
+#ifndef Screen_h
+#define Screen_h
 
 // Includes
 
@@ -17,16 +17,16 @@
 #include <SFML/Window.hpp>
 #include <SFML/Graphics.hpp>
 #include "SaveManager.h"
-#include "AnimGObject.h"
+#include "AnimObject.h"
 #include "Global.h"
 
 ///////////////////////////////////////////////////////////////////
-// GScreen Class
+// Screen Class
 // a generic class for a window/screen that should be kept discrete and distinct from others
 // for example, this may be extended from to make the main menu screen, game screen, inventory screen, etc.
 ///////////////////////////////////////////////////////////////////
 
-class GScreen {
+class Screen {
     
 public:
     
@@ -34,7 +34,7 @@ public:
     // Constructor - takes window and debug references
     ///////////////////////////////////////////////////////////////////
 
-    GScreen(sf::RenderWindow* w, sf::Text* d) {
+    Screen(sf::RenderWindow* w, sf::Text* d) {
         
         //set references
         this->w = w; //set window reference
@@ -75,7 +75,7 @@ protected:
     sf::View uiV; //UI view
     
     // Other Protected Data
-    std::vector<AnimGObject*> gos; //vector of screen's game objects
+    std::vector<AnimObject*> gos; //vector of screen's game objects
     Node rd = Node("return data"); //the node of information which will be returned when the screen is finished
     bool intentToReturn = false; //represents whether user has shown intent to return to previous screen
     bool showDebug = false; //represents whether debug info should be shown on screen or
@@ -133,7 +133,7 @@ protected:
     ///////////////////////////////////////////////////////////////////
 
     virtual void compute() {
-        for (AnimGObject* o : this->gos) o->compute(this->c.getElapsedTime().asSeconds()); //compute for gos
+        for (AnimObject* o : this->gos) o->compute(this->c.getElapsedTime().asSeconds()); //compute for gos
         if (this->showDebug) this->d->setString("FPS: " + std::to_string(1 / this->c.getElapsedTime().asSeconds())); //update debug text if enabled
         this->c.restart(); //restart clock
     }
@@ -149,7 +149,7 @@ protected:
         this->w->clear(gc::CLEAR_COLOR); //clear
         
         //draw world
-        for (AnimGObject* o : this->gos) o->illustrate(this->w); //illustrate gos
+        for (AnimObject* o : this->gos) o->illustrate(this->w); //illustrate gos
         
         //draw UI
         this->w->setView(uiV); //set to ui view

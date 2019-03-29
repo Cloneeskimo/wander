@@ -1,6 +1,6 @@
 ///////////////////////////////////////////////////////////////////
 //
-//  GText.cpp
+//  Text.cpp
 //  wander
 //
 //  Created by Jacob Oaks on 3/22/19.
@@ -8,17 +8,17 @@
 //
 ///////////////////////////////////////////////////////////////////
 
-#include "GText.h"
+#include "Text.h"
 
 ///////////////////////////////////////////////////////////////////
 // Constructor
-// (@font) - reference to the GFont to use
+// (@font) - reference to the Font to use
 // (@text) - starting text
 // (@x) - x position of text
 // (@y) - y position of text
 ///////////////////////////////////////////////////////////////////
 
-GText::GText(GFont* font, std::string text, int x, int y) {
+Text::Text(Font* font, std::string text, int x, int y) {
     this->setFont(font);
     this->text = text;
     this->x = x;
@@ -30,17 +30,18 @@ GText::GText(GFont* font, std::string text, int x, int y) {
 // sets the text to (@t)
 ///////////////////////////////////////////////////////////////////
 
-void GText::setText(std::string t) {
+void Text::setText(std::string t, bool ignoreSpaces) {
     this->text = t;
     this->letters = std::vector<sf::Sprite>(); //remove previous letter
     for (char c : t) { //loop through each character of t
-        
-        sf::IntRect bounds = this->font->getBounds(c); //get bounds on font sheet for character
-        sf::Sprite nextLetter(*this->fontSheet); //create character sprite
-        nextLetter.setTextureRect(bounds); //set bounds
-        nextLetter.setScale(this->fontScale, this->fontScale); //set scale
-        nextLetter.setPosition(this->x + (this->letters.size() * nextLetter.getGlobalBounds().width), this->y); //set letter position
-        this->letters.push_back(nextLetter); //add to letters
+        if (c != ' ' || !ignoreSpaces) { //ignore spaces
+            sf::IntRect bounds = this->font->getBounds(c); //get bounds on font sheet for character
+            sf::Sprite nextLetter(*this->fontSheet); //create character sprite
+            nextLetter.setTextureRect(bounds); //set bounds
+            nextLetter.setScale(this->fontScale, this->fontScale); //set scale
+            nextLetter.setPosition(this->x + (this->letters.size() * nextLetter.getGlobalBounds().width), this->y); //set letter position
+            this->letters.push_back(nextLetter); //add to letters
+        }
     }
 }
 
@@ -48,7 +49,7 @@ void GText::setText(std::string t) {
 // scales the text by a factor of (@fs)
 ///////////////////////////////////////////////////////////////////
 
-void GText::setFontScale(float fs) {
+void Text::setFontScale(float fs) {
     this->fontScale = fs;
     this->refreshLetters();
 }
@@ -57,7 +58,7 @@ void GText::setFontScale(float fs) {
 // resets the font using the spritesheet at (@fontDir)
 ///////////////////////////////////////////////////////////////////
 
-void GText::setFont(GFont* f) {
+void Text::setFont(Font* f) {
     this->font = f;
     this->fontSheet = font->getFontSheet();
     this->setText(this->text);
@@ -67,7 +68,7 @@ void GText::setFont(GFont* f) {
 // illustrates text onto (@w)
 ///////////////////////////////////////////////////////////////////
 
-void GText::illustrate(sf::RenderWindow* w) {
+void Text::illustrate(sf::RenderWindow* w) {
     for (sf::Sprite s : this->letters) w->draw(s); //draw each letter
 }
 
@@ -75,7 +76,7 @@ void GText::illustrate(sf::RenderWindow* w) {
 // resets the scale and positions of each letter
 ///////////////////////////////////////////////////////////////////
 
-void GText::refreshLetters() {
+void Text::refreshLetters() {
     for (int i = 0; i < this->letters.size(); i++) {
         this->letters.at(i).setScale(this->fontScale, this->fontScale);
         this->letters.at(i).setPosition(this->x + (i * this->letters.at(i).getGlobalBounds().width), this->y); //set letter position

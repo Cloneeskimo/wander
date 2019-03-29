@@ -12,8 +12,8 @@
 #define MainMenu_h
 
 // Includes
-#include "GScreen.h"
-#include "GText.h"
+#include "Screen.h"
+#include "Text.h"
 #include "ButtonInterface.h"
 
 // Button ID Constants
@@ -24,10 +24,10 @@ static const int EXIT_ID = 4;
 
 ///////////////////////////////////////////////////////////////////
 // MainMenu Class
-// GScreen which contains the main menu interface
+// Screen which contains the main menu interface
 ///////////////////////////////////////////////////////////////////
 
-class MainMenu : public GScreen {
+class MainMenu : public Screen {
 public:
     
     //Constructor
@@ -36,8 +36,8 @@ public:
 protected:
     
     // Protected Data
-    GFont jax, jaxH, jaxC;
-    GText title;
+    Font jax, jaxH, jaxC;
+    Text title;
     ButtonInterface bi;
     
     // Protected Functions

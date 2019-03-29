@@ -1,6 +1,6 @@
 ///////////////////////////////////////////////////////////////////
 //
-//  GFont.cpp
+//  Font.cpp
 //  wander
 //
 //  Created by Jacob Oaks on 3/28/19.
@@ -10,7 +10,7 @@
 
 // ERROR CODES USED: 0-1
 
-#include "GFont.h"
+#include "Font.h"
 
 ///////////////////////////////////////////////////////////////////
 // Constructor
@@ -18,7 +18,7 @@
 // (@mapDir) - the directory of the character mapping file
 ///////////////////////////////////////////////////////////////////
 
-GFont::GFont(std::string fontDir, std::string mapDir) {
+Font::Font(std::string fontDir, std::string mapDir) {
     this->initFontSheet(&fontDir); //initialize font sheet
     this->initCharacterMapping(&mapDir); //initialize character mapping
 }
@@ -29,10 +29,10 @@ GFont::GFont(std::string fontDir, std::string mapDir) {
 // will throw an error if an invalid character is given
 ///////////////////////////////////////////////////////////////////
 
-sf::IntRect GFont::getBounds(char c) {
+sf::IntRect Font::getBounds(char c) {
     int x = -1, y = -1;
     this->getPos(c, &x, &y); //get the position of (@c)
-    if (x == -1) gf::error("GFont.cpp", "invalid character '" + std::string(1, c) + "' given when trying to set a letter sprite", 1); //throw error with invalid character
+    if (x == -1) gf::error("Font.cpp", "invalid character '" + std::string(1, c) + "' given when trying to set a letter sprite", 1); //throw error with invalid character
     return sf::IntRect(x * this->letterWidth, y * this->letterHeight, letterWidth, letterHeight); //return bounds
 }
 
@@ -42,7 +42,7 @@ sf::IntRect GFont::getBounds(char c) {
 // within the mapping
 ///////////////////////////////////////////////////////////////////
 
-void GFont::getPos(char c, int *x, int *y) {
+void Font::getPos(char c, int *x, int *y) {
     for (GCharacterMap gcm : this->charMap) { //search character mapping for (@c)
         if (gcm.c == c) { //if found
             *x = gcm.x; //set x
@@ -58,7 +58,7 @@ void GFont::getPos(char c, int *x, int *y) {
 // the letter width and letter height
 ///////////////////////////////////////////////////////////////////
 
-void GFont::initFontSheet(std::string* fontDir) {
+void Font::initFontSheet(std::string* fontDir) {
     this->fSheet.loadFromFile(*fontDir); //load font spritesheet
     this->letterWidth = this->fSheet.getSize().x / 10; //10 columns
     this->letterHeight = this->fSheet.getSize().y / 3; //3 rows
@@ -68,7 +68,7 @@ void GFont::initFontSheet(std::string* fontDir) {
 // loads the character mapping from (@mapDir)
 ///////////////////////////////////////////////////////////////////
 
-void GFont::initCharacterMapping(std::string* mapDir) {
+void Font::initCharacterMapping(std::string* mapDir) {
     
     // variables
     std::vector<Node> mappings = SaveManager::loadMasterNode(*mapDir).getC(); //load mappings
@@ -87,7 +87,7 @@ void GFont::initCharacterMapping(std::string* mapDir) {
                     y += c;
                 else x += c; //x
             } else //invalid character
-                gf::error("GFont.cpp", "invalid character '" + std::string(1, c) + "' in font character mapping file + '" + *mapDir + "'", 0);
+                gf::error("Font.cpp", "invalid character '" + std::string(1, c) + "' in font character mapping file + '" + *mapDir + "'", 0);
         }
     
         // convert and add

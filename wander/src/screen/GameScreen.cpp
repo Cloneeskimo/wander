@@ -16,7 +16,7 @@
 // (@d) - reference to the debug info
 ///////////////////////////////////////////////////////////////////
 
-GameScreen::GameScreen(sf::RenderWindow* w, sf::Text* d) : GScreen(w, d) {
+GameScreen::GameScreen(sf::RenderWindow* w, sf::Text* d) : Screen(w, d) {
     this->currentMap = Map("test", "data//maps//test_map.wdr", this->w);
 }
 
@@ -25,7 +25,7 @@ GameScreen::GameScreen(sf::RenderWindow* w, sf::Text* d) : GScreen(w, d) {
 ///////////////////////////////////////////////////////////////////
 
 void GameScreen::compute() {
-    GScreen::compute(); //call super
+    Screen::compute(); //call super
     
     //check for movement
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left)) {

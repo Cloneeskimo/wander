@@ -17,7 +17,7 @@
 // (@startY) starting y IN TERMS OF TILES, NOT PIXELs
 ///////////////////////////////////////////////////////////////////
 
-StaticTile::StaticTile(std::string textureFileName, int startX, int startY) : GObject(textureFileName, startX * gc::TILE_SIZE * gc::TILE_TEXTURE_SCALE, startY * gc::TILE_SIZE * gc::TILE_TEXTURE_SCALE) {
+StaticTile::StaticTile(std::string textureFileName, int startX, int startY) : Object(textureFileName, startX * gc::TILE_SIZE * gc::TILE_TEXTURE_SCALE, startY * gc::TILE_SIZE * gc::TILE_TEXTURE_SCALE) {
     this->scale(gc::TILE_TEXTURE_SCALE, gc::TILE_TEXTURE_SCALE);
 }
 

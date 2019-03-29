@@ -16,7 +16,7 @@
 // (@d)
 ///////////////////////////////////////;///////////////////////////
 
-MainMenu::MainMenu(sf::RenderWindow* w, sf::Text* d) : GScreen(w, d), jax("res//font//jax_n.png", "res//font//jax.wdr"), jaxH("res//font//jax_h.png", "res//font//jax.wdr"), jaxC("res//font//jax_c.png", "res//font//jax.wdr"), title(&jax, "Wander", 0, 0) {
+MainMenu::MainMenu(sf::RenderWindow* w, sf::Text* d) : Screen(w, d), jax("res//font//jax_n.png", "res//font//jax.wdr"), jaxH("res//font//jax_h.png", "res//font//jax.wdr"), jaxC("res//font//jax_c.png", "res//font//jax.wdr"), title(&jax, "Wander", 0, 0) {
     
     //Format Title
     this->title.setFontScale(10.0f); //scale
@@ -38,7 +38,7 @@ MainMenu::MainMenu(sf::RenderWindow* w, sf::Text* d) : GScreen(w, d), jax("res//
 ///////////////////////////////////////////////////////////////////
 
 void MainMenu::handleEvent(sf::Event e) {
-    GScreen::handleEvent(e); //call superclass method first
+    Screen::handleEvent(e); //call superclass method first
     
     //switch on event type
     switch (e.type) {

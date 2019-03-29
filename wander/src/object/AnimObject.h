@@ -1,6 +1,6 @@
 ///////////////////////////////////////////////////////////////////
 //
-//  AnimGObject.h
+//  AnimObject.h
 //  wander
 //
 //  Created by Jacob Oaks on 2/11/19.
@@ -8,14 +8,14 @@
 //
 ///////////////////////////////////////////////////////////////////
 
-#ifndef AnimGObject_h
-#define AnimGObject_h
+#ifndef AnimObject_h
+#define AnimObject_h
 
 // Includes
 #include <iostream>
 #include <SFML/Window.hpp>
 #include <SFML/Graphics.hpp>
-#include "GObject.h"
+#include "Object.h"
 
 ///////////////////////////////////////////////////////////////////
 // FrameRow struct
@@ -50,16 +50,16 @@ public:
 };
 
 ///////////////////////////////////////////////////////////////////
-// AnimGObject class
-// an extension of GObject that supports animations
+// AnimObject class
+// an extension of Object that supports animations
 ///////////////////////////////////////////////////////////////////
 
-class AnimGObject : public GObject {
+class AnimObject : public Object {
 public:
     
     // Constructors
-    AnimGObject(std::string textureFileName, std::vector<FrameRow> frameRows = std::vector<FrameRow>(), int startX = gc::GO_DEFAULT_X, int startY = gc::GO_DEFAULT_Y);
-    AnimGObject(std::string textureFileName, int frameRows, int frameCount, float frameDelay = gc::GO_DEFAULT_FRAME_DELAY, int startX = gc::GO_DEFAULT_X, int startY = gc::GO_DEFAULT_Y);
+    AnimObject(std::string textureFileName, std::vector<FrameRow> frameRows = std::vector<FrameRow>(), int startX = gc::GO_DEFAULT_X, int startY = gc::GO_DEFAULT_Y);
+    AnimObject(std::string textureFileName, int frameRows, int frameCount, float frameDelay = gc::GO_DEFAULT_FRAME_DELAY, int startX = gc::GO_DEFAULT_X, int startY = gc::GO_DEFAULT_Y);
     
     // Public Functions
     void compute(float dT); //compute method

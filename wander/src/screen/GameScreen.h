@@ -1,6 +1,6 @@
 ///////////////////////////////////////////////////////////////////
 //
-//  StaticTile.h
+//  GameScreen.h
 //  wander
 //
 //  Created by Jacob Oaks on 3/24/19.
@@ -8,31 +8,34 @@
 //
 ///////////////////////////////////////////////////////////////////
 
-#ifndef StaticTile_h
-#define StaticTile_h
+#ifndef GameScreen_h
+#define GameScreen_h
 
 // Includes
 
-#include "AnimGObject.h"
-#include "Global.h"
+#include "Screen.h"
+#include "Map.h"
 
 ///////////////////////////////////////////////////////////////////
-// StaticTile Class
-// used for an individual tile without animations and without movement
+// GameScreen Class
+// Screen for the in-game state
 ///////////////////////////////////////////////////////////////////
 
-class StaticTile : public GObject {
+class GameScreen : public Screen {
 public:
     
     // Constructor
-    StaticTile(std::string textureFileName, int startX = gc::GO_DEFAULT_X, int startY = gc::GO_DEFAULT_Y);
+    GameScreen(sf::RenderWindow* w, sf::Text* d);
     
-    // Accessors
-    int getMapX() { return this->getX() * gc::TILE_SIZE; }
-    int getMapY() { return this->getY() * gc::TILE_SIZE; }
+private:
     
-    // Mutators
-    void modularize(char modularization);
+    // Data
+    Map currentMap;
+    
+    // Private Functions
+    void compute();
+    void illustrate(); //overriden illustrate
+    
 };
 
 #endif

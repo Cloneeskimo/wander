@@ -13,7 +13,7 @@
 #include "ButtonInterface.h"
 
 ///////////////////////////////////////////////////////////////////
-// adds a button to the interface using GText
+// adds a button to the interface using Text
 // (@normalFont) - reference to font for normal button state
 // (@highlightFont) - reference to font for highlighted button state
 // (@clickFont) - reference to font for clicked button state
@@ -23,7 +23,7 @@
 // (@text) - the text to be displayed on the button
 ///////////////////////////////////////////////////////////////////
 
-void ButtonInterface::addButton(GFont* normalFont, GFont* highlightFont, GFont* clickFont, int ID, int x, int y, std::string text) {
+void ButtonInterface::addButton(Font* normalFont, Font* highlightFont, Font* clickFont, int ID, int x, int y, std::string text) {
     if (ID < 1) gf::error("ButtonInterface.h", "attempted to assign a non-positive ID to a button", 0);
     this->buttons.push_back(new Button(normalFont, highlightFont, clickFont, text, ID, x, y));
     int i = (int)this->buttons.size() - 1; //get handle on button vector size
@@ -37,7 +37,7 @@ void ButtonInterface::addButton(GFont* normalFont, GFont* highlightFont, GFont* 
 }
 
 ///////////////////////////////////////////////////////////////////
-// adds a button to the interface using GText
+// adds a button to the interface using Text
 // (@normalFont) - reference to font for normal button state
 // (@highlightFont) - reference to font for highlighted button state
 // (@clickFont) - reference to font for clicked button state
@@ -47,7 +47,7 @@ void ButtonInterface::addButton(GFont* normalFont, GFont* highlightFont, GFont* 
 // (@text) - the text to be displayed on the button
 ///////////////////////////////////////////////////////////////////
 
-void ButtonInterface::addButton(GFont* normalFont, GFont* highlightFont, GFont* clickFont, int ID, float x, float y, std::string text, sf::RenderWindow* w) {
+void ButtonInterface::addButton(Font* normalFont, Font* highlightFont, Font* clickFont, int ID, float x, float y, std::string text, sf::RenderWindow* w) {
     this->addButton(normalFont, highlightFont, clickFont, ID, (float)w->getSize().x * x, (float)w->getSize().y * y, text);
 }
 
