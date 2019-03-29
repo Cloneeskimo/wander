@@ -51,10 +51,9 @@ Node::Node (std::string name, std::string value) {
 // returns a specific child with name (@name)
 ///////////////////////////////////////////////////////////////////
 
-Node Node::getCwN(std::string name) {
-    for (Node node : this->children)
-        if (node.getN() == name)
-            return node;
+Node* Node::getCwN(std::string name) {
+    for (int i = 0; i < this->children.size(); i++)
+        if (this->children.at(i).getN() == name) return &this->children.at(i);
     gf::error("SaveManager.cpp", "could not find a child node with name " + name, 4, true, gc::FAILURE_BY_DATA);
 }
 
@@ -146,7 +145,7 @@ Node SaveManager::loadNode(std::vector<std::string>* file, int* i, int indent) {
             dividerLoc = j;
     
     //throw error if there is no colon in line
-    if (dividerLoc == -1) gf::error("SaveManager.cpp", "error interpreting line: '" + nextLine + "' - missing a colon divider ':'", 2, gc::FAILURE_BY_FILEIO, true);
+    if (dividerLoc == -1) gf::error("SaveManager.cpp", "error interpreting line: '" + nextLine + "' - missing a colon divider ':' (line " + std::to_string(*i) + ")", 2, gc::FAILURE_BY_FILEIO, true);
     
     //create node represented by next line
     Node node = Node(nextLine.substr(0, dividerLoc)); //create node with name

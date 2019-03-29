@@ -27,7 +27,7 @@
 namespace gc {
     
     //Build Properties
-    static const int A_BUILD = 89; //build number
+    static const int A_BUILD = 91; //build number
     static const std::string A_VERSION = "basic_dev"; //version number
     
     //Window Properties
@@ -47,7 +47,7 @@ namespace gc {
     static const int TILE_MODULARIZATION_DIVISOR = 7; //the portion of a tile's edge to cut off in modularization
     
     //Other Properties
-    static const char NODE_FILE_INDENT_CHARACTER = '\t';
+    static const char NODE_FILE_INDENT_CHARACTER = ' ';
     
     //Exit Codes
     static const int SUCCESS = 1;

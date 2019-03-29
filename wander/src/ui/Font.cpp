@@ -19,8 +19,7 @@
 ///////////////////////////////////////////////////////////////////
 
 Font::Font(std::string fontDir, std::string mapDir) {
-    this->initFontSheet(&fontDir); //initialize font sheet
-    this->initCharacterMapping(&mapDir); //initialize character mapping
+    this->initFont(&fontDir, &mapDir); //initialize character mapping
 }
 
 ///////////////////////////////////////////////////////////////////
@@ -54,24 +53,24 @@ void Font::getPos(char c, int *x, int *y) {
 }
 
 ///////////////////////////////////////////////////////////////////
-// loads the font sheet from (@fontDir) into fSheet and calculates
-// the letter width and letter height
+// loads the character mapping from (@mapDir), loads the font
+// sheet fron (@fontDir) and figures out the letter width
+// and letter height
 ///////////////////////////////////////////////////////////////////
 
-void Font::initFontSheet(std::string* fontDir) {
-    this->fSheet.loadFromFile(*fontDir); //load font spritesheet
-    this->letterWidth = this->fSheet.getSize().x / 10; //10 columns
-    this->letterHeight = this->fSheet.getSize().y / 3; //3 rows
-}
-
-///////////////////////////////////////////////////////////////////
-// loads the character mapping from (@mapDir)
-///////////////////////////////////////////////////////////////////
-
-void Font::initCharacterMapping(std::string* mapDir) {
+void Font::initFont(std::string* fontDir, std::string* mapDir) {
     
     // variables
-    std::vector<Node> mappings = SaveManager::loadMasterNode(*mapDir).getC(); //load mappings
+    Node mn = SaveManager::loadMasterNode(*mapDir);
+    std::cout << "CHILDREN: " << mn.getCSize() << std::endl;
+    std::vector<Node> cs = mn.getC();
+    for (Node n : cs) std::cout << " -- " << n.getN() << std::endl;
+    std::vector<Node> mappings = mn.getCwN("mappings")->getC(); //load mappings
+    
+    // load font sheet and calculate letter width and height
+    this->fSheet.loadFromFile(*fontDir); //load font sheet
+    this->letterWidth = this->fSheet.getSize().x / std::stoi(mn.getCwN("width")->getV()); //width
+    this->letterHeight = this->fSheet.getSize().y / std::stoi(mn.getCwN("height")->getV()); //height
     
     // load each mapping
     for (Node n : mappings) {

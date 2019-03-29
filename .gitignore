@@ -13,7 +13,5 @@ wander/errors/*
 wander/errors
 errors/*
 errors
-data/settings.txt
-wander/data/settings.txt
-fullres
-fullres/*
+data/settings.wdr
+wander/data/settings.wdr

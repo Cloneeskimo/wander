@@ -67,8 +67,7 @@ private:
     void getPos(char c, int* x, int* y);
     
     // Initialization
-    void initFontSheet(std::string* fontDir); //loads the font sheet and calculates letter width and height
-    void initCharacterMapping(std::string* mapDir); //loads the character mapping into (@charMap)
+    void initFont(std::string* mapDir, std::string* fontDir); //loads the character mapping and letter w/h
 };
 
 #endif

@@ -15,6 +15,14 @@
 ///////////////////////////////////////////////////////////////////
 
 int Engine::run() {
+//
+//    Node mn = SaveManager::loadMasterNode("res//font//jax.wdr");
+//    Node nmn;
+//    mn.setN("mappings");
+//    nmn.addC(mn);
+//    nmn.addC(Node("width", "10"));
+//    nmn.addC(Node("height", "3"));
+//    SaveManager::saveMasterNode("res//font//jax.wdr", &nmn);
     
     //initialize window
     this->initWindow();
@@ -26,7 +34,7 @@ int Engine::run() {
         //show main menu, get button pressed
         MainMenu mm(&this->w, &this->d);
         Node mmData = mm.enter();
-        std::string buttonPressed = mmData.getCwN("button pressed").getV();
+        std::string buttonPressed = mmData.getCwN("button pressed")->getV();
         
         //exit
         if (buttonPressed == "exit") this->w.close();
@@ -82,8 +90,8 @@ void Engine::loadSettings(int* w_width, int* w_height) {
     gf::ensureDir("data");
     if (gf::canOpenFile("data//settings.wdr")) {
         Node settings = SaveManager::loadMasterNode("data//settings.wdr");
-        *w_width = std::stoi(settings.getCwN("w_width").getV());
-        *w_height = std::stoi(settings.getCwN("w_height").getV());
+        *w_width = std::stoi(settings.getCwN("w_width")->getV());
+        *w_height = std::stoi(settings.getCwN("w_height")->getV());
     }
 }
 
