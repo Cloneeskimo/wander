@@ -16,7 +16,7 @@
 // (@d)
 ///////////////////////////////////////;///////////////////////////
 
-MainMenu::MainMenu(sf::RenderWindow* w, sf::Text* d) : Screen(w, d), jax("res//font//jax_n.png", "res//font//jax.wdr"), jaxH("res//font//jax_h.png", "res//font//jax.wdr"), jaxC("res//font//jax_c.png", "res//font//jax.wdr"), title(&jax, "Wander", 0, 0) {
+MainMenu::MainMenu(sf::RenderWindow* w, Text* d) : Screen(w, d), jax("res//font//jax_n.png", "res//font//jax.wdr"), jaxH("res//font//jax_h.png", "res//font//jax.wdr"), jaxC("res//font//jax_c.png", "res//font//jax.wdr"), title(&jax, "Wander", 0, 0) {
     
     //Format Title
     this->title.setFontScale(10.0f); //scale
@@ -80,7 +80,7 @@ void MainMenu::illustrate() {
     
     //draw UI
     this->w->setView(this->uiV); //set to UI view
-    if (this->showDebug) this->w->draw(*this->d); //draw debug
+    if (this->showDebug) this->d->illustrate(this->w); //draw debug
     
     //display
     this->w->setView(this->worldV); //set back to world view

@@ -31,7 +31,7 @@ class MainMenu : public Screen {
 public:
     
     //Constructor
-    MainMenu(sf::RenderWindow* w, sf::Text* d);
+    MainMenu(sf::RenderWindow* w, Text* d);
     
 protected:
     

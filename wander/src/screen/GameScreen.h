@@ -25,7 +25,7 @@ class GameScreen : public Screen {
 public:
     
     // Constructor
-    GameScreen(sf::RenderWindow* w, sf::Text* d);
+    GameScreen(sf::RenderWindow* w, Text* d);
     
 private:
     

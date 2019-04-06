@@ -20,29 +20,42 @@
 
 Text::Text(Font* font, std::string text, int x, int y) {
     this->setFont(font);
-    this->text = text;
+    this->setText(text);
     this->x = x;
     this->y = y;
-    this->setText(text);
 }
 
 ///////////////////////////////////////////////////////////////////
 // sets the text to (@t)
 ///////////////////////////////////////////////////////////////////
 
-void Text::setText(std::string t, bool ignoreSpaces) {
-    this->text = t;
-    this->letters = std::vector<sf::Sprite>(); //remove previous letter
-    for (char c : t) { //loop through each character of t
-        if (c != ' ' || !ignoreSpaces) { //ignore spaces
-            sf::IntRect bounds = this->font->getBounds(c); //get bounds on font sheet for character
-            sf::Sprite nextLetter(*this->fontSheet); //create character sprite
-            nextLetter.setTextureRect(bounds); //set bounds
-            nextLetter.setScale(this->fontScale, this->fontScale); //set scale
-            nextLetter.setPosition(this->x + (this->letters.size() * nextLetter.getGlobalBounds().width), this->y); //set letter position
-            this->letters.push_back(nextLetter); //add to letters
+void Text::setText(std::string t) {
+    
+    //start by replacing/checking current letters
+    int l = 0; //represents which letter of t we are on
+    while (l < this->text.length()) {
+        if (this->text[l] != t[l]) { //only change if letter is not equals
+            this->letters[l].setTextureRect(this->font->getBounds(t[l])); //change texture rect
         }
+        l++;
     }
+    
+    //remove any extra previous letters if necessary
+    while (l < this->letters.size()) this->letters.pop_back(); //remove last letter
+    
+    //create any new characters if necessary
+    while (l < t.size()) {
+        sf::IntRect bounds = this->font->getBounds(t[l]); //get bounds on font sheet for character
+        sf::Sprite nextLetter(*this->fontSheet); //create character sprite
+        nextLetter.setTextureRect(bounds); //set bounds
+        nextLetter.setScale(this->fontScale, this->fontScale); //set scale
+        nextLetter.setPosition(this->x + (this->letters.size() * nextLetter.getGlobalBounds().width), this->y); //set letter position
+        this->letters.push_back(nextLetter); //add to letters
+        l++;
+    }
+    
+    //record new text string
+    this->text = t; //set text string
 }
 
 ///////////////////////////////////////////////////////////////////
@@ -61,7 +74,7 @@ void Text::setFontScale(float fs) {
 void Text::setFont(Font* f) {
     this->font = f;
     this->fontSheet = font->getFontSheet();
-    this->setText(this->text);
+    this->refreshLetters(true);
 }
 
 ///////////////////////////////////////////////////////////////////
@@ -74,11 +87,16 @@ void Text::illustrate(sf::RenderWindow* w) {
 
 ///////////////////////////////////////////////////////////////////
 // resets the scale and positions of each letter
+// if (@reload) is set to true, will also reset each letter texture
 ///////////////////////////////////////////////////////////////////
 
-void Text::refreshLetters() {
+void Text::refreshLetters(bool reload) {
     for (int i = 0; i < this->letters.size(); i++) {
-        this->letters.at(i).setScale(this->fontScale, this->fontScale);
+        if (reload) {
+            this->letters.at(i).setTexture(*this->fontSheet); //reset texture
+            this->letters.at(i).setTextureRect(this->font->getBounds(this->text[i])); //set bounds
+        }
+        this->letters.at(i).setScale(this->fontScale, this->fontScale); //set letter scale
         this->letters.at(i).setPosition(this->x + (i * this->letters.at(i).getGlobalBounds().width), this->y); //set letter position
     }
 }

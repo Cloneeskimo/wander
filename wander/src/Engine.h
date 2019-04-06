@@ -14,10 +14,11 @@
 // Includes
 #include <SFML/Window.hpp>
 #include <SFML/Graphics.hpp>
-#include "screen/MainMenu.h"
-#include "screen/GameScreen.h"
 #include "Global.h"
 #include "SaveManager.h"
+#include "screen/MainMenu.h"
+#include "screen/GameScreen.h"
+#include "ui/Font.h"
 
 ///////////////////////////////////////////////////////////////////
 // Engine Class
@@ -34,12 +35,12 @@ private:
     
     // SFML Objects
     sf::RenderWindow w; //window
-    sf::Font f; //font used in GUI
-    sf::Text d; //debug text
+    Font df = Font("res//font//commo.png", "res//font//commo.wdr"); //default font used in gui
+    Text d = Text(&this->df, "FPS: ", 5, 5); //debug text
+
     
     // Private Functions
     void initWindow(); //creates window
-    void initDebug(); //inits debug text
     void loadSettings(int* w_width, int* w_height); //loads previously saved settings from file
     void saveSettings(); //saves settings to file
     

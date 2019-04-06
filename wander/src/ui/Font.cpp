@@ -62,9 +62,7 @@ void Font::initFont(std::string* fontDir, std::string* mapDir) {
     
     // variables
     Node mn = SaveManager::loadMasterNode(*mapDir);
-    std::cout << "CHILDREN: " << mn.getCSize() << std::endl;
     std::vector<Node> cs = mn.getC();
-    for (Node n : cs) std::cout << " -- " << n.getN() << std::endl;
     std::vector<Node> mappings = mn.getCwN("mappings")->getC(); //load mappings
     
     // load font sheet and calculate letter width and height

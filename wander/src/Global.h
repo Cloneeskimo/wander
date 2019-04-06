@@ -27,11 +27,12 @@
 namespace gc {
     
     //Build Properties
-    static const int A_BUILD = 91; //build number
+    static const int A_BUILD = 94; //build number
     static const std::string A_VERSION = "basic_dev"; //version number
     
     //Window Properties
     static const int W_FRAMERATE_LIMIT = 60; //limits framerate
+    static const float D_DELAY = 0.5f; //delay between debug text updates in seconds
     static const std::string W_TITLE = "Wander v" + A_VERSION + " b" + std::to_string(A_BUILD); //defines title for window
     static const sf::Keyboard::Key DEBUG_KEY = sf::Keyboard::D;
     static const sf::Color CLEAR_COLOR = sf::Color::White;
@@ -68,6 +69,13 @@ namespace gf {
     void terminate(int exitStatus);
     void error(std::string originFile, std::string message, int code, int exitStatus = gc::SUCCESS, bool fatal = false);
 }
+
+///////////////////////////////////////////////////////////////////
+// OTO Struct
+// Opaque Tile Overlays
+// stores and managers data and operations related to the OTOs
+// used for tile modularization
+///////////////////////////////////////////////////////////////////
 
 struct oto {
     

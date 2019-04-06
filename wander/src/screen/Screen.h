@@ -19,6 +19,7 @@
 #include "SaveManager.h"
 #include "AnimObject.h"
 #include "Global.h"
+#include "Text.h"
 
 ///////////////////////////////////////////////////////////////////
 // Screen Class
@@ -34,7 +35,7 @@ public:
     // Constructor - takes window and debug references
     ///////////////////////////////////////////////////////////////////
 
-    Screen(sf::RenderWindow* w, sf::Text* d) {
+    Screen(sf::RenderWindow* w, Text* d) {
         
         //set references
         this->w = w; //set window reference
@@ -69,10 +70,11 @@ protected:
     
     // SFML Objects
     sf::RenderWindow* w; //reference to the program's window
-    sf::Text* d; //text which displays debug info
+    Text* d; //text which displays debug info
     sf::Clock c; //clock used for timekeeping purposes
     sf::View worldV; //world view
     sf::View uiV; //UI view
+    float debugCount = gc::D_DELAY; //in seconds
     
     // Other Protected Data
     std::vector<AnimObject*> gos; //vector of screen's game objects
@@ -134,7 +136,13 @@ protected:
 
     virtual void compute() {
         for (AnimObject* o : this->gos) o->compute(this->c.getElapsedTime().asSeconds()); //compute for gos
-        if (this->showDebug) this->d->setString("FPS: " + std::to_string(1 / this->c.getElapsedTime().asSeconds())); //update debug text if enabled
+        if (this->showDebug) {
+            this->debugCount -= this->c.getElapsedTime().asSeconds();
+            if (this->debugCount < 0) {
+                this->d->setText("FPS: " + std::to_string(1 / this->c.getElapsedTime().asSeconds())); //update debug text if enabled
+                this->debugCount = gc::D_DELAY;
+            }
+        }
         this->c.restart(); //restart clock
     }
     
@@ -153,7 +161,7 @@ protected:
         
         //draw UI
         this->w->setView(uiV); //set to ui view
-        if (this->showDebug) this->w->draw(*this->d); //draw debug
+        if (this->showDebug) this->d->illustrate(this->w);
         
         //display
         this->w->setView(worldV); //set back to world view

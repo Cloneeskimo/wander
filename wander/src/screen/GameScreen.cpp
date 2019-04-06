@@ -16,7 +16,7 @@
 // (@d) - reference to the debug info
 ///////////////////////////////////////////////////////////////////
 
-GameScreen::GameScreen(sf::RenderWindow* w, sf::Text* d) : Screen(w, d) {
+GameScreen::GameScreen(sf::RenderWindow* w, Text* d) : Screen(w, d) {
     this->currentMap = Map("test", "data//maps//test_map.wdr", this->w);
 }
 
@@ -60,7 +60,7 @@ void GameScreen::illustrate() {
     
     //draw UI
     this->w->setView(this->uiV); //set to ui view
-    if (this->showDebug) this->w->draw(*this->d); //draw debug
+    if (this->showDebug) this->d->illustrate(this->w); //draw debug
     
     //display
     this->w->setView(this->worldV); //reset to world view

@@ -36,7 +36,7 @@ public:
     sf::IntRect getRect() { return sf::IntRect(this->x, this->y, this->getW(), this->getH()); } //get rect of button
     
     // Mutators
-    void setText(std::string t, bool ignoreSpaces = true); //sets the text
+    void setText(std::string t); //sets the text
     void setFontScale(float fs); //sets the scale of the text
     void setFont(Font* f); //sets the font
     void setX(int x) { this->x = x; refreshLetters(); } //sets x
@@ -48,7 +48,7 @@ public:
 private:
     
     // Private Methods
-    void refreshLetters(); //refreshes the sizes/placement of the letters
+    void refreshLetters(bool reload = false); //refreshes the sizes/placement of the letters
     
     // Private Data
     int x, y; //position

@@ -15,18 +15,10 @@
 ///////////////////////////////////////////////////////////////////
 
 int Engine::run() {
-//
-//    Node mn = SaveManager::loadMasterNode("res//font//jax.wdr");
-//    Node nmn;
-//    mn.setN("mappings");
-//    nmn.addC(mn);
-//    nmn.addC(Node("width", "10"));
-//    nmn.addC(Node("height", "3"));
-//    SaveManager::saveMasterNode("res//font//jax.wdr", &nmn);
     
     //initialize window
     this->initWindow();
-    this->initDebug();
+    this->d.setFontScale(4.0f);
     
     //program loop
     while (this->w.isOpen()) { //when window is closed, exit status is returned
@@ -62,20 +54,6 @@ void Engine::initWindow() {
     this->loadSettings(&w_width, &w_height); //TODO: load width/height from a settings file
     this->w.create(sf::VideoMode(w_width, w_height), gc::W_TITLE, sf::Style::Default); //create window
     this->w.setFramerateLimit(gc::W_FRAMERATE_LIMIT); //limit framerate
-}
-
-///////////////////////////////////////////////////////////////////
-// initializes the font and text for the debug display
-///////////////////////////////////////////////////////////////////
-
-void Engine::initDebug() {
-    
-    //debug text init
-    this->f.loadFromFile("res//font//sansation.ttf"); //load font
-    this->d.setFont(this->f); //set font
-    this->d.setCharacterSize(24); //set text size
-    this->d.setString("FPS"); //set text
-    this->d.setFillColor(sf::Color::Black); //set text color
 }
 
 ///////////////////////////////////////////////////////////////////
