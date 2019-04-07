@@ -72,12 +72,33 @@ void Map::illustrate() {
 }
 
 ///////////////////////////////////////////////////////////////////
-// Will return a node tree containing all the state info for
+// will return a node tree containing all the state info for
 // the map at the current moment
 ///////////////////////////////////////////////////////////////////
 
 Node Map::getStateInfo() {
     
+}
+
+///////////////////////////////////////////////////////////////////
+// returns the width of the map, based on the largest row of the map
+///////////////////////////////////////////////////////////////////
+
+int Map::getW() {
+    int largestW = 0;
+    for (std::vector<StaticTile*> r : this->background) {
+        int s = (int)r.size();
+        if (s > largestW) largestW = s;
+    }
+    return largestW * gc::TILE_SIZE * gc::TILE_TEXTURE_SCALE;
+}
+
+///////////////////////////////////////////////////////////////////
+// returns the height of the map, based on how many rows there are
+///////////////////////////////////////////////////////////////////
+
+int Map::getH() {
+    return this->background.size() * gc::TILE_SIZE * gc::TILE_TEXTURE_SCALE;
 }
 
 ///////////////////////////////////////////////////////////////////

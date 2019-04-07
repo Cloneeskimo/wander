@@ -27,14 +27,12 @@
 namespace gc {
     
     //Build Properties
-    static const int A_BUILD = 94; //build number
+    static const int A_BUILD = 97; //build number
     static const std::string A_VERSION = "basic_dev"; //version number
     
     //Window Properties
     static const int W_FRAMERATE_LIMIT = 60; //limits framerate
-    static const float D_DELAY = 0.5f; //delay between debug text updates in seconds
     static const std::string W_TITLE = "Wander v" + A_VERSION + " b" + std::to_string(A_BUILD); //defines title for window
-    static const sf::Keyboard::Key DEBUG_KEY = sf::Keyboard::D;
     static const sf::Color CLEAR_COLOR = sf::Color::White;
     
     //GameObject Properties
@@ -44,11 +42,12 @@ namespace gc {
     //Tile Properties
     static const int TILE_SIZE = 32; //size for tiles
     static const float TILE_TEXTURE_SCALE = 3.0f; //scale for tiles
-    static const float GO_DEFAULT_FRAME_DELAY = 0.2f; //default delay between frames in an AnimatableGameObject
+    static const float GO_DEFAULT_FRAME_DELAY = 0.2f; //default delay between frames in an AnimObject
     static const int TILE_MODULARIZATION_DIVISOR = 7; //the portion of a tile's edge to cut off in modularization
     
     //Other Properties
     static const char NODE_FILE_INDENT_CHARACTER = ' ';
+    static const float D_DELAY = 0.5f; //delay between debug text updates in seconds
     
     //Exit Codes
     static const int SUCCESS = 1;
@@ -105,6 +104,21 @@ private:
     // Offset Constants
     static inline int modOffsetConstant = 0;
     static inline int modCornerOffsetConstant = 0;
+};
+
+///////////////////////////////////////////////////////////////////
+// Control Struct
+// Stores all of the control settings for the game (keybindings)
+///////////////////////////////////////////////////////////////////
+
+struct control {
+    
+    //Control Settings
+    static inline sf::Keyboard::Key debug = sf::Keyboard::D;
+    static inline sf::Keyboard::Key moveLeft = sf::Keyboard::Left;
+    static inline sf::Keyboard::Key moveUp = sf::Keyboard::Up;
+    static inline sf::Keyboard::Key moveDown = sf::Keyboard::Down;
+    static inline sf::Keyboard::Key moveRight = sf::Keyboard::Right;
 };
 
 #endif

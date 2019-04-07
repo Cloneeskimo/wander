@@ -18,6 +18,13 @@
 
 GameScreen::GameScreen(sf::RenderWindow* w, Text* d) : Screen(w, d) {
     this->currentMap = Map("test", "data//maps//test_map.wdr", this->w);
+    this->worldV.setCenter(this->currentMap.getW() / 2, this->currentMap.getH() / 2);
+    std::vector<FrameRow> frs;
+    frs.push_back(FrameRow(2, 0.2));
+    frs.push_back(FrameRow(16, 0.2));
+    frs.push_back(FrameRow(12, 0.2));
+    this->entities.push_back(new Entity("res//entity//ghost.png", frs, this->d->getFont(), gc::TILE_SIZE * gc::TILE_TEXTURE_SCALE * 4, gc::TILE_SIZE * gc::TILE_TEXTURE_SCALE * 2));
+    this->entities.at(0)->init("Ghosty Boi");
 }
 
 ///////////////////////////////////////////////////////////////////
@@ -25,25 +32,29 @@ GameScreen::GameScreen(sf::RenderWindow* w, Text* d) : Screen(w, d) {
 ///////////////////////////////////////////////////////////////////
 
 void GameScreen::compute() {
-    Screen::compute(); //call super
+    
+    //call super
+    Screen::compute();
     
     //check for movement
-    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left)) {
-        this->worldV.move(-4, 0);
+    if (sf::Keyboard::isKeyPressed(control::moveLeft)) {
+        this->entities.at(0)->moveX(-4);
     }
     
-    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right)) {
-        this->worldV.move(4, 0);
+    if (sf::Keyboard::isKeyPressed(control::moveRight)) {
+        this->entities.at(0)->moveX(4);
     }
     
-    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up)) {
-        this->worldV.move(0, -4);
+    if (sf::Keyboard::isKeyPressed(control::moveUp)) {
+        this->entities.at(0)->moveY(-4);
     }
     
-    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down)) {
-        this->worldV.move(0, 4);
+    if (sf::Keyboard::isKeyPressed(control::moveDown)) {
+        this->entities.at(0)->moveY(4);
     }
     
+    // compute entities
+    for (Entity* e : this->entities) e->compute(this->c.getElapsedTime().asSeconds());
 }
 
 ///////////////////////////////////////////////////////////////////
@@ -57,6 +68,7 @@ void GameScreen::illustrate() {
     
     //draw world
     this->currentMap.illustrate(); //illustrate the map
+    for (Entity* e : this->entities) e->illustrate(w); //illustrate the entities
     
     //draw UI
     this->w->setView(this->uiV); //set to ui view

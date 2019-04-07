@@ -34,6 +34,7 @@ public:
     int getW() { return this->font->getLetterWidth() * this->letters.size() * this->fontScale; } //get the width of the button
     int getH() { return this->font->getLetterHeight() * this->fontScale; } //gets the height of the button
     sf::IntRect getRect() { return sf::IntRect(this->x, this->y, this->getW(), this->getH()); } //get rect of button
+    Font* getFont() { return this->font; }
     
     // Mutators
     void setText(std::string t); //sets the text
@@ -41,6 +42,8 @@ public:
     void setFont(Font* f); //sets the font
     void setX(int x) { this->x = x; refreshLetters(); } //sets x
     void setY(int y) { this->y = y; refreshLetters(); } //sets y
+    void moveX(int dX);
+    void moveY(int dY);
     
     // Other Public Methods
     void illustrate(sf::RenderWindow* w); //illustrate method

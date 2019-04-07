@@ -72,6 +72,7 @@ void AnimObject::compute(float dT) {
 ///////////////////////////////////////////////////////////////////
 
 void AnimObject::initAnimation(std::string textureFileName, std::vector<FrameRow> frameRows) {
+    
     this->frameRows = frameRows; //set frame rows
     this->currentFrameDelay = this->tBeforeNextFrame = this->frameRows.at(0).d; //set time and delay
     this->currentFrameCount = this->frameRows.at(0).fC; //set current frame count

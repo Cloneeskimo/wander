@@ -13,8 +13,10 @@
 
 // Includes
 
+#include <vector>
 #include "Screen.h"
 #include "Map.h"
+#include "Entity.h"
 
 ///////////////////////////////////////////////////////////////////
 // GameScreen Class
@@ -30,12 +32,12 @@ public:
 private:
     
     // Data
-    Map currentMap;
+    Map currentMap; //map currently being displayed
+    std::vector<Entity*> entities; //entities currently being considered
     
     // Private Functions
     void compute();
     void illustrate(); //overriden illustrate
-    
 };
 
 #endif

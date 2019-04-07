@@ -54,6 +54,8 @@ public:
     
     // Accessors
     Node getStateInfo(); //converts map into Node data
+    int getW(); //returns map width
+    int getH(); //returns map height
     
 private:
     

@@ -90,6 +90,7 @@ protected:
         while (!(this->intentToReturn) && this->w->isOpen()) { //continue looping until user closes or returns
             this->input(); //phase 1 - input
             this->compute(); //phase 2 - compute
+            this->restartClock(); //phase 2.5 - restart clock
             this->illustrate(); //phase 3 - illustrate
         }
     }
@@ -115,7 +116,7 @@ protected:
                 this->w->close();
                 break;
             case sf::Event::KeyReleased: //USER PRESSED DEBUG KEY
-                if (e.key.code == gc::DEBUG_KEY)
+                if (e.key.code == control::debug)
                     this->showDebug = !this->showDebug;
                 break;
             case sf::Event::Resized: //USER RESIZED WINDOW
@@ -143,6 +144,15 @@ protected:
                 this->debugCount = gc::D_DELAY;
             }
         }
+    }
+    
+    ///////////////////////////////////////////////////////////////////
+    // phase 2.5 of screen loop - reset clock
+    // resets the clock after compute. seperate to allow easier
+    // overriding of compute w/o time errors
+    ///////////////////////////////////////////////////////////////////
+    
+    virtual void restartClock() {
         this->c.restart(); //restart clock
     }
     

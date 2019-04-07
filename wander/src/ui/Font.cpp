@@ -73,6 +73,9 @@ void Font::initFont(std::string* fontDir, std::string* mapDir) {
     // load each mapping
     for (Node n : mappings) {
         
+        // special case for : character, since : is reserved for loading Nodes from files
+        if (n.getN() == "(colon)") n.setN(":");
+        
         // parse mapping
         std::string mapping = n.getV(); //get data
         std::string x, y; //x and y
