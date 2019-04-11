@@ -15,3 +15,5 @@ errors/*
 errors
 data/settings.wdr
 wander/data/settings.wdr
+libboost_filesystem-mt.dylib
+*.dylib

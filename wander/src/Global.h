@@ -16,6 +16,8 @@
 #include <iostream>
 #include <fstream>
 #include <ctime>
+#include <boost/filesystem.hpp>
+#include <boost/dll/runtime_symbol_info.hpp>
 #include <SFML/Window.hpp>
 #include <SFML/Graphics.hpp>
 
@@ -27,7 +29,8 @@
 namespace gc {
     
     //Build Properties
-    static const int A_BUILD = 97; //build number
+    static const int A_BUILD = 100; //build number
+    static const bool FOR_EXPORT = false; //flag for export build or IDE build
     static const std::string A_VERSION = "basic_dev"; //version number
     
     //Window Properties
@@ -63,6 +66,7 @@ namespace gc {
 namespace gf {
     
     //Global Utility Functions
+    std::string getWorkablePath();
     void ensureDir(std::string path);
     bool canOpenFile(std::string path);
     void terminate(int exitStatus);

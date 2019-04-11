@@ -19,6 +19,7 @@ int Engine::run() {
     //initialize window
     this->initWindow();
     this->d.setFontScale(4.0f);
+    this->d.setColor(sf::Color::Black);
     
     //program loop
     while (this->w.isOpen()) { //when window is closed, exit status is returned

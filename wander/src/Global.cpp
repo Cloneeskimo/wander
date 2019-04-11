@@ -20,13 +20,40 @@
 namespace gf {
     
     ///////////////////////////////////////////////////////////////////
+    // returns the workable directory of the program for FileIO
+    ///////////////////////////////////////////////////////////////////
+    
+    std::string getWorkablePath() {
+        
+        //check if this is an export build
+        if (!gc::FOR_EXPORT) return ""; //if not, just work with the immediate path
+        
+        //get desirable path
+        std::string p = boost::dll::program_location().string(); //get path
+        std::string r = "wander.app/Contents/MacOS/wander"; //part of directory to check for and remove
+        if (p.length() >= r.length() && p.substr(p.length() - r.length(), r.length()) == r) //if the ending is r
+            p = p.substr(0, p.length() - r.length()); //remove the end and return
+        
+        //add double slashes
+        for (int i = 0; i < p.length(); i++) {
+            if (p[i] == 47) {
+                p.insert(i, "/");
+                i++;
+            }
+        }
+        
+        //return path
+        return p;
+    }
+    
+    ///////////////////////////////////////////////////////////////////
     // creates a directory (@path) if it doesn't already exist
     ///////////////////////////////////////////////////////////////////
 
     void ensureDir(std::string path) {
-        
-        std::string cmd = "mkdir " + path;
-        system(cmd.c_str()); //TODO: update with a better, sytem-dependant solution
+        if (!boost::filesystem::is_directory(getWorkablePath() + path))
+            if (boost::filesystem::create_directory(getWorkablePath() + path))
+                std::cout << "failure" << std::endl;
     }
     
     ///////////////////////////////////////////////////////////////////
@@ -35,7 +62,7 @@ namespace gf {
 
     bool canOpenFile(std::string path) {
         std::ifstream open;
-        open.open(path);
+        open.open(getWorkablePath() + path);
         return !open.fail();
     }
     
@@ -73,7 +100,7 @@ namespace gf {
         //attempt to open errors.txt to log error
         std::ofstream write;
         ensureDir("errors"); //make error directory
-        write.open("errors//" + date + ".txt", std::ofstream::app); //open errors.txt
+        write.open(getWorkablePath() + "errors//" + date + ".txt", std::ofstream::app); //open errors.txt
         if (write.fail()) //display additional error to console if couldn't create error directory
             std::cout << "[" + time + "][Global.h]: unable to create error file (0)" << std::endl;
         else

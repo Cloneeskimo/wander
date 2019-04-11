@@ -34,7 +34,7 @@ void Entity::init(std::string name, int health, int maxHealth, int level) {
     this->maxHealth = maxHealth;
     this->level = level;
     this->followText.setText(name + " (" + std::to_string(level) + ")");
-    this->followText.setX((this->getX() + (this->getW() / 2)) - (followText.getW() / 2));
+    this->followText.setX(this->getX() + (this->getW() / 2) - (this->followText.getW() / 2));
     this->followText.setY(this->getY() - followText.getH() - 5);
 }
 

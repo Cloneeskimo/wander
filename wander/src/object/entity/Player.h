@@ -1,45 +1,32 @@
 ///////////////////////////////////////////////////////////////////
 //
-//  GameScreen.h
+//  Player.h
 //  wander
 //
-//  Created by Jacob Oaks on 3/24/19.
+//  Created by Jacob Oaks on 4/7/19.
 //  Copyright © 2019 Jacob Oaks. All rights reserved.
 //
 ///////////////////////////////////////////////////////////////////
 
-#ifndef GameScreen_h
-#define GameScreen_h
+#ifndef Player_h
+#define Player_h
 
 // Includes
 
-#include <vector>
-#include "Screen.h"
-#include "Map.h"
 #include "Entity.h"
-#include "Player.h"
 
 ///////////////////////////////////////////////////////////////////
-// GameScreen Class
-// Screen for the in-game state
+// Player Class
 ///////////////////////////////////////////////////////////////////
 
-class GameScreen : public Screen {
+class Player : public Entity {
 public:
     
     // Constructor
-    GameScreen(sf::RenderWindow* w, Text* d);
+    Player(std::string textureFileName, std::vector<FrameRow> frameRows, Font* font, int startX = gc::GO_DEFAULT_X, int startY = gc::GO_DEFAULT_Y);
     
 private:
     
-    // Data
-    Map currentMap; //map currently being displayed
-    Player* player; //player
-    std::vector<Entity*> entities; //entities currently being considered
-    
-    // Private Functions
-    void compute();
-    void illustrate(); //overriden illustrate
 };
 
 #endif

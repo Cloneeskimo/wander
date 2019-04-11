@@ -33,7 +33,7 @@ void Text::setText(std::string t) {
     
     //start by replacing/checking current letters
     int l = 0; //represents which letter of t we are on
-    while (l < this->text.length()) {
+    while (l < this->text.length() && l < t.length()) {
         if (this->text[l] != t[l]) { //only change if letter is not equals
             this->letters[l].setTextureRect(this->font->getBounds(t[l])); //change texture rect
         }
@@ -41,7 +41,7 @@ void Text::setText(std::string t) {
     }
     
     //remove any extra previous letters if necessary
-    while (l < this->letters.size()) this->letters.pop_back(); //remove last letter
+    while (l < this->letters.size()) this->letters.pop_back();
     
     //create any new characters if necessary
     while (l < t.size()) {
@@ -50,6 +50,7 @@ void Text::setText(std::string t) {
         nextLetter.setTextureRect(bounds); //set bounds
         nextLetter.setScale(this->fontScale, this->fontScale); //set scale
         nextLetter.setPosition(this->x + (this->letters.size() * nextLetter.getGlobalBounds().width), this->y); //set letter position
+        nextLetter.setColor(this->color); //set color
         this->letters.push_back(nextLetter); //add to letters
         l++;
     }
@@ -93,6 +94,15 @@ void Text::moveX(int dx) {
 void Text::moveY(int dy) {
     this->y += dy;
     for (int i = 0; i < this->letters.size(); i++) this->letters.at(i).move(0, dy);
+}
+
+///////////////////////////////////////////////////////////////////
+// applies the color (@c) on top of the letter sprites
+///////////////////////////////////////////////////////////////////
+
+void Text::setColor(sf::Color c) {
+    this->color = c;
+    for (int i = 0; i < this->letters.size(); i++) this->letters.at(i).setColor(c);
 }
 
 ///////////////////////////////////////////////////////////////////

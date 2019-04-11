@@ -41,7 +41,7 @@ public:
     ///////////////////////////////////////////////////////////////////
     
     Object(std::string textureFileName, int startX = gc::GO_DEFAULT_X, int startY = gc::GO_DEFAULT_Y) {
-        if(!this->texture.loadFromFile(textureFileName)) //attempt to load texture
+        if(!this->texture.loadFromFile(gf::getWorkablePath() + textureFileName)) //attempt to load texture
             gf::error("Object.h", "'" + textureFileName + "' could not be loaded", 0, gc::FAILURE_BY_FILEIO, true); //throw error if file could not be loaded
         this->sprite = sf::Sprite(this->texture); //initialize sprite
         this->sprite.setPosition(startX, startY); //set sprite starting position

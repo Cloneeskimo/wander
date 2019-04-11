@@ -78,7 +78,7 @@ bool Node::getCwN(Node* node, std::string name) {
 
 void SaveManager::saveMasterNode(std::string path, Node* node) {
     std::ofstream write;
-    write.open(path); //try to open file
+    write.open(gf::getWorkablePath() + path); //try to open file
     if (write.fail()) gf::error("SaveManager.cpp", "error opening file '" + path + "' to save to", 0, true, gc::FAILURE_BY_FILEIO);
     saveNode(&write, node, ""); //start recursive saving
 }
@@ -91,7 +91,7 @@ Node SaveManager::loadMasterNode(std::string path) {
     
     //open file
     std::ifstream read;
-    read.open(path); //try to open file
+    read.open(gf::getWorkablePath() + path); //try to open file
     if (read.fail()) gf::error("SaveManager.cpp", "error opening file '" + path + "' to lad from", 1, true, gc::FAILURE_BY_FILEIO);
     
     //read entire file into vector of strings
