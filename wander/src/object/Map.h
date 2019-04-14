@@ -24,6 +24,16 @@
 #include "SaveManager.h"
 
 ///////////////////////////////////////////////////////////////////
+// CollisionResult enum
+// Represents a type of collision
+///////////////////////////////////////////////////////////////////
+
+enum CollisionResult {
+    None, //no collision
+    Static //entity vs. wall
+};
+
+///////////////////////////////////////////////////////////////////
 // CharTextureCombo struct
 // a piece of data which pairs a character to a set of
 // possible textures
@@ -51,6 +61,7 @@ public:
     
     // Utility Functions
     void illustrate(); //illustrates the map
+    CollisionResult checkForCollision(sf::IntRect r, bool otoCompenstate = true); //checks for a collision at the given point
     
     // Accessors
     Node getStateInfo(); //converts map into Node data

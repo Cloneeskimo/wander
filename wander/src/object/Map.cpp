@@ -72,6 +72,32 @@ void Map::illustrate() {
 }
 
 ///////////////////////////////////////////////////////////////////
+// (@returns) a CollisionResult representing what kind of collision
+// would occur with the IntRect (@r)
+// if (@otoCompenstate), small portions of (@r) will be shaved off
+// to compensate for the empty space at the end of modularized
+// tiles
+///////////////////////////////////////////////////////////////////
+
+CollisionResult Map::checkForCollision(sf::IntRect r, bool otoCompensate) {
+    if (otoCompensate) {
+        r.top += oto::getModOffsetConstant();
+        r.left += oto::getModOffsetConstant();
+        r.width -= 2 * oto::getModOffsetConstant();
+        r.height -= 2 * oto::getModOffsetConstant();
+    }
+    for (std::vector<StaticTile*> row : this->wall) { //for each row
+        for (StaticTile* st : row) { //for each wall
+            if (st != nullptr) { //if exists
+                if (st->getRect().intersects(r)) //if contains the desired x/y
+                    return CollisionResult::Static; //collision with a wall
+            }
+        }
+    }
+    return CollisionResult::None;
+}
+
+///////////////////////////////////////////////////////////////////
 // will return a node tree containing all the state info for
 // the map at the current moment
 ///////////////////////////////////////////////////////////////////

@@ -29,7 +29,7 @@
 namespace gc {
     
     //Build Properties
-    static const int A_BUILD = 100; //build number
+    static const int A_BUILD = 102; //build number
     static const bool FOR_EXPORT = false; //flag for export build or IDE build
     static const std::string A_VERSION = "basic_dev"; //version number
     

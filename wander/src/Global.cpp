@@ -8,7 +8,7 @@
 //
 ///////////////////////////////////////////////////////////////////
 
-//ERROR CODES USED: 0
+//ERROR CODES USED: 0 - 1
 
 #include "Global.h"
 
@@ -53,7 +53,7 @@ namespace gf {
     void ensureDir(std::string path) {
         if (!boost::filesystem::is_directory(getWorkablePath() + path))
             if (boost::filesystem::create_directory(getWorkablePath() + path))
-                std::cout << "failure" << std::endl;
+                gf::error("Global.cpp", "could not create directory at '" + path + "'", 1);
     }
     
     ///////////////////////////////////////////////////////////////////

@@ -40,30 +40,32 @@ void GameScreen::compute() {
     
     //call super
     Screen::compute();
-    bool updateCam = false;
     
-    //check for movement
-    if (sf::Keyboard::isKeyPressed(control::moveLeft)) {
-        this->player->moveX(-4);
-        updateCam = true;
+    //player movement detection
+    int dPX = 0, dPY = 0;
+    if (sf::Keyboard::isKeyPressed(control::moveLeft)) dPX -= 4;
+    if (sf::Keyboard::isKeyPressed(control::moveRight)) dPX += 4;
+    if (sf::Keyboard::isKeyPressed(control::moveUp)) dPY -= 4;
+    if (sf::Keyboard::isKeyPressed(control::moveDown)) dPY += 4;
+    
+    //player horizontal movement
+    if (dPX != 0) {
+        sf::IntRect newPRect = this->player->getRect();
+        newPRect.left += dPX;
+        CollisionResult cr = this->currentMap.checkForCollision(newPRect); //check for collision
+        if (cr == CollisionResult::None) this->player->moveX(dPX); //move if no collision
     }
     
-    if (sf::Keyboard::isKeyPressed(control::moveRight)) {
-        this->player->moveX(4);
-        updateCam = true;
+    //player vertical movement
+    if (dPY != 0) {
+        sf::IntRect newPRect = this->player->getRect();
+        newPRect.top += dPY;
+        CollisionResult cr = this->currentMap.checkForCollision(newPRect); //check for collision
+        if (cr == CollisionResult::None) this->player->moveY(dPY); //move if no collision
     }
     
-    if (sf::Keyboard::isKeyPressed(control::moveUp)) {
-        this->player->moveY(-4);
-        updateCam = true;
-    }
-    
-    if (sf::Keyboard::isKeyPressed(control::moveDown)) {
-        this->player->moveY(4);
-        updateCam = true;
-    }
-    
-    if (updateCam) this->worldV.setCenter(this->player->getX(), this->player->getY());
+    //update camera if necessary
+    if (dPX != 0 || dPY != 0) this->worldV.setCenter(this->player->getX(), this->player->getY());
     
     //compute entities
     for (Entity* e : this->entities) e->compute(this->c.getElapsedTime().asSeconds()); //entities
